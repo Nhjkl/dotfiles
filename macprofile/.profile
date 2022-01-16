@@ -2,7 +2,6 @@
 
 # Adds `~/.local/bin` to $PATH
 export PATH="$PATH:$(du "$HOME/.local/bin" | cut -f2 )"
-# export PATH="$PATH:$(du "$HOME/.local/share/cargo/bin" | cut -f2 | paste -sd ':')"
 
 # Default programs:
 export EDITOR="nvim"
