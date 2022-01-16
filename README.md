@@ -6,3 +6,11 @@ my dotfiles
 > mac install `brew install stow`
 
 > linux install `yay -S stow`
+
+# 使用
+
+```bash
+cd dotfiles
+
+stow macprofile
+```
