@@ -1,0 +1,6 @@
+#!/bin/zsh
+
+open -a "/Applications/Brave Browser.app" $1
+
+# /Applications/Brave\ Browser.app/Contents/MacOS/Brave\ Browser --single-instance
+# /Applications/Brave Browser.app/Contents/MacOS/Brave Browser
