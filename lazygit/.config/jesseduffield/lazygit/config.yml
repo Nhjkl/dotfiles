@@ -1,0 +1,25 @@
+reporting: "on"
+startuppopupversion: 1
+gui:
+  expandFocusedSidePanel: true
+  theme:
+    lightTheme: false
+    activeBorderColor:
+      - yellow
+      - bold
+    inactiveBorderColor:
+      - blue
+    optionsTextColor:
+      - green
+    selectedLineBgColor:
+      #- reverse
+      - blue
+    selectedRangeBgColor:
+      #- reverse
+      - blue
+customCommands:
+  - key: "C"
+    command: "git commit"
+    context: "files"
+    loadingText: "opening commitizen commit tool"
+    subprocess: true

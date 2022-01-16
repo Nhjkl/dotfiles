@@ -1,0 +1,32 @@
+[user]
+  name = liuxian
+  email = liuxiangogo@gmail.com
+[alias]
+  st = status -s
+  br = branch
+  cbr = remote update origin --prune
+  cm = commit -m
+  co = checkout
+  acm = !git add . && git commit -m
+  throw = reset --hard HEAD
+  throwh = reset --hard HEAD^
+  throws = reset --soft HEAD^
+[ui]
+  ui = true
+[color]
+  pager = true
+  ui = auto
+  status = auto
+  diff = auto
+  branch = auto
+  showBranch = auto
+  interactive = auto
+  grep = auto
+[core]
+  editor = nvim
+[pull]
+  rebase = false
+[includeIf "gitdir:~/.local/work/"]
+  path = ~/.local/work/.gitconfig
+[credential]
+  helper = store
