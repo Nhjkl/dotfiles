@@ -42,6 +42,7 @@ export HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/history"
 #develop
 export ZSH="${XDG_DATA_HOME:-$HOME/.local/share}/oh-my-zsh"
 export ZDOTDIR=$XDG_CONFIG_HOME/zsh
+export ZSH_COMPDUMP="${XDG_CACHE_HOME:--$HOME/.cache}/zsh/.zcompdump-${SHORT_HOST}-${ZSH_VERSION}"
 export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
 export NVM_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/nvm"
 export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
