@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+rt=$(curl --location --request POST 'https://p-test.zmlearn.com/api/zmbiz-reach-admin/sms/code/getCurrentCode' \
+--header 'cookie:  SSO_TOKEN_KEY=bb72d79433e8d4018189d5b483562e34c6ed3875a46374bc6432c1270f4c3a83; FATSSO_TOKEN_KEY=f8ad028017cc69912bdbd8573ce25f06f91a3453f806dd49a77aea3a648f6732; JSESSIONID=3775D226F80AB4F96588EF0B966F32AF' \
+--header 'Content-Type: application/json' \
+--data-raw '{"mobile":"18516092013"}')
+
+#{ "code":200, "data":{ "code":"【掌门教育】您的验证码为\(.*\)", "remainingSeconds":34 }, "msgCode":"200", "msgContent":"success" }
+code=$(echo $rt | sed 's/{ "code":200, "data":{ "code":"【掌门教育】您的验证码为\(.*\)", "remainingSeconds":\(.*\) }, "msgCode":"200", "msgContent":"success" }/\1/g')
+
+echo $code
+
+echo "$code" | tr -d '\n' | xclip -selection clipboard
+
+notify-send -t 2000 "code copy sucessful" &

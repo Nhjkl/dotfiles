@@ -1,0 +1,44 @@
+#!/bin/bash
+declare options=("alacritty
+neovim
+zsh
+git
+lazygit
+lazynpm
+fontconfig
+ranger
+quit")
+
+chosen=$(echo -e "${options[@]}" | dmenu -p 'Edit config file: ')
+
+case "$chosen" in
+	alacritty)
+		chosen="$HOME/.config/alacritty/alacritty.yml"
+	;;
+	neovim)
+		chosen="$HOME/.config/nvim/core/keymap.vim"
+	;;
+	zsh)
+		chosen="$HOME/.config/zsh/.zshrc"
+	;;
+	git)
+		chosen="$HOME/.config/git/config"
+	;;
+	lazygit)
+		chosen="$HOME/.config/jesseduffield/lazygit/config.yml"
+	;;
+	lazynpm)
+		chosen="$HOME/.config/jesseduffield/lazynpm/config.yml"
+	;;
+	fontconfig)
+		chosen="$HOME/.config/fontconfig/fonts.conf"
+	;;
+  ranger)
+		chosen="$HOME/.config/ranger/rc.conf"
+	;;
+	*)
+		exit 1
+	;;
+esac
+
+alacritty -t "$chosen" -e $SHELL -c "cd $HOME/dotfiles/config/.config; sleep 0.1; nvim $chosen; $SHELL"

@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+userid=1426796983
+#userid=828
+if [[ $1 ]]; then
+  userid=$1
+fi
+
+echo "userid：$userid";
+
+rt=$(curl --location --request POST 'http://open-test.zmlearn.com:80/api/appAuth/tokenService/wechatShare/generate' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "from": "string",
+    "name": "string",
+    "userId": '$userid',
+    "username": "string"
+}')
+
+token=$(echo $rt | sed 's/{"code":"0","message":"","data":"\(.*\)"}/\1/g')
+
+echo $token
+
+echo "$token" | tr -d '\n' | xclip -selection clipboard
+
+notify-send -t 2000 "token copy sucessful" &

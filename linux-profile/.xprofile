@@ -3,4 +3,5 @@ setbg &
 picom -CG &
 vmware-user &
 unclutter &
+dunst &
 fcitx5 &

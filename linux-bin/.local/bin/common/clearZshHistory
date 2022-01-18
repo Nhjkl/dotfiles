@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+zshHistoryPath=~/.cache/zsh/history
+
+sed -i '/;c\b/d' $zshHistoryPath
+sed -i '/;r\b/d' $zshHistoryPath
+sed -i '/;q\b/d' $zshHistoryPath
+sed -i '/;v\b/d' $zshHistoryPath
+sed -i '/;l\b/d' $zshHistoryPath
+sed -i '/;history\b/d' $zshHistoryPath

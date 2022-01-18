@@ -1,0 +1,8 @@
+#!/bin/bash
+result=$(ps ax|grep -v grep|grep trayer)
+if [ "$result" == "" ]; then
+  eval  "trayer --edge bottom --margin 25 --align right  --widthtype request --height 25 --distance 25 --padding 0 &"
+else
+  eval "killall trayer"
+fi
+

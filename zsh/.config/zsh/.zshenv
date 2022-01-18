@@ -3,4 +3,4 @@
 export GEM_HOME=$HOME/.gem
 PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 
-[ -f "$HOME/.cache/tls/sslkeylog.log" ] && export SSLKEYLOGFILE=~/.cache/tls/sslkeylog.log
+# [ -f "$HOME/.cache/tls/sslkeylog.log" ] && export SSLKEYLOGFILE=~/.cache/tls/sslkeylog.log

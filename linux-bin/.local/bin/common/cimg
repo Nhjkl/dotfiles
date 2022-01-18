@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+time=$(date +%s)
+w=100
+h=100
+imagePath=~/Downloads/images
+
+if [[ $1 ]]; then
+  w=$1
+fi
+
+if [[ $2 ]]; then
+  h=$2
+fi
+
+img=${w}x${h}
+
+if [ ! -d "~/Downloads/images" ]; then
+  mkdir -p $imagePath
+fi
+
+# wget https://iph.href.lu/${img}\?fg\=ffffff\&bg\=4185f4 -O ~/Downloads/images/${img}.png
+# wget https://placeimg.com/${w}/${h}/any -O ${image}
+
+image=${imagePath}/${img}.${time}.png
+wget https://picsum.photos/${w}/${h} -O ${image}
+notify-send -t 2000 -i ${image} "create image sucessful" &

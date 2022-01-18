@@ -1,0 +1,27 @@
+#!/bin/sh
+
+case "$(printf "\
+project\n\
+editconfig\n\
+emoji\n\
+token\n\
+ssh\n\
+trojan\n\
+savenote\n\
+savedotfiles\n\
+wttr\n\
+getMsg\n\
+trayer\n\
+" | dmenu -i -p "Please choose an option")" in
+  project) dmenuproject;;
+  editconfig) dmenueditconfig;;
+  emoji) dmenuunicode;;
+  token) getToken;;
+  ssh) dmenusshhandler;;
+  trojan) ~/.local/src/trojan/trojan -c ~/.local/src/trojan/config.json;;
+  savenote) cd ~/Documents/vnote_notebooks; autopush;;
+  savedotfiles) cd ~/dotfiles; autopush;;
+  wttr) alacritty -t wttr -e $SHELL -c "curl wttr.in; $SHELL";;
+  getMsg) getMsg;;
+  trayer) trtoggle;;
+esac

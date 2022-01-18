@@ -1,0 +1,17 @@
+#!/usr/bin/env zsh
+content="$(xclip -o)";
+
+cd ~/.local/work/;
+
+export https_proxy="socks5://127.0.0.1:1080";
+export http_proxy="socks5://127.0.0.1:1080";
+
+git clone $content;
+
+menu=$(echo $content | sed 's/.*[\/]//g' | sed 's/\.git//g')
+
+echo $menu;
+
+cd $menu;
+
+nvim;

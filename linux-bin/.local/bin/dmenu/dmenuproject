@@ -1,0 +1,12 @@
+#!/bin/sh
+#chosen=$(cd ~/Documents/work; ls | sed "s:^:`pwd`/:" | dmenu -i -l 30 | sed "s/ .*//")
+chosen=$(cd ~/.local/work; ls -d */ | dmenu -i -l 30 | sed "s/ .*//")
+
+base=$(cd ~/.local/work; pwd)
+
+# Exit if none chosen.
+[ -z "$chosen" ] && exit
+
+alacritty -t "$chosen" -e $SHELL -c "cd $base/$chosen; sleep 0.1; nvim; $SHELL"
+#st -t "$chosen" -e $SHELL -c "cd $base/$chosen; nvim; $SHELL"
+#kitty -T "$chosen" -e $SHELL -c "cd $base/$chosen; nvim; $SHELL"
