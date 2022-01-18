@@ -4,4 +4,3 @@ picom -CG &
 vmware-user &
 unclutter &
 fcitx5 &
-

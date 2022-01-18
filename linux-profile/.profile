@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 # Adds `~/.local/bin` to $PATH
-[ -s "$HOME/.local/bin/" ] && export PATH="$PATH:$(du "$HOME/.local/bin/" | cut -f2 | paste -sd ':')"
+[ -s "$HOME/.local/bin/" ] && export PATH="$PATH:${$(echo $(echo $(du -L $HOME/.local/bin | cut -f2)) | sed -e "s/ /:/g")}"
 [ -s "$HOME/.config/rofi/bin" ] && export PATH="$PATH:$(du "$HOME/.config/rofi/bin/" | cut -f2 | paste -sd ':')"
 [ -s "$HOME/.local/share/cargo/bin/" ] && export PATH="$PATH:$(du "$HOME/.local/share/cargo/bin/" | cut -f2 | paste -sd ':')"
 [ -s "$HOME/.yarn/bin/" ] && export PATH="$PATH:$(du "$HOME/.yarn/bin/" | cut -f2 | paste -sd ':')"
