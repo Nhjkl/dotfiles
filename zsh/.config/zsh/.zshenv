@@ -1,6 +1,17 @@
-[ -f "$HOME/.local/share/cargo/env" ] && source "$HOME/.local/share/cargo/env"
+# Cargo
+[ -f "$CARGO_HOME/env" ] && source "$CARGO_HOME/env"
 
-export GEM_HOME=$HOME/.gem
+# GEM
 PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 
-# [ -f "$HOME/.cache/tls/sslkeylog.log" ] && export SSLKEYLOGFILE=~/.cache/tls/sslkeylog.log
+# nvm
+nvm() {
+  if [ ! -d "$NVM_DIR" ]; then
+    mkdir -p "$NVM_DIR";
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash;
+  fi
+  . "$NVM_DIR/nvm.sh" ; nvm $@ ;
+}
+export PATH=$NVM_DIR/versions/node/v16.13.2/bin/:$PATH
+export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
+

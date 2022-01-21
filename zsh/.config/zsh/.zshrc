@@ -7,14 +7,6 @@
 #  ██████ ██████ ░██  ░██░███   ░░█████
 # ░░░░░░ ░░░░░░  ░░   ░░ ░░░     ░░░░░
 #
-#export GEM_HOME=$HOME/.gem
-#PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
-
-# nvm
-nvm() { . "$NVM_DIR/nvm.sh" ; nvm $@ ; }
-export PATH=$NVM_DIR/versions/node/v16.13.2/bin/:$PATH
-export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
-
 # History in cache directory:
 HISTSIZE=10000
 SAVEHIST=10000
@@ -51,17 +43,13 @@ if hash exa &>/dev/null; then
 fi
 # }}}
 
-# work {{{
+# work
 if [ -f ~/.ssh/login ] ; then
   alias jumpzm=~/.ssh/login
 fi
-# }}}
 
-# zshvimode {{{
-if [ -f ./zshvimode ] ; then
-  source ./zshvimode
-fi
-# }}}
+# zshvimode
+source "$ZDOTDIR/zshvimode"
 
 # Load syntax highlighting; should be last.
 if [ "$(uname)" == "Darwin" ] ; then

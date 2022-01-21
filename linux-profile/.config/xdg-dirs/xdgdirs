@@ -1,0 +1,46 @@
+#!/bin/zsh
+# User directories
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_RUNTIME_DIR="/run/user/$UID"
+
+# Rust
+## Rustup
+export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+## Cargo
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+
+# Ruby
+## RubyGems
+export GEM_HOME="$XDG_DATA_HOME/gem"
+export GEM_SPEC_CACHE="$XDG_CACHE_HOME/gem"
+
+# Zsh
+## oh-my-zsh
+export ZSH="$XDG_DATA_HOME/oh-my-zsh"
+## zsh
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+## zcompdump
+export ZSH_COMPDUMP="$XDG_CACHE_HOME/zsh/.zcompdump-${SHORT_HOST}-${ZSH_VERSION}"
+
+# Node
+## nvm
+export NVM_DIR="$XDG_DATA_HOME/nvm"
+## npm
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
+export NPM_CONFIG_TMP="$XDG_RUNTIME_DIR/npm"
+
+# Go
+export GOPATH="$XDG_DATA_HOME/go"
+# Android
+export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
+# Password-store
+export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
+# Wget
+export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
+# Unison & History
+export UNISON="${XDG_DATA_HOME:-$HOME/.local/share}/unison"
+export HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/history"
