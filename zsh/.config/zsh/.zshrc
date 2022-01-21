@@ -8,6 +8,8 @@
 # ░░░░░░ ░░░░░░  ░░   ░░ ░░░     ░░░░░
 #
 # History in cache directory:
+source $ZDOTDIR/zshinit
+
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.cache/zsh/history
@@ -52,14 +54,8 @@ fi
 source "$ZDOTDIR/zshvimode"
 
 # Load syntax highlighting; should be last.
-if [ "$(uname)" == "Darwin" ] ; then
-  source ~/.local/share/oh-my-zsh/themes/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
-  source ~/.local/share/oh-my-zsh/themes/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
-else
-  source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
-  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
-fi
+source $ZSH/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
+source $ZSH/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 
 eval "$(starship init zsh)"
-
 # eval "$(thefuck --alias)"
