@@ -1,0 +1,167 @@
+" cleanup {{{
+" XDG support
+
+if empty($MYVIMRC) | let $MYVIMRC = expand('<sfile>:p') | endif
+
+if empty($XDG_CACHE_HOME)  | let $XDG_CACHE_HOME  = $HOME."/.cache"       | endif
+if empty($XDG_CONFIG_HOME) | let $XDG_CONFIG_HOME = $HOME."/.config"      | endif
+if empty($XDG_DATA_HOME)   | let $XDG_DATA_HOME   = $HOME."/.local/share" | endif
+
+set runtimepath^=$XDG_CONFIG_HOME/vim
+set runtimepath+=$XDG_DATA_HOME/vim
+set runtimepath+=$XDG_CONFIG_HOME/vim/after
+
+set packpath^=$XDG_DATA_HOME/vim,$XDG_CONFIG_HOME/vim
+set packpath+=$XDG_CONFIG_HOME/vim/after,$XDG_DATA_HOME/vim/after
+
+let g:netrw_home = $XDG_DATA_HOME."/vim"
+call mkdir($XDG_DATA_HOME."/vim/spell", 'p', 0700)
+set viewdir=$XDG_DATA_HOME/vim/view | call mkdir(&viewdir, 'p', 0700)
+
+set backupdir=$XDG_CACHE_HOME/vim/backup | call mkdir(&backupdir, 'p', 0700)
+set directory=$XDG_CACHE_HOME/vim/swap   | call mkdir(&directory, 'p', 0700)
+set undodir=$XDG_CACHE_HOME/vim/undo     | call mkdir(&undodir,   'p', 0700)
+
+if !has('nvim') " Neovim has its own special location
+  set viminfofile=$XDG_CACHE_HOME/vim/viminfo
+endif
+" }}}
+
+" 基本设置 {{{
+" ===========================================================================================
+" modal     type              key                        action
+" -------------------------------------------------------------------------------------------
+" set signcolumn=yes
+set encoding=utf-8
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+" set colorcolumn=80
+set textwidth=80
+set number
+set relativenumber
+" set cursorline
+set wrap
+set linebreak
+set showcmd
+set showmode
+set wildmenu
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set list
+set showbreak=↪
+set listchars=tab:»·,nbsp:+,trail:·,extends:→,precedes:←
+set fillchars=vert:
+set tw=0
+set indentexpr=
+set backspace=indent,eol,start
+set foldmethod=indent
+set foldlevel=99
+set scrolloff=10
+set laststatus=2
+set ruler
+set visualbell
+set shortmess+=c
+set completeopt=noinsert,menuone,noselect
+set clipboard+=unnamedplus
+
+" 解决redraw time' exceeded syntax highlighting disabled
+" set re=1
+set lazyredraw
+set synmaxcol=128
+syntax sync minlines=256
+set mouse=a
+
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
+let g:mapleader="\<Space>"
+let g:maplocalleader="'"
+nnoremap <Space>  <Nop>
+xnoremap <Space>  <Nop>
+nnoremap '        <Nop>
+xnoremap '        <Nop>
+
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" ===========================================================================================}}}
+
+" save & quit {{{
+" ===========================================================================================
+" modal     type              key                        action
+" -------------------------------------------------------------------------------------------
+nnoremap                      <C-s>                      :<C-u>w<CR>
+vnoremap                      <C-s>                      :<C-u>w<CR>
+cnoremap                      <C-s>                      <C-u>w<CR>
+inoremap                      <C-s>                      <ESC>:<C-u>w<CR>
+nnoremap    <silent>          Q                          :<C-u>q!<CR>
+nnoremap    <silent>          <C-q>                      :<C-u>q<CR>
+vnoremap    <silent>          <C-q>                      :<C-u>q<CR>
+cnoremap    <silent>          <C-q>                      <C-u>q<CR>
+inoremap    <silent>          <C-q>                      <ESC>:<C-u>q<CR>
+nnoremap                      tee                        :<C-u>w !sudo tee %<CR>
+" ===========================================================================================}}}
+
+" 分屏,调整分屏大小 {{{
+" ===========================================================================================
+" modal     type              key                        action
+" -------------------------------------------------------------------------------------------
+nnoremap    <silent>          sk                         :set nosplitbelow<CR>:split<CR>
+nnoremap    <silent>          sj                         :set splitright<CR>:split<CR>
+nnoremap    <silent>          sh                         :set nosplitright<CR>:vsplit<CR>
+nnoremap    <silent>          sl                         :set splitright<CR>:vsplit<CR>
+nnoremap    <silent>          <C-\>                      :set splitright<CR>:vsplit<CR>
+nnoremap    <silent>          <C-h>                      <C-w>h
+nnoremap    <silent>          <C-l>                      <C-w>l
+nnoremap                      <left>                     :vertical resize+5<CR>
+nnoremap                      <right>                    :vertical resize-5<CR>
+" ===========================================================================================}}}
+
+" editor {{{
+" ===========================================================================================
+" modal     type              key                        action
+" -------------------------------------------------------------------------------------------
+inoremap                      jk                        <esc>
+nnoremap                      K                          yiw:h <c-r>"<cr>
+nnoremap    <silent>          <leader><CR>               :nohlsearch<CR>
+vnoremap                      p                          "8dP"
+cnoremap                      ,p                          <c-r>"
+vnoremap                      #                          y/<C-R>"<CR>
+nnoremap                      <leader>rw                 ea<C-w><ESC>p
+nnoremap                      <leader>r`                 "8di`P
+nnoremap                      <leader>r'                 "8di'P
+nnoremap                      <leader>r"                 "8di"P
+nnoremap                      <leader>r)                 "8di)P
+nnoremap                      <leader>r]                 "8di]P
+nnoremap                      <leader>r}                 "8di}P
+nnoremap                      <leader>rt                 "8ditP
+nnoremap                      <leader>t$                 pl"8d$
+nnoremap                      <leader>t`                 pl"8dt`
+nnoremap                      <leader>t'                 pl"8dt'
+nnoremap                      <leader>t"                 pl"8dt"
+nnoremap                      <leader>t)                 pl"8dt)
+nnoremap                      <leader>t]                 pl"8dt]
+nnoremap                      <leader>t}                 pl"8dt}
+" ===========================================================================================}}}
+
+" fast move {{{
+" ===========================================================================================
+" modal     type              key                        action
+" -------------------------------------------------------------------------------------------
+nnoremap                      <C-k>                      10gk
+nnoremap                      <C-j>                      10gj
+vnoremap                      <C-k>                      10gk
+vnoremap                      <C-j>                      10gj
+nnoremap                      k                          gk
+nnoremap                      j                          gj
+noremap                       H                          g^
+noremap                       L                          g_
+noremap                       <                          <<
+noremap                       >                          >>
+xnoremap                      <                          <gv
+xnoremap                      >                          >gv
+nnoremap                      <leader>e                  :Explore<CR>
+" ===========================================================================================}}}
