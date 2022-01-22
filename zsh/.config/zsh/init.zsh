@@ -9,6 +9,7 @@ if [ ! -f "$ZSH/oh-my-zsh.sh" ] ; then
   echo "install ohmyzsh..."
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
+
 if [ ! -d $ZSH/plugins/fast-syntax-highlighting ] ; then
   cd $ZSH/plugins;
   git clone --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting.git;
@@ -19,11 +20,15 @@ if [ ! -d $ZSH/plugins/zsh-autosuggestions ] ; then
   git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git;
   cd $HOME;
 fi
+# Load syntax highlighting; should be last.
+source $ZSH/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
+source $ZSH/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 
 # install starship
 if ! hash "starship" &>/dev/null; then
   sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 fi
+eval "$(starship init zsh)"
 
 # Cargo
 [ -f "$CARGO_HOME/env" ] && source "$CARGO_HOME/env"
@@ -37,4 +42,3 @@ nvm() {
 }
 export PATH=$NVM_DIR/versions/node/v16.13.2/bin/:$PATH
 export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
-
