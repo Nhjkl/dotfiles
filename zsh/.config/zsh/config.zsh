@@ -1,5 +1,10 @@
 HISTSIZE=10000
 SAVEHIST=10000
+if [ ! -f "$XDG_CACHE_HOME/zsh/history" ] ; then
+  mkdir -p "$XDG_CACHE_HOME/zsh"
+  cd $XDG_CACHE_HOME/zsh
+  touch history
+fi
 HISTFILE="$XDG_CACHE_HOME/zsh/history"
 
 setopt no_nomatch

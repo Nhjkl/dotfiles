@@ -9,6 +9,9 @@ alias wttr="curl wttr.in"
 alias cz="git add .;git cz"
 alias proxyOn="export ALL_PROXY=socks5://127.0.0.1:1080"
 alias proxyOff="unset ALL_PROXY"
+alias pathList='echo -e ${PATH//:/\\n}'
+alias reloadShell="exec ${SHELL} -l"
+alias bravekill="ps ux | grep 'Brave Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
 
 if hash exa &>/dev/null; then
   alias l="exa -l -h -g -a --icons"

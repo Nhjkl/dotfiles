@@ -14,3 +14,7 @@ cd dotfiles
 
 stow macprofile
 ```
+
+install zsh settings for the root user
+
+`sudo stow zsh -t /root`
