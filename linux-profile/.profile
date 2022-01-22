@@ -2,6 +2,7 @@
 
 # Adds `~/.local/bin` to $PATH
 [ -s "$HOME/.local/bin/" ] && export PATH="$PATH:${$(echo $(echo $(du -L $HOME/.local/bin | cut -f2)) | sed -e "s/ /:/g")}"
+[ -s "$HOME/.local/scripts/" ] && export PATH="$PATH:${$(echo $(echo $(du -L $HOME/.local/scripts | cut -f2)) | sed -e "s/ /:/g")}"
 [ -s "$HOME/.config/rofi/bin" ] && export PATH="$PATH:$HOME/.config/rofi/bin/"
 
 # Default programs:
