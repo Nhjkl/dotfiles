@@ -17,5 +17,3 @@ source "$ZDOTDIR/vimode.zsh"
 source "$ZDOTDIR/alias.zsh"
 # zshconf
 source "$ZDOTDIR/config.zsh"
-# lficons
-source "$ZDOTDIR/lficons.zsh"

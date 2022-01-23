@@ -1,8 +1,7 @@
-# install nvm
-if [ ! -d "$NVM_DIR" ]; then
-  mkdir -p "$NVM_DIR";
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash;
-fi
+[ -f $XDG_CONFIG_HOME/lf/LF_ICONS ] && {
+  LF_ICONS="$(tr '\n' ':' <$XDG_CONFIG_HOME/lf/LF_ICONS)" \
+  && export LF_ICONS
+}
 
 # install ohmyzsh
 if [ ! -f "$ZSH/oh-my-zsh.sh" ] ; then
@@ -38,6 +37,11 @@ PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 
 # nvm
 nvm() {
+  # install nvm
+  if [ ! -d "$NVM_DIR" ]; then
+    mkdir -p "$NVM_DIR";
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash;
+  fi
   . "$NVM_DIR/nvm.sh" ; nvm $@ ;
 }
 export PATH=$NVM_DIR/versions/node/v16.13.2/bin/:$PATH
