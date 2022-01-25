@@ -1,0 +1,8 @@
+#!/bin/sh
+rofi -dmenu \
+  -password \
+  -no-fixed-num-lines \
+  -p "Password:"\
+  -sync \
+  -input /dev/null \
+  -theme "$HOME/.config/rofi/scripts/askpass"
