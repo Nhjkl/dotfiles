@@ -1,5 +1,6 @@
 [ -f $XDG_CONFIG_HOME/lf/LF_ICONS ] && {
-  LF_ICONS="$(tr '\n' ':' <$XDG_CONFIG_HOME/lf/LF_ICONS)" \
+  export LC_ALL=en_US.UTF-8
+  LF_ICONS="$(tr '\n' ':' < $XDG_CONFIG_HOME/lf/LF_ICONS)"\
   && export LF_ICONS
 }
 
