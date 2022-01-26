@@ -1,0 +1,24 @@
+#!/bin/sh
+servers_str=""
+
+servers=(
+  'openwrt--------root@192.168.100.1'
+  'pve------------root@192.168.100.2'
+  'synology-------root@192.168.100.4'
+  'adguardhome----root@192.168.100.5'
+  'heefish--------root@106.14.117.120'
+  'arch-----------lx@192.168.100.143'
+  'mac------------lx@192.168.100.172'
+)
+
+for element in ${servers[@]};do
+  servers_str="$servers_str$element\n"
+done
+
+selected="$(printf "$servers_str" | rofi -dmenu -p "Please choose an server" -no-custom -theme $HOME/.config/rofi/launchers/text/style_7))"
+
+addr="$(echo $selected | grep -P '\-.+' -o | sed 's/\-//g')"
+
+alacritty -t "$selected" -e $SHELL -c "source ~/.profile;ssh $addr && $SHELL"
+
+# st -t "$selected" -e ssh $addr;
