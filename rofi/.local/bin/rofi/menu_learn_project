@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+dir="$HOME/.config/rofi/launchers/text"
+theme="style_7"
+
+chosen=$(cd ~/.local/learn; ls -d */ | rofi -dmenu -p "Project" -no-custom -theme $dir/"$theme")
+
+base=$(cd ~/.local/learn; pwd)
+
+# Exit if none chosen.
+[ -z "$chosen" ] && exit
+
+alacritty -t "$chosen" -e $SHELL -c "cd $base/$chosen; sleep 0.1; nvim; $SHELL"
+
+exit 0
