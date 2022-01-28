@@ -1,4 +1,18 @@
 #!/usr/bin/env bash
 . $HOME/.local/bin/dwm/bar_themes/onedark
-get_capacity="$(cat /sys/class/power_supply/BAT1/capacity)"
-printf "^c$blue^   $get_capacity"
+# get_capacity="$(cat /sys/class/power_supply/BAT1/capacity)"
+# printf "^c$blue^   $get_capacity"
+#
+
+for battery in /sys/class/power_supply/BAT?
+do
+	# Get its remaining capacity and charge status.
+	capacity=$(cat "$battery"/capacity 2>/dev/null) || break
+
+	status=$(sed "s/[Dd]ischarging//;s/[Nn]ot charging/ﭦ/;s/[Cc]harging//;s/[Uu]nknown//;s/[Ff]ull//" "$battery"/status)
+
+  [ "$capacity" -le 25 ] && [ "$status" = "" ] && warn=""
+
+	printf "^c$blue^%s%s%s%% " "$status " "$warn" "$capacity"
+	unset warn
+done | sed 's/ *$//'
