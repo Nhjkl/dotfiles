@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+. $HOME/.local/bin/dwm/bar_themes/onedark
+
+# cpu_val=$(grep -o "^[^ ]*" /proc/loadavg)
+# printf "^c$black^ ^b$green^ CPU"
+# printf "^c$white^ ^b$grey^ $cpu_val"
+
+cpu_val=$(grep -o "^[^ ]*" /proc/loadavg)
+printf "^c$red^ CPU $cpu_val"

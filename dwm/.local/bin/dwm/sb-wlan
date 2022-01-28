@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+. $HOME/.local/bin/dwm/bar_themes/onedark
+
+case "$(cat /sys/class/net/wl*/operstate 2>/dev/null)" in
+up) printf "^c$green^ 󰤨 ^d^%s";;
+down) printf "^c$green^ 󰤭 ^d^%s";;
+esac
