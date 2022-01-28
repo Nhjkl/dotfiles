@@ -7,4 +7,3 @@ unclutter &
 dunst &
 fcitx5 &
 xrdb merge $XDG_CONFIG_HOME/x11/Xresources &
-dwmstatusbar &

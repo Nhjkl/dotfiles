@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+. $HOME/.local/bin/dwm/bar_themes/onedark
+get_capacity="$(cat /sys/class/power_supply/BAT1/capacity)"
+printf "^c$blue^   $get_capacity"

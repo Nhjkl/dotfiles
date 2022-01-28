@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+. $HOME/.local/bin/dwm/bar_themes/onedark
+printf "^c$black^^b$blue^ 󱑆  $(date '+%I:%M %p')  "
