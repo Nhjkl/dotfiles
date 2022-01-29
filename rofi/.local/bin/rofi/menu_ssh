@@ -15,7 +15,9 @@ for element in ${servers[@]};do
   servers_str="$servers_str$element\n"
 done
 
-selected="$(printf "$servers_str" | rofi -dmenu -p "Please choose an server" -no-custom -theme $HOME/.config/rofi/launchers/text/style_7))"
+selected="$(printf "$servers_str" | rofi -dmenu -p "Please choose an server" -no-custom -theme $HOME/.config/rofi/launchers/text/style_7)"
+
+echo $selected
 
 addr="$(echo $selected | grep -P '\-.+' -o | sed 's/\-//g')"
 
