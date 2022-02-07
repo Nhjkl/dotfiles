@@ -93,9 +93,9 @@ app_array=(
   "python"
   "zsh"
   "nvim"
-  "ranger"
+  # "ranger"
   "lazygit"
-  "tig"
+  # "tig"
   "neofetch"
   "fzf"
   "lf"
@@ -190,9 +190,25 @@ gen_ln () {
   echo_with_color ${Yellow} ""
   echo_with_color ${Yellow} "正在创建软链接..."
 
-  if [ -f ~/.zshrc ]; then
-    echo_with_color ${Yellow} "zshrc"
-  fi
+  stow zsh;
+  stow starship;
+  stow vim;
+  stow wallpapers;
+  stow x11;
+  stow linux-bin;
+  stow linux-profile;
+  stow alacritty;
+  stow dwm;
+  stow fontconfig;
+  stow fonts;
+  stow git;
+  stow lazygit;
+  stow lf;
+  stow npm;
+  stow picom;
+  stow rofi;
+
+  echo_with_color ${Yellow} "创建完毕!"
 }
 
 ### main {{{
