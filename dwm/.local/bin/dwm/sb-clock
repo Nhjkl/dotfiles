@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 case $BLOCK_BUTTON in
-  1) notify-send "This Month" "$(cal --color=always | sed "s/..7m/<b><span color=\"red\">/;s/..27m/<\/span><\/b>/")" && notify-send "Appointments" "$(calcurse -d3)" ;;
-  2) setsid -f "$TERMINAL" -e calcurse ;;
+  1) notify-send "This Month" "$(cal --color=always | sed "s/..7m/<b><span color=\"red\">/;s/..27m/<\/span><\/b>/")" ;;
+  2) setsid -f "$TERMINAL" -e calcurse;;
   3) "$TERMINAL" -e $SHELL -c "sleep 0.1;$EDITOR $0";;
 esac
+
 . $HOME/.local/bin/dwm/bar_themes/onedark
 printf "^c$black^^b$darkblue^ 󱑆 $(date '+%I:%M %p') "
