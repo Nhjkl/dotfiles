@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
 . $HOME/.local/bin/dwm/bar_themes/onedark
-printf "^c$red^"
-free --mebi | sed -n '2{p;q}' | awk '{printf ("  %2.2fGiB/%2.2fGiB\n", ( $3 / 1024), ($2 / 1024))}'
+
+case $BLOCK_BUTTON in
+	1) notify-send "🧠 Memory hogs" "$(ps axch -o cmd:15,%mem --sort=-%mem | head)" ;;
+	2) setsid -f "$TERMINAL" -e gotop ;;
+  3) "$TERMINAL" -e $SHELL -c "sleep 0.1;$EDITOR $0";;
+esac
+
+printf $BLOCK_BUTTON
+
+printf "^b$black^^c$red^"
+free --mebi | sed -n '2{p;q}' | awk '{printf ("   %2.2fGiB/%2.2fGiB\n", ( $3 / 1024), ($2 / 1024))}'

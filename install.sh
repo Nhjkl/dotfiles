@@ -205,6 +205,7 @@ gen_ln () {
   stow npm;
   stow picom;
   stow rofi;
+  stow dunst;
 
   echo_with_color ${Yellow} "创建完毕!"
 }

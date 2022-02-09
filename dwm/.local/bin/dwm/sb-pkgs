@@ -4,7 +4,7 @@
 updates=$(pacman -Qu | grep -Fcv "[ignored]" | sed "s/^//;s/^0$//g") # void
 
 if [ -z "$updates" ]; then
-  printf "^c$green^  Fully Updated"
+  printf "^b$green^^c$black^   Fully Updated"
 else
-  printf "^c$green^  $updates"" updates"
+  printf "^b$green^^c$black^   $updates"" updates"
 fi

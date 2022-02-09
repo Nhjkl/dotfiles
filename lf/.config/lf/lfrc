@@ -91,6 +91,10 @@ map X !$f
 map gh cd ~
 map gw cd ~/.local/work/
 map gr cd ~/.local/learn/
+map gb cd ~/.local/bin/
+map gs cd ~/.local/share/
+map gc cd ~/.config/
+map gd cd ~/Downloads/
 
 # yay -S perl-file-mimeinfo
 map o &mimeopen $f
