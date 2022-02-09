@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+. $HOME/.local/bin/dwm/bar_themes/onedark
+
+location=${1:-/}
+
+[ -d "$location" ] || exit
+
+case $BLOCK_BUTTON in
+	1) notify-send "﫭 Disk space" "$(df -h --output=target,used,size)" ;;
+	2) filelight;;
+  3) "$TERMINAL" -e $SHELL -c "sleep 0.1;$EDITOR $0";;
+esac
+
+printf "^b$blue^^c$black^"
+printf "%s %s\n" " 﫭" "$(df -h "$location" | awk ' /[0-9]/ {print $3 "/" $2}')"
