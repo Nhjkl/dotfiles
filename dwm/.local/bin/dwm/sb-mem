@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 case $BLOCK_BUTTON in
   1) notify-send "🧠 Memory hogs" "$(ps axch -o cmd:15,%mem --sort=-%mem | head)" ;;
-  2) "$TERMINAL" -e $SHELL -c "sleep 0.1;$EDITOR $0";;
+  2) "$TERMINAL" -t "nvim" -e $SHELL -c "sleep 0.1;$EDITOR $0";;
   3) setsid -f "$TERMINAL" -e gotop ;;
 esac
 
 . $HOME/.local/bin/dwm/bar_themes/onedark
 printf "^b$black^^c$red^"
-free --mebi | sed -n '2{p;q}' | awk '{printf ("  %2.2fGiB/%2.2fGiB\n", ( $3 / 1024), ($2 / 1024))}'
+free --mebi | sed -n '2{p;q}' | awk '{printf ("  %2.2fG/%2.2fG\n", ( $3 / 1024), ($2 / 1024))}'

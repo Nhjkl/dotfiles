@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 case $BLOCK_BUTTON in
 	1) notify-send " Disk space" "$(df -h --output=target,used,size)" ;;
-  2) "$TERMINAL" -e $SHELL -c "sleep 0.1;$EDITOR $0";;
+  2) "$TERMINAL" -t "nvim" -e $SHELL -c "sleep 0.1;$EDITOR $0";;
 	3) filelight;;
 esac
 
