@@ -1,9 +1,9 @@
 #!/bin/sh
-myxrander &
 setbg &
 picom -CG &
-vmware-user &
+# vmware-user &
 unclutter &
 dunst &
 fcitx5 &
 xrdb merge $XDG_CONFIG_HOME/x11/Xresources &
+# myxrander &
