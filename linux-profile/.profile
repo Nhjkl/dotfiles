@@ -26,9 +26,11 @@ export MOZ_USE_XINPUT2="1"                # Mozilla smooth scrolling/touchpads.
 export AWT_TOOLKIT="MToolkit wmname LG3D" # May have to install wmname
 export _JAVA_AWT_WM_NONREPARENTING=1      # Fix for Java applications in dwm
 
-if pacman -Qs libxft-bgra >/dev/null 2>&1; then
-  # Start graphical server on tty1 if not already running.
-  [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
-else
-  echo "Note that \`libxft-bgra\` must be installed for this build of dwm. Please run: yay -S libxft-bgra-git and replace \`libxft\`"
-fi
+[ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
+
+# if pacman -Qs libxft-bgra >/dev/null 2>&1; then
+#   # Start graphical server on tty1 if not already running.
+#   [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
+# else
+#   echo "Note that \`libxft-bgra\` must be installed for this build of dwm. Please run: yay -S libxft-bgra-git and replace \`libxft\`"
+# fi
