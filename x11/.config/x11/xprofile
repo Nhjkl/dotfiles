@@ -6,4 +6,14 @@ unclutter &
 dunst &
 fcitx5 &
 xrdb merge $XDG_CONFIG_HOME/x11/Xresources &
-# myxrander &
+
+if hash VBoxClient &>/dev/null; then
+  VBoxClient --clipboard
+  VBoxClient --checkhostversion
+  VBoxClient --seamless
+  VBoxClient --draganddrop
+fi
+
+if hash vmware-user &>/dev/null; then
+  vmware-user &
+fi
