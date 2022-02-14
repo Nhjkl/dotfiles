@@ -8,7 +8,7 @@ window:
   dynamic_padding: true
   decorations: none #full
   startup_mode: Windowed
-  opacity: 0.8
+  opacity: 1
 scrolling:
   history: 10000
   multiplier: 3
