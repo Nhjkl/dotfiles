@@ -1,0 +1,8 @@
+#!/bin/bash
+xdotool getwindowfocus set_window --class "picom:opacity:"$1
+
+currentClass=$(xdotool getwindowfocus getwindowclassname)
+
+currentOpacity=$(echo $currentClass | sed 's/picom:opacity://g')
+
+echo $currentOpacity

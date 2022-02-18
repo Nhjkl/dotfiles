@@ -12,8 +12,13 @@ enable_passive: true
 passive_key: CTRL
 matches:
   # Simple text replacement
-  - trigger: ":espanso"
-    replace: "Hi there!"
+  - trigger: ";zb"
+    replace: "刘献周报({{mydate}})"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%Y-%m-%d"
 
   - trigger: ":date"
     replace: "{{mydate}}"
@@ -30,4 +35,13 @@ matches:
       - name: output
         type: shell
         params:
-          cmd: "echo Hello from your shell"
+          cmd: "getToken"
+          debug: true
+
+  - trigger: ":ip"
+    replace: "{{output}}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: "curl 'https://api.ipify.org'"
