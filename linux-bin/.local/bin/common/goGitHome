@@ -1,0 +1,6 @@
+#!/bin/sh
+# DIRS=$(git remote -v | sed 's/.*:\(.*\)\..*/\1/g' | awk '{print $NR}')
+# git remote -v | sed 's/git@/https:\/\//g' | sed 's/com:/com\//g' | sed 's/(fetch)//g' | sed 's/origin//g'
+GITPATH=$(git remote -v | sed 's/git@/https:\/\//g' | sed 's/com:/com\//g' | sed 's/(fetch)//g' | sed 's/(push)//g' | sed 's/origin//g' | awk '{print $NR}')
+
+$BROWSER $GITPATH >> /dev/null
