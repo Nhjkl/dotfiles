@@ -15,5 +15,7 @@ source "$ZDOTDIR/ohmyzsh.zsh"
 source "$ZDOTDIR/vimode.zsh"
 # zshalias
 source "$ZDOTDIR/alias.zsh"
+# zshbindKey
+source "$ZDOTDIR/bindkey.zsh"
 # zshconf
 source "$ZDOTDIR/config.zsh"

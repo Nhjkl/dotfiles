@@ -34,7 +34,15 @@ eval "$(starship init zsh)"
 [ -f "$CARGO_HOME/env" ] && source "$CARGO_HOME/env"
 
 # GEM
-PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+if hash "ruby" &>/dev/null; then
+  PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+fi
+
+# Tmux
+if ! hash "tmux" &>/dev/null; then
+  echo "install tmux..."
+  yay -S tmux
+fi
 
 # nvm
 nvm() {
@@ -45,5 +53,6 @@ nvm() {
   fi
   . "$NVM_DIR/nvm.sh" ; nvm $@ ;
 }
-export PATH=$NVM_DIR/versions/node/v16.13.2/bin/:$PATH
+
+export PATH=$NVM_DIR/versions/node/v16.15.1/bin/:$PATH
 export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
