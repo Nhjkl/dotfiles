@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-session=$(find ~ ~/.local/learn ~/.local/ac-work ~/.local/src -mindepth 1 -maxdepth 1 -type d | fzf)
+session=$(find ~ ~/.local/learn ~/.local/ac-work ~/.local/work ~/.local/src -mindepth 1 -maxdepth 1 -type d | fzf)
 
 session_name=$(basename "$session" | tr . _)
 
