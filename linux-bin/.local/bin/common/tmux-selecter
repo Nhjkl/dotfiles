@@ -1,17 +1,20 @@
 #! /usr/bin/env bash
+if [ -z $(tmux ls 2>/dev/null | grep -o servercontrol) ]; then
+  session=$(tmux ls | fzf)
 
-session=$(tmux ls | fzf)
+  session_name=$(echo $session | sed 's/:.*)//')
 
-session_name=$(echo $session | sed 's/:.*)//')
+  echo $session_name
 
-echo $session_name
+  if ! tmux has-session -t "$session_name" 2> /dev/null; then
+    tmux new-session -s "$session_name" -c "$session" -d
+  fi
 
-if ! tmux has-session -t "$session_name" 2> /dev/null; then
-  tmux new-session -s "$session_name" -c "$session" -d
-fi
-
-if ! tmux switch-client -t "$session_name" 2> /dev/null; then
-  tmux a
+  if ! tmux switch-client -t "$session_name" 2> /dev/null; then
+    tmux a
+  else
+    tmux switch-client -t "$session_name"
+  fi
 else
-  tmux switch-client -t "$session_name"
+  tmux-sessionizer
 fi
