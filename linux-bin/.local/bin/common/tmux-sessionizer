@@ -2,14 +2,17 @@
 
 session=$(find ~ ~/.local/learn ~/.local/ac-work ~/.local/work ~/.local/src -mindepth 1 -maxdepth 1 -type d | sed -e 1a\/home/lx | fzf)
 
-session_name=$(basename "$session" | tr . _)
+if [[ $session != "" ]]; then
+  session_name=$(basename "$session" | tr . _)
 
-if ! tmux has-session -t "$session_name" 2> /dev/null; then
-  tmux new-session -s "$session_name" -c "$session" -d
+  if ! tmux has-session -t "$session_name" 2> /dev/null; then
+    tmux new-session -s "$session_name" -c "$session" -d
+  fi
+
+  if ! tmux switch-client -t "$session_name" 2> /dev/null; then
+    tmux a
+  else
+    tmux switch-client -t "$session_name"
+  fi
 fi
 
-if ! tmux switch-client -t "$session_name" 2> /dev/null; then
-  tmux a
-else
-  tmux switch-client -t "$session_name"
-fi
