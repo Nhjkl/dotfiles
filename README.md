@@ -18,3 +18,11 @@ stow macprofile
 install zsh settings for the root user
 
 `sudo stow zsh -t /root`
+
+# pip install
+```
+curl -sSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+
+python get-pip.py
+```
+

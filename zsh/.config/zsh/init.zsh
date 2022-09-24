@@ -34,7 +34,15 @@ eval "$(starship init zsh)"
 [ -f "$CARGO_HOME/env" ] && source "$CARGO_HOME/env"
 
 # GEM
-PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+if hash "ruby" &>/dev/null; then
+  PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+fi
+
+# Tmux
+if ! hash "tmux" &>/dev/null; then
+  echo "install tmux..."
+  yay -S tmux
+fi
 
 # nvm
 nvm() {
