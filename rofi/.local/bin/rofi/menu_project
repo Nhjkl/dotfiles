@@ -4,9 +4,9 @@ theme="style_7"
 
 # rofi -show drun -sorting-method fzf -sort
 
-chosen=$(cd ~/.local/work; ls -d */ | rofi -dmenu -p "Project" -theme $dir/"$theme")
+chosen=$(cd ~/.local/ac-work; ls -d */ | rofi -dmenu -p "Project" -theme $dir/"$theme")
 
-base=$(cd ~/.local/work; pwd)
+base=$(cd ~/.local/ac-work; pwd)
 
 # Exit if none chosen.
 [ -z "$chosen" ] && exit

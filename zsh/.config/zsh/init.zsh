@@ -45,5 +45,17 @@ nvm() {
   fi
   . "$NVM_DIR/nvm.sh" ; nvm $@ ;
 }
-export PATH=$NVM_DIR/versions/node/v16.13.2/bin/:$PATH
+
+export PATH=$NVM_DIR/versions/node/v16.15.0/bin/:$PATH
 export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
+
+# pnpm
+if [ -d "$XDG_DATA_HOME/pnpm" ] ; then
+export PNPM_HOME="$XDG_DATA_HOME/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+else
+pnpm() {
+  echo "install pnpm..."
+  curl -fsSL https://get.pnpm.io/install.sh | sh -
+}
+fi
