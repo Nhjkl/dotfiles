@@ -21,5 +21,5 @@ fi
 
 # work
 if [ -f ~/.ssh/login ] ; then
-  alias jumpzm=~/.ssh/login
+  alias jumpzm=~/.ssh/newjump
 fi
