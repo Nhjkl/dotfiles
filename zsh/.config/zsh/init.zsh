@@ -56,3 +56,8 @@ nvm() {
 
 export PATH=$NVM_DIR/versions/node/v16.15.1/bin/:$PATH
 export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
+
+# pnpm
+export PNPM_HOME="$XDG_DATA_HOME/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
