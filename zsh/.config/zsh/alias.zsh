@@ -20,6 +20,7 @@ if hash exa &>/dev/null; then
 fi
 
 # work
-if [ -f ~/.ssh/login ] ; then
+if [ -f ~/.ssh/newjump ] ; then
+  export TERM=xterm-256color
   alias jumpzm=~/.ssh/newjump
 fi
