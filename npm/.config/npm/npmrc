@@ -1,5 +1,5 @@
 ; zm
-registry=http://npm.zmops.cc/
+; registry=http://npm.zmops.cc/
 ; npm
 ; registry=https://registry.npmjs.org/
 ; yarn
@@ -9,7 +9,7 @@ registry=http://npm.zmops.cc/
 ; cnpm
 ; registry=https://r.cnpmjs.org/
 ; taobao
-; registry=https://registry.npmmirror.com/
+registry=https://registry.npmmirror.com/
 ; npmMirror
 ; registry=https://skimdb.npmjs.com/registry/
 

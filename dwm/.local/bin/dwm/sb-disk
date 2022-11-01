@@ -6,7 +6,7 @@ case $BLOCK_BUTTON in
 esac
 
 . $HOME/.local/bin/dwm/bar_themes/onedark
-location=${1:-/}
+location=${1:-/home}
 [ -d "$location" ] || exit
 printf "^c$blue^"
 printf "%s %s\n" "  " "$(df -h "$location" | awk ' /[0-9]/ {print $3 "/" $2}')"
