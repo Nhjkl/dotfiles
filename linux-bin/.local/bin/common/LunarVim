@@ -1,0 +1,5 @@
+#!/bin/sh
+
+rm ~/.config/nvim
+
+ln -s ~/.local/learn/LunarVim ~/.config/nvim

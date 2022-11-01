@@ -108,4 +108,6 @@ debug:
   persistent_logging: false
   log_level: Warn
   print_events: false
-  ref_test: false
+
+env:
+  TERM: xterm-256color
