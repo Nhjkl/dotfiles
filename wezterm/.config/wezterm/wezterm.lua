@@ -1,12 +1,19 @@
 local wezterm = require 'wezterm';
--- local scheme = wezterm.get_builtin_color_schemes()["Gruvbox Dark"]
--- scheme.background = "rgba(24, 24, 24, 0.9)"
 return {
-  window_background_opacity = 0.9,
-  font = wezterm.font("JetBrainsMono Nerd Font"),
-  font_size = 14.0,
-  -- color_schemes = {
-  --   ["Gruvbox Dark"] = scheme,
-  -- },
   color_scheme = "Gruvbox Dark",
+  window_background_opacity = 0.9,
+  font_size = 14.0,
+  -- hide_tab_bar_if_only_one_tab = true,
+  enable_tab_bar = false,
+  font = wezterm.font_with_fallback {
+    'JetBrainsMono Nerd Font',
+    'DejaVu Sans Mono',
+    'WenQuanYi Micro Hei Mono Light',
+  },
+  window_padding = {
+    left = 6,
+    right = 6,
+    top = 6,
+    bottom = 0,
+  },
 }
