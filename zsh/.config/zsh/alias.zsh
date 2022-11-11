@@ -8,7 +8,7 @@ alias s=neofetch
 alias q=exit
 alias wttr="curl wttr.in"
 alias cz="git add .;git cz"
-alias proxyOn="export ALL_PROXY=socks5://127.0.0.1:1080"
+alias proxyOn="export ALL_PROXY=socks5://192.168.100.1:7891"
 alias proxyOff="unset ALL_PROXY"
 
 alias pathList='echo -e ${PATH//:/\\n}'
