@@ -1,4 +1,4 @@
 .Ds_Store
-.zcompdump-*
+.zcompdump*
 .zsh_history
 state.yml
