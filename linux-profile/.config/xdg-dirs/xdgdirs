@@ -44,6 +44,11 @@ export INPUTRC="${XDG_CONFIG_HOME:-$HOME/.config}/inputrc"
 # GTK
 export GTK2_RC_FILES="XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
 
+# Note that LightDM does not allow you to change this variable.
+# If you change it nonetheless, you will not be able to login.
+# Use startx instead or configure LightDM. According to [233] SLiM has ~/.Xauthority hardcoded.
+# The SDDM Xauthority path can be changed in its own configuration files as shown below.
+# Unfortunately, it is relative to the home directory.
 # export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority" # This line will break some DMs.
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
 export KODI_DATA="$XDG_DATA_HOME/kodi"
