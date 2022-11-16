@@ -1,5 +1,5 @@
 ; zm
-; registry=http://npm.zmops.cc/
+registry=http://npm.zmops.cc/
 ; npm
 ; registry=https://registry.npmjs.org/
 ; yarn
@@ -9,11 +9,11 @@
 ; cnpm
 ; registry=https://r.cnpmjs.org/
 ; taobao
-registry=https://registry.npmmirror.com/
+; registry=https://registry.npmmirror.com/
 ; npmMirror
 ; registry=https://skimdb.npmjs.com/registry/
 
-store-dir=${XDG_DATA_HOME}/pnpm-store to your npmrc
+store-dir=${XDG_DATA_HOME}/pnpm/store
 
 npm.zmops.cc/:_authToken="n2H433M8+odeWrYi2CQ7vtDge3WG3L8yKuzsQTezs0o="
 

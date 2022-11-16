@@ -10,6 +10,9 @@ export XDG_RUNTIME_DIR="/run/user/$UID"
 # Vim
 export VIMINIT='let $MYVIMRC = !has("nvim") ? "$XDG_CONFIG_HOME/vim/vimrc" : "$XDG_CONFIG_HOME/nvim/init.lua" | so $MYVIMRC'
 
+# vscode
+export VSCODE_PORTABLE="$XDG_DATA_HOME/vscode"
+
 # Bash
 export BASH_COMPLETION_USER_FILE="$XDG_CONFIG_HOME/bash-completion/bash_completion"
 
@@ -71,6 +74,7 @@ export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 # Wget
 export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
+
 # Unison & History
 export UNISON="$XDG_DATA_HOME/unison"
 export HISTFILE="$XDG_DATA_HOME/history"
