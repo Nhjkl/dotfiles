@@ -12,6 +12,7 @@ unclutter &
 dunst &
 fcitx5 &
 xrdb merge $XDG_CONFIG_HOME/x11/Xresources &
+rmmod pcspkr &
 
 if hash VBoxClient &>/dev/null; then
   VBoxClient --clipboard
