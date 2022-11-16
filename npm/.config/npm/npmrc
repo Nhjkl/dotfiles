@@ -1,5 +1,20 @@
-registry=http://registry.npmmirror.com/
-store-dir=/home/lx/.local/share/pnpm-store to your npmrc
+; zm
+registry=http://npm.zmops.cc/
+; npm
+; registry=https://registry.npmjs.org/
+; yarn
+; registry=https://registry.yarnpkg.com/
+; tencent
+; registry=https://mirrors.cloud.tencent.com/npm/
+; cnpm
+; registry=https://r.cnpmjs.org/
+; taobao
+; registry=https://registry.npmmirror.com/
+; npmMirror
+; registry=https://skimdb.npmjs.com/registry/
+
+store-dir=${XDG_DATA_HOME}/pnpm/store
+
 npm.zmops.cc/:_authToken="n2H433M8+odeWrYi2CQ7vtDge3WG3L8yKuzsQTezs0o="
 sass_binary_site=http://npmmirror.com/mirrors/node-sass
 SQLITE3_BINARY_SITE=http://npm.taobao.org/mirrors/sqlite3

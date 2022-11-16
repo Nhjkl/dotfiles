@@ -10,6 +10,9 @@ export XDG_RUNTIME_DIR="/run/user/$UID"
 # Vim
 export VIMINIT='let $MYVIMRC = !has("nvim") ? "$XDG_CONFIG_HOME/vim/vimrc" : "$XDG_CONFIG_HOME/nvim/init.lua" | so $MYVIMRC'
 
+# vscode
+export VSCODE_PORTABLE="$XDG_DATA_HOME/vscode"
+
 # Bash
 export BASH_COMPLETION_USER_FILE="$XDG_CONFIG_HOME/bash-completion/bash_completion"
 
@@ -41,6 +44,11 @@ export INPUTRC="${XDG_CONFIG_HOME:-$HOME/.config}/inputrc"
 # GTK
 export GTK2_RC_FILES="XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
 
+# Note that LightDM does not allow you to change this variable.
+# If you change it nonetheless, you will not be able to login.
+# Use startx instead or configure LightDM. According to [233] SLiM has ~/.Xauthority hardcoded.
+# The SDDM Xauthority path can be changed in its own configuration files as shown below.
+# Unfortunately, it is relative to the home directory.
 # export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority" # This line will break some DMs.
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
 export KODI_DATA="$XDG_DATA_HOME/kodi"
@@ -71,6 +79,7 @@ export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 # Wget
 export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
+
 # Unison & History
 export UNISON="$XDG_DATA_HOME/unison"
 export HISTFILE="$XDG_DATA_HOME/history"

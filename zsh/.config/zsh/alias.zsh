@@ -10,6 +10,7 @@ alias wttr="curl wttr.in"
 alias cz="git add .;git cz"
 alias proxyOn="export ALL_PROXY=socks5://192.168.100.1:7891"
 alias proxyOff="unset ALL_PROXY"
+alias yarn='yarn --use-yarnrc "$XDG_CONFIG_HOME/yarn/yarnrc"'
 
 alias pathList='echo -e ${PATH//:/\\n}'
 alias reloadShell="exec ${SHELL} -l"
