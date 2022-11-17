@@ -7,7 +7,6 @@ export XMODIFIERS=@im=fcitx5
 
 setbg &
 picom -CG &
-# vmware-user &
 unclutter &
 dunst &
 fcitx5 &
