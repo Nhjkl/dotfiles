@@ -1,3 +1,8 @@
+# New！欢迎使用基于DNS的新方案
+# https://gitlab.com/ineo6/hosts/-/raw/master/next-hosts
+# 地址可能会变动，请务必关注GitHub、Gitlab获取最新消息
+# 也可以关注公众号：湖中剑，保证不迷路
+# GitHub Host Start
 140.82.114.4 github.com
 140.82.114.4 gist.github.com
 185.199.108.153 assets-cdn.github.com
