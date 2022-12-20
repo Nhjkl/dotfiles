@@ -6,6 +6,7 @@ alias c=clear
 alias r=lfrun
 alias s=neofetch
 alias q=exit
+alias tk="tmux kill-server"
 alias wttr="curl wttr.in"
 alias cz="git add .;git cz"
 alias proxyOn="export ALL_PROXY=socks5://192.168.100.1:7891"
