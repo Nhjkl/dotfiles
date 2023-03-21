@@ -6,7 +6,10 @@ else
   . "$HOME/.xprofile"
 fi
 
+# ssh-agent dwm
+
 ssh-agent dwm
+# ssh-agent Hyprland
 
 # while true; do
 #   # Log stderror to a file

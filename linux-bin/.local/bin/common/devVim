@@ -2,4 +2,4 @@
 
 rm ~/.config/nvim
 
-ln -s ~/.local/src/nvim-start ~/.config/nvim
+ln -s ~/.local/learn/nvim-start ~/.config/nvim
