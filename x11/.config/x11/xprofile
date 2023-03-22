@@ -4,6 +4,7 @@ export INPUT_METHOD=fcitx5
 export GTK_IM_MODULE=fcitx5
 export QT_IM_MODULE=fcitx5
 export XMODIFIERS=@im=fcitx5
+export GLFW_IM_MODULE=ibus
 
 setbg &
 picom -CG &
@@ -13,13 +14,19 @@ fcitx5 &
 xrdb merge $XDG_CONFIG_HOME/x11/Xresources &
 # sudo rmmod pcspkr &
 
-if hash VBoxClient &>/dev/null; then
-  VBoxClient --clipboard
-  VBoxClient --checkhostversion
-  VBoxClient --seamless
-  VBoxClient --draganddrop
+if
+	hash VBoxClient &
+	>/dev/null
+then
+	VBoxClient --clipboard
+	VBoxClient --checkhostversion
+	VBoxClient --seamless
+	VBoxClient --draganddrop
 fi
 
-if hash vmware-user &>/dev/null; then
-  vmware-user &
+if
+	hash vmware-user &
+	>/dev/null
+then
+	vmware-user &
 fi

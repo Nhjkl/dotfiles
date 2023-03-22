@@ -9,7 +9,8 @@ unsetopt PROMPT_SP
 
 # Default programs:
 export EDITOR="nvim"
-export TERMINAL="alacritty"
+# export TERMINAL="alacritty"
+export TERMINAL="kitty"
 export BROWSER="firefox-developer-edition"
 export READER="zathura"
 export TERM=xterm-256color
