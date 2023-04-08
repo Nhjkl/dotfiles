@@ -13,7 +13,6 @@ registry=https://registry.npmmirror.com/
 
 store-dir=${XDG_DATA_HOME}/pnpm/store
 
-npm.zmops.cc/:_authToken="n2H433M8+odeWrYi2CQ7vtDge3WG3L8yKuzsQTezs0o="
 sass_binary_site=https://npm.taobao.org/mirrors/node-sass
 SQLITE3_BINARY_SITE=http://npm.taobao.org/mirrors/sqlite3
 canvas_binary_host_mirror=https://npm.taobao.org/mirrors/node-canvas-prebuilt/

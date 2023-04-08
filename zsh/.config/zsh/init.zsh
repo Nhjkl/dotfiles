@@ -41,3 +41,5 @@ export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
 export PNPM_HOME="$XDG_DATA_HOME/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
+
+export OPENAI_API_KEY="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"
