@@ -11,7 +11,7 @@ registry=https://registry.npmmirror.com/
 ; npmMirror
 ; registry=https://skimdb.npmjs.com/registry/
 
-store-dir=${XDG_DATA_HOME}/pnpm/store
+; store-dir=${XDG_DATA_HOME}/pnpm/store
 
 sass_binary_site=https://npm.taobao.org/mirrors/node-sass
 SQLITE3_BINARY_SITE=http://npm.taobao.org/mirrors/sqlite3

@@ -11,7 +11,8 @@ unsetopt PROMPT_SP
 export EDITOR="nvim"
 # export TERMINAL="alacritty"
 export TERMINAL="kitty"
-export BROWSER="firefox-developer-edition"
+# export BROWSER="firefox-developer-edition"
+export BROWSER="brave"
 export READER="zathura"
 export TERM=xterm-256color
 export MANPAGER="nvim -c 'set ft=man' -"

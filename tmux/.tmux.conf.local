@@ -39,4 +39,4 @@ set -g prefix2 C-]
 unbind C-a
 bind C-] send-prefix
 set-option -sa terminal-overrides ',XXX:Tc'
-
+bind-key -n M-3 run-shell 'toggle-tmux-popup'

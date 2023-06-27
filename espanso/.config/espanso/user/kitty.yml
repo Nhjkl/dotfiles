@@ -1,0 +1,9 @@
+filter_class: "kitty"
+
+fast_inject: false
+
+backend: Clipboard
+
+inject_delay: 15
+
+key_delay: 10
