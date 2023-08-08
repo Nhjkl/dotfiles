@@ -24,6 +24,16 @@ if ! hash "tmux" &>/dev/null; then
   yay -S tmux
 fi
 
+CODE_DIR="$HOME/.local/src"
+if [ ! -d "$CODE_DIR" ]; then
+  mkdir -p "$CODE_DIR";
+fi
+
+if [ ! -d "$CODE_DIR/oh-my-tmux" ]; then
+  git clone --depth=1 https://github.com/gpakosz/.tmux.git "$CODE_DIR/oh-my-tmux"
+  ln -s -f "$CODE_DIR/oh-my-tmux/.tmux.conf" "$HOME/.tmux.conf"
+fi
+
 # nvm
 nvm() {
   # install nvm
@@ -41,5 +51,3 @@ export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
 export PNPM_HOME="$XDG_DATA_HOME/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
-
-export OPENAI_API_KEY="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"
