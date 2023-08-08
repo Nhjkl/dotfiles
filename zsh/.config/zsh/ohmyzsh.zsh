@@ -19,10 +19,10 @@ fi
 cd $HOME;
 
 # Load syntax highlighting; should be last.
-source $ZSHPLUGIN/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
-source $ZSHPLUGIN/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
-source $ZSHPLUGIN/fzf-tab/fzf-tab.plugin.zsh 2>/dev/null
+# source $ZSHPLUGIN/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
+# source $ZSHPLUGIN/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+# source $ZSHPLUGIN/fzf-tab/fzf-tab.plugin.zsh 2>/dev/null
 
 # yarn
-plugins=(git npm pip vi-mode fzf-tab)
+plugins=(git npm pip vi-mode fzf-tab fast-syntax-highlighting zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
