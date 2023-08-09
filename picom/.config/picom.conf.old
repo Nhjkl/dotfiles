@@ -1,0 +1,85 @@
+animations = true;
+animation-stiffness-in-tag = 125;
+animation-stiffness-tag-change = 90.0;
+animation-window-mass = 0.4;
+animation-dampening = 15;
+animation-clamping = true;
+animation-for-open-window = "zoom";
+animation-for-unmap-window = "zoom";
+animation-for-transient-window = "slide-up"; #available options: slide-up, slide-down, slide-left, slide-right, squeeze, squeeze-bottom, zoom
+animation-for-prev-tag = "minimize";
+enable-fading-prev-tag = true;
+animation-for-next-tag = "slide-in-center";
+enable-fading-next-tag = true;
+
+shadow = false;
+shadow-radius = 12;
+shadow-offset-x = -20;
+shadow-offset-y = -20;
+
+transition-length = 200
+transition-pow-x = 0.05
+transition-pow-y = 0.05
+transition-pow-w = 0.05
+transition-pow-h = 0.05
+size-transition = true
+
+fading = true;
+fade-in-step = 0.03;
+fade-out-step = 0.03;
+fade-delta = 8
+fade-exclude = [ ]
+inactive-opacity = 1
+inactive-opacity-override = false
+active-opacity = 1;
+inactive-dim = 0;
+
+blur: {
+  method = "dual_kawase";
+  strength = 9;
+  background = true;
+  background-frame = false;
+  background-fixed = false;
+}
+
+
+opacity-rule = [
+  "100:fullscreen",
+  "100:class_g = 'brave'",
+  "0:class_g = 'picom:opacity:0'",
+  "10:class_g = 'picom:opacity:10'",
+  "20:class_g = 'picom:opacity:20'",
+  "30:class_g = 'picom:opacity:30'",
+  "40:class_g = 'picom:opacity:40'",
+  "50:class_g = 'picom:opacity:50'",
+  "60:class_g = 'picom:opacity:60'",
+  "70:class_g = 'picom:opacity:70'",
+  "80:class_g = 'picom:opacity:80'",
+  "90:class_g = 'picom:opacity:90'",
+  "100:class_g = 'picom:opacity:100'",
+  "100:name ~= '.*nvim' && focused",
+  "80:name ~= '.*nvim' && !focused",
+  "100:name *= 'broken'",
+  "100:name *= 'rofi'",
+  "100:name *= 'Obsidian'",
+  "95:class_g = 'Alacritty' && focused",
+  "90:class_g = 'Alacritty' && !focused",
+  "90:class_g = 'kitty' && focused",
+  "85:class_g = 'kitty' && !focused",
+  "95:class_g = 'org.wezfurlong.wezterm' && focused",
+  "90:class_g = 'org.wezfurlong.wezterm' && !focused",
+  "90:class_g = 'dwm' && !focused"
+];
+
+#log-level = "debug"
+log-level = "warn";
+
+# wintypes:
+# {
+#   normal = { fade = false; shadow = true; }
+#   tooltip = { fade = true; shadow = true; opacity = 0.8; focus = true; full-shadow = false; };
+#   dock = { shadow = false; opacity = 0.8}
+#   dnd = { shadow = true; }
+#   # popup_menu = { opacity = 0.8; }
+#   # dropdown_menu = { opacity = 0.8; }
+# };
