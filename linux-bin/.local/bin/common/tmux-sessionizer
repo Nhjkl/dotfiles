@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-session=$(find ~ ~/.local/learn ~/.local/src -mindepth 1 -maxdepth 1 -type d | sed -e 1a\/home/lx | fzf)
+session=$(find ~ ~/.local/learn ~/.local/work ~/.local/src -mindepth 1 -maxdepth 1 -type d | sed -e 1a\/home/lx | fzf)
 
 if [[ $session != "" ]]; then
 	dir_name=$(basename $(dirname "$session") | tr . _)
