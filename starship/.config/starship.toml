@@ -5,7 +5,7 @@ success_symbol = "[󰊠](bold green) "
 error_symbol = "[](bold red) "
 
 [aws]
-symbol = "  "
+symbol = " "
 
 [conda]
 symbol = " "
@@ -14,13 +14,13 @@ symbol = " "
 symbol = " "
 
 [directory]
-read_only = " 󰌾"
+read_only = "󰌾 "
 
 [docker_context]
-symbol = " "
+symbol = "󰡨 "
 
 [elixir]
-symbol = " "
+symbol = " "
 
 [elm]
 symbol = " "
@@ -72,3 +72,12 @@ symbol = " "
 
 [swift]
 symbol = "󰛥 "
+
+[lua]
+symbol = " "
+
+[zig]
+symbol = "↯ "
+
+[typescript]
+symbol = " "
