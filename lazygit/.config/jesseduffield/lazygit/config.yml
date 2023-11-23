@@ -19,7 +19,7 @@ gui:
       - blue
 customCommands:
   - key: "C"
-    command: "git commit"
+    command: "git add .;pnpm run cz"
     context: "files"
     loadingText: "opening commitizen commit tool"
     subprocess: true
