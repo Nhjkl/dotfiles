@@ -87,3 +87,8 @@ export HISTFILE="$XDG_DATA_HOME/history"
 export WEECHAT_HOME="$XDG_CONFIG_HOME/weechat"
 export MBSYNCRC="$XDG_CONFIG_HOME/mbsync/config"
 export ELECTRUMDIR="$XDG_DATA_HOME/electrum"
+
+# pyenv
+export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
+# bun
+export BUN_INSTALL="$XDG_DATA_HOME/bun"

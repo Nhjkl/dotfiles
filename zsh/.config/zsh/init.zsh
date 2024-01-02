@@ -44,7 +44,7 @@ nvm() {
   . "$NVM_DIR/nvm.sh" ; nvm $@ ;
 }
 
-export PATH=$NVM_DIR/versions/node/v16.15.0/bin/:$PATH
+export PATH=$NVM_DIR/versions/node/v20.9.0/bin/:$PATH
 export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
 
 # pnpm

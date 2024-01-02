@@ -13,6 +13,12 @@ registry=https://registry.npmmirror.com/
 
 ; store-dir=${XDG_DATA_HOME}/pnpm/store
 
+
+prefix=${XDG_DATA_HOME}/npm
+cache=${XDG_CACHE_HOME}/npm
+init-module=${XDG_CONFIG_HOME}/npm/config/npm-init.js
+logs-dir=${XDG_STATE_HOME}/npm/logs
+
 sass_binary_site=https://npm.taobao.org/mirrors/node-sass
 SQLITE3_BINARY_SITE=http://npm.taobao.org/mirrors/sqlite3
 canvas_binary_host_mirror=https://npm.taobao.org/mirrors/node-canvas-prebuilt/
