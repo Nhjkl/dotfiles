@@ -92,3 +92,5 @@ export ELECTRUMDIR="$XDG_DATA_HOME/electrum"
 export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
 # bun
 export BUN_INSTALL="$XDG_DATA_HOME/bun"
+# mplayer
+export MPLAYER_HOME="$XDG_CONFIG_HOME/mplayer"

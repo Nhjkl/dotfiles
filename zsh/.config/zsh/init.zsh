@@ -51,3 +51,8 @@ export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
 export PNPM_HOME="$XDG_DATA_HOME/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
+
+# atuin
+if hash "atuin" &>/dev/null; then
+  eval "$(atuin init zsh)"
+fi
