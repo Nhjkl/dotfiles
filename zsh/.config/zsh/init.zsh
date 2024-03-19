@@ -49,7 +49,10 @@ export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
 
 # pnpm
 export PNPM_HOME="$XDG_DATA_HOME/pnpm"
-export PATH="$PNPM_HOME:$PATH"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
 # pnpm end
 
 # atuin

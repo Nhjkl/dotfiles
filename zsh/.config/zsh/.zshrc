@@ -21,3 +21,4 @@ source "$ZDOTDIR/config.zsh"    # zshconf
 export BUN_INSTALL="$HOME/.bun" 
 export PATH="$BUN_INSTALL/bin:$PATH" 
 [ -s "/home/lx/.bun/_bun" ] && source "/home/lx/.bun/_bun"
+

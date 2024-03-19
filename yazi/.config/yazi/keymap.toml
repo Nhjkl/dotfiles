@@ -1,0 +1,15 @@
+# keymap.toml
+[manager]
+prepend_keymap = [
+  # ...
+  { on = [
+    "z",
+    "h",
+  ], run = "hidden toggle", desc = "Toggle the visibility of hidden files" },
+
+  # goto
+  { on = [
+    "g",
+    "w",
+  ], run = "cd /run/user/1000/gvfs/dav:host=192.168.100.1,port=5244,ssl=false,prefix=%2Fdav/ali_open", desc = "Go to the webdav directory" },
+]

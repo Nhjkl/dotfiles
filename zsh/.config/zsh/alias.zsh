@@ -3,7 +3,8 @@ alias v=nvim
 alias lz=lazygit
 alias c=clear
 # alias r=ranger
-alias r=lfrun
+# alias r=lfrun
+alias r=yazi
 alias s=neofetch
 alias q=exit
 alias tk="tmux kill-server"
@@ -21,8 +22,14 @@ if hash exa &>/dev/null; then
   alias l="exa -l -h -g -a --icons"
 fi
 
-# work
-if [ -f ~/.ssh/newjump ] ; then
-  export TERM=xterm-256color
-  alias jumpzm=~/.ssh/newjump
-fi
+,touch () {
+	mkdir -p "$(dirname "$1")" && touch "$1"
+}
+
+,vi () {
+	mkdir -p "$(dirname "$1")" && nvim "$1"
+}
+
+,take () {
+	mkdir -p "$(dirname "$1")" && take "$1"
+}
