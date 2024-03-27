@@ -23,15 +23,12 @@ if ! hash "tmux" &>/dev/null; then
   echo "install tmux..."
   yay -S tmux
 fi
-
-CODE_DIR="$HOME/.local/src"
-if [ ! -d "$CODE_DIR" ]; then
-  mkdir -p "$CODE_DIR";
-fi
-
-if [ ! -d "$CODE_DIR/oh-my-tmux" ]; then
-  git clone --depth=1 https://github.com/gpakosz/.tmux.git "$CODE_DIR/oh-my-tmux"
-  ln -s -f "$CODE_DIR/oh-my-tmux/.tmux.conf" "$HOME/.tmux.conf"
+# oh-my-tmux
+OH_MY_TMUX="$XDG_DATA_HOME/oh-my-tmux"
+if [ ! -d "$OH_MY_TMUX" ]; then
+  mkdir -p "$OH_MY_TMUX";
+  git clone --depth=1 https://github.com/gpakosz/.tmux.git "$OH_MY_TMUX"
+  ln -s -f "$OH_MY_TMUX/.tmux.conf" "$XDG_CONFIG_HOME/tmux/tmux.conf"
 fi
 
 # nvm
