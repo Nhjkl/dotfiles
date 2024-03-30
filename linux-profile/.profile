@@ -16,7 +16,7 @@ export TERMINAL="wezterm"
 export BROWSER="brave"
 export READER="zathura"
 export TERM=xterm-256color
-export MANPAGER="nvim -c 'set ft=man' -"
+# export MANPAGER="nvim -c 'set ft=man' -"
 export LESSHISTFILE="-"
 
 # Other program settings:
