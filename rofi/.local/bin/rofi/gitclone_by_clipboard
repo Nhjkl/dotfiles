@@ -16,6 +16,6 @@ menu=$(echo $content | sed 's/.*[\/]//g' | sed 's/\.git//g');
 
 notify-send -t 1000 "$menu clone complete." &;
 
-alacritty -t "$chosen" -e $SHELL -c "cd $dir/$menu; sleep 0.1; nvim; $SHELL";
+$TERMINAL -t "$chosen" -e $SHELL -c "cd $dir/$menu; sleep 0.1; nvim; $SHELL";
 
 exit 0

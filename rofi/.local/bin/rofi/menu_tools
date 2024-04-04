@@ -4,20 +4,14 @@ case "$(printf "\
 project\n\
 learnproject\n\
 gitclone\n\
-emoji\n\
 token\n\
 ssh\n\
-trojan\n\
 wttr\n\
-trayer\n\
 " | rofi -dmenu -p "Project" -no-custom -theme $HOME/.config/rofi/launchers/text/style_7)" in
-  project) menu_project;;
-  learnproject) menu_learn_project;;
-  gitclone) menu_gitclone;;
-  emoji) menu_unicode;;
-  token) getToken;;
-  ssh) menu_ssh;;
-  trojan) ~/.local/src/trojan/trojan -c ~/.local/src/trojan/config.json;;
-  wttr) alacritty -t wttr -e $SHELL -c "curl wttr.in; $SHELL";;
-  trayer) trtoggle;;
+project) menu_project ;;
+learnproject) menu_learn_project ;;
+gitclone) menu_gitclone ;;
+token) getToken ;;
+ssh) menu_ssh ;;
+wttr) alacritty -t wttr -e $SHELL -c "curl wttr.in; $SHELL" ;;
 esac
