@@ -5,11 +5,11 @@ dir="$XDG_CONFIG_HOME/rofi/powermenu"
 rofi_command="rofi -theme $dir/card_rounded.rasi"
 
 # Options
-shutdown=""
-reboot=""
-lock=""
-suspend=""
-logout=""
+shutdown=""
+reboot="󰑓"
+lock=""
+suspend=""
+logout=""
 
 # Confirmation
 confirm_exit() {

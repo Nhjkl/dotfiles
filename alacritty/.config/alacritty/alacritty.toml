@@ -1,0 +1,32 @@
+import = ["~/.config/alacritty/themes/tokyo-night-storm.toml"]
+[window.padding]
+x = 4
+y = 0
+
+[font]
+size = 16
+
+[font.bold]
+family = "JetBrainsMonoNL NFM"
+style = "Bold"
+
+[font.bold_italic]
+family = "JetBrainsMonoNL NFM"
+style = "Bold Italic"
+
+[font.italic]
+family = "JetBrainsMonoNL NFM"
+style = "Italic"
+
+[font.normal]
+family = "JetBrainsMonoNL NFM"
+style = "Regular"
+
+[debug]
+log_level = "Off"
+
+[env]
+LANG = "en_US.UTF-8"
+LC_CTYPE = "en_US.UTF-8"
+TERM = "xterm-256color"
+# TERM = "alacritty"
