@@ -5,8 +5,8 @@ dir=~/.local/$1/;
 
 cd $dir;
 
-export https_proxy="socks5://127.0.0.1:1080";
-export http_proxy="socks5://127.0.0.1:1080";
+# export https_proxy="socks5://127.0.0.1:1080";
+# export http_proxy="socks5://127.0.0.1:1080";
 
 notify-send  "$dir" "git clone $content ..." &;
 
@@ -16,6 +16,9 @@ menu=$(echo $content | sed 's/.*[\/]//g' | sed 's/\.git//g');
 
 notify-send -t 1000 "$menu clone complete." &;
 
-alacritty -t "$chosen" -e $SHELL -c "cd $dir/$menu; sleep 0.1; nvim; $SHELL";
+# kitty -T "$chosen" -e $SHELL -c "cd $dir/$menu; sleep 0.1; nvim; $SHELL";
+
+session=$dir/$menu;
+tmux-opener $session
 
 exit 0

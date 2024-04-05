@@ -1,10 +1,10 @@
 #! /usr/bin/env bash
 if [ $(tmux ls 2>/dev/null | grep -o attached) ]; then
-  session=$(tmux ls | fzf)
-  if [[ $session != "" ]]; then
-    session_name=$(echo $session | sed 's/:.*)//')
-    tmux switch-client -t "$session_name"
-  fi
+	session=$(tmux ls | fzf)
+	if [[ $session != "" ]]; then
+		session_name=$(echo $session | sed 's/:.*)//')
+		tmux switch-client -t "$session_name"
+	fi
 else
-  tmux-sessionizer
+	tmux-sessionizer
 fi

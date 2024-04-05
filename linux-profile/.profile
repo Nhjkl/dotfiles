@@ -10,14 +10,15 @@ unsetopt PROMPT_SP
 # Default programs:
 export EDITOR="nvim"
 # export TERMINAL="alacritty"
-# export TERMINAL="kitty"
-export TERMINAL="wezterm"
+export TERMINAL="kitty"
+# export TERMINAL="wezterm"
 # export BROWSER="firefox-developer-edition"
 export BROWSER="brave"
 export READER="zathura"
 export TERM=xterm-256color
 # export MANPAGER="nvim -c 'set ft=man' -"
 export LESSHISTFILE="-"
+export DESKTOP_SESSION="dwm"
 
 # Other program settings:
 [ -f "$XDG_CONFIG_HOME/rofi/scripts/askpass-rofi" ] && export SUDO_ASKPASS="$XDG_CONFIG_HOME/rofi/scripts/askpass-rofi"

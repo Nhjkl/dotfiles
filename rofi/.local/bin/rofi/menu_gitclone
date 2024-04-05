@@ -3,7 +3,9 @@
 case "$(printf "\
 work\n\
 learn\n\
+src\n\
 " | rofi -dmenu -p "git clone to ..." -no-custom -theme $HOME/.config/rofi/launchers/text/style_7)" in
-  work) gitclone_by_clipboard work;;
-  learn) gitclone_by_clipboard learn;;
+src) gitclone_by_clipboard src ;;
+work) gitclone_by_clipboard work ;;
+learn) gitclone_by_clipboard learn ;;
 esac

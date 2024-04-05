@@ -10,12 +10,12 @@
 configuration {
     font: 							"Iosevka Nerd Font 12";
     fixed-num-lines: 				true;
-    show-icons: 					false;
+    show-icons: 					true;
     sidebar-mode: 					true;
     scroll-method: 					0;
     window-format: 					"[{w}] ··· {c} ···   {t}";
     click-to-exit: 					true;
-    combi-hide-mode-prefix: 		false;
+    combi-hide-mode-prefix: 		true;
     display-window: 				"";
     display-windowcd: 				"";
     display-run: 					"";
@@ -24,7 +24,7 @@ configuration {
     display-combi: 					"";
 }
 
-@import "styles/colors.rasi"
+@import "styles/nightly.rasi"
 
 * {
     background-color:             	@bg;
@@ -87,8 +87,12 @@ listview {
 }
 
 element-text, element-icon {
-    background-color: #00000000;
-    text-color:       inherit;
+  background-color:       #00000000;
+  text-color:             inherit;
+  size:                   35px;
+  margin:                 5px;
+  vertical-align:         0.5;
+  border:                 0px;
 }
 
 element {
