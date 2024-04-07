@@ -16,9 +16,8 @@ menu=$(echo $content | sed 's/.*[\/]//g' | sed 's/\.git//g');
 
 notify-send -t 1000 "$menu clone complete." &;
 
-# kitty -T "$chosen" -e $SHELL -c "cd $dir/$menu; sleep 0.1; nvim; $SHELL";
-
 session=$dir/$menu;
-tmux-opener $session
+
+kitty -T "$chosen" -e $SHELL -c "tmux-opener $session";
 
 exit 0
