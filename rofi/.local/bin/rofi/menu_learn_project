@@ -2,13 +2,21 @@
 dir="$HOME/.config/rofi/launchers/text"
 theme="style_7"
 
-chosen=$(cd ~/.local/learn; ls -d */ | rofi -dmenu -p "Project" -no-custom -theme $dir/"$theme")
+chosen=$(
+	cd ~/.local/learn
+	ls -d */ | rofi -dmenu -p "Project" -no-custom -theme $dir/"$theme"
+)
 
-base=$(cd ~/.local/learn; pwd)
+base=$(
+	cd ~/.local/learn
+	pwd
+)
 
 # Exit if none chosen.
 [ -z "$chosen" ] && exit
 
-alacritty -t " (nvim) $chosen" -e $SHELL -c "cd $base/$chosen; sleep 0.1; nvim; $SHELL"
+# alacritty -t " (nvim) $chosen" -e $SHELL -c "cd $base/$chosen; sleep 0.1; nvim; $SHELL"
+# vscodium $base/$chosen
+code $base/$chosen
 
 exit 0

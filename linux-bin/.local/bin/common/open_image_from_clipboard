@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# 从剪贴板获取图片地址
+image_url=$(xclip -selection clipboard -o)
+
+# 检查图片地址是否为空
+if [ -z "$image_url" ]; then
+    echo "未找到图片地址"
+    exit 1
+fi
+
+# 使用feh打开图片
+feh "$image_url"

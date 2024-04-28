@@ -1,0 +1,44 @@
+#!/bin/bash
+
+cd ~/.local/work/videos_list/
+
+# 获取所有的 *.vlist 文件
+vlist_files=$(find . -name "*.vlist")
+
+# 如果没有找到任何 .vlist 文件，则提示并退出
+if [ -z "$vlist_files" ]; then
+	echo "No .vlist files found."
+	exit 1
+fi
+
+# 使用 fzf 让用户选择 .vlist 文件
+selected_file=$(echo "$vlist_files" | fzf --prompt="Select .vlist file: ")
+
+# 如果用户未选择文件，则退出
+if [ -z "$selected_file" ]; then
+	echo "No file selected. Exiting."
+	exit 1
+fi
+
+# 输出选择的文件名
+echo "Selected file: $selected_file"
+
+# 输出文件名
+echo "Scanning $selected_file:"
+# 使用 grep 查找 HTTP 地址，并通过 awk 提取方括号内的内容，并使用 fzf 进行选择
+selected=$(grep -o '\[.*\]' "$selected_file" | awk -F'[][]' '{print $2}' | fzf --multi)
+
+# 如果选择的不为空，则循环处理每个选择的项
+if [ -n "$selected" ]; then
+	# 循环处理每个选择的项，使用 VLC 打开对应的 HTTP 地址
+	echo "$selected" | while read -r line; do
+		# 根据方括号内的内容在文件中查找对应的 HTTP 地址，并使用 VLC 打开
+		grep "\[$line\]" "$selected_file" | grep -oP 'http[^)]+\)?.*[^)]' | while read -r http_line; do
+			# 输出 HTTP 地址
+			echo "Opening VLC with URL: $http_line"
+			# 使用 VLC 打开 HTTP 地址
+			# vlc "$http_line" &
+			nohup vlc "$http_line" >/dev/null 2>&1 &
+		done
+	done
+fi

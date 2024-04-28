@@ -1,15 +1,15 @@
 #!/bin/sh
 
 case "$(printf "\
-project\n\
 learnproject\n\
+project\n\
 gitclone\n\
 token\n\
 ssh\n\
 wttr\n\
 " | rofi -dmenu -p "Project" -no-custom -theme $HOME/.config/rofi/launchers/text/style_7)" in
-project) menu_project ;;
 learnproject) menu_learn_project ;;
+project) menu_project ;;
 gitclone) menu_gitclone ;;
 token) getToken ;;
 ssh) menu_ssh ;;

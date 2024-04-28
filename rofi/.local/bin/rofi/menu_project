@@ -5,7 +5,7 @@ theme="style_7"
 # rofi -show drun -sorting-method fzf -sort
 
 chosen=$(
-	cd ~/.local/ac-work
+	cd ~/.local/work
 	ls -d */ | rofi -dmenu -p "Project" -theme $dir/"$theme"
 )
 
@@ -17,6 +17,7 @@ base=$(
 # Exit if none chosen.
 [ -z "$chosen" ] && exit
 
-alacritty -t " (nvim) - $chosen" -e $SHELL -c "cd $base/$chosen; sleep 0.1; nvim; $SHELL"
+# alacritty -t " (nvim) - $chosen" -e $SHELL -c "cd $base/$chosen; sleep 0.1; nvim; $SHELL"
+code $base/$chosen
 
 exit 0

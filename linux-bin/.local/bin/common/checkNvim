@@ -1,0 +1,75 @@
+#!/bin/bash
+INSTALL_PATH=~/.local/src
+BACKUP_PATH=~/.local/backup
+# $1 为空则是安装
+if [ "$1" == "" ]; then
+	# 获取Neovim的发布页面内容
+	response=$(curl -s https://github.com/neovim/neovim/releases)
+
+	# 使用正则表达式匹配Neovim的dev版本
+	dev_version_pattern="NVIM v.*dev.*"
+	dev_versions=$(echo "$response" | grep -oE "$dev_version_pattern" | sort | uniq)
+
+	# 打印Neovim的dev版本
+	echo "Neovim的dev版本:"
+	echo "$dev_versions"
+
+	# 获取本地Neovim版本
+	local_version=$(nvim -v | grep -oE "$dev_version_pattern" | sort | uniq)
+
+	# 打印本地Neovim版本
+	echo "本地Neovim版本:"
+	echo "$local_version"
+
+	# 比较本地Neovim版本与页面上的版本
+	if [[ $dev_versions == $local_version ]]; then
+		echo "无需更新!"
+	else
+		# 询问用户是否要进行升级
+		read -p "检测到Neovim有新版本，是否进行升级？(y/n): " choice
+		if [[ $choice == 'y' || $choice == 'Y' ]]; then
+			# 备份当前的Neovim
+			echo "正在备份当前的Neovim..."
+			mkdir -p $BACKUP_PATH
+			cp -r $INSTALL_PATH/nvim-linux64 $BACKUP_PATH/nvim-linux64-$(date +%Y%m%d%H%M%S)
+			rm -rf $INSTALL_PATH/nvim-linux64
+			rm -rf $INSTALL_PATH/nvim-linux64.tar.gz
+			# 下载最新版本的Neovim到$INSTALL_PATH目录
+			echo "正在下载最新版本的Neovim..."
+			wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz -P $INSTALL_PATH
+			echo "下载完成!"
+			echo "正在解压Neovim..."
+			tar -zxvf $INSTALL_PATH/nvim-linux64.tar.gz -C $INSTALL_PATH
+			nvim -v
+		else
+			echo "取消升级!"
+		fi
+	fi
+fi
+
+# 回滚功能
+if [ "$1" == "rollback" ]; then
+	# 获取最新的备份版本
+	# latest_backup_version=$(ls -t $BACKUP_PATH | grep -oE "nvim-linux64-.*" | head -n 1)
+	latest_backup_version=$(ls -t $BACKUP_PATH | grep -oE "nvim-linux64-.*" | fzf)
+	echo "正在回滚到备份版本: $latest_backup_version"
+	# 如果$latest_backup_versiony不为空
+	if [ "$latest_backup_version" ]; then
+		rm -rf $INSTALL_PATH/nvim-linux64
+		cp -r $BACKUP_PATH/$latest_backup_version $INSTALL_PATH/nvim-linux64
+		nvim -v
+	fi
+fi
+
+# 清除备份版本
+if [ "$1" == "clean" ]; then
+	echo "正在清除备份版本..."
+	rm -rf $BACKUP_PATH
+fi
+
+# 手动备份
+if [ "$1" == "backup" ]; then
+	echo "正在备份当前的Neovim..."
+	mkdir -p $BACKUP_PATH
+	cp -r $INSTALL_PATH/nvim-linux64 $BACKUP_PATH/nvim-linux64-$(date +%Y%m%d%H%M%S)
+fi
