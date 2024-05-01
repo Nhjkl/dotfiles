@@ -2,82 +2,195 @@
 
 add_newline = false
 
-[character]
-success_symbol = "[󰮯](bold green) "
-error_symbol = "[󰊠](bold red) "
+# format = """
+# [](surface0)\
+# $os\
+# $username\
+# [](bg:peach fg:surface0)\
+# $directory\
+# [](fg:peach bg:green)\
+# $git_branch\
+# $git_status\
+# [](fg:green bg:teal)\
+# $c\
+# $rust\
+# $golang\
+# $nodejs\
+# $php\
+# $java\
+# $kotlin\
+# $haskell\
+# $python\
+# [](fg:teal bg:blue)\
+# $docker_context\
+# [](fg:blue bg:purple)\
+# $time\
+# [ ](fg:purple)\
+# $line_break$character"""
 
-[aws]
-symbol = " "
+format = """
+[](surface0)\
+$os\
+$username\
+$directory\
+$git_branch\
+$git_status\
+$c\
+$rust\
+$golang\
+$nodejs\
+$php\
+$java\
+$kotlin\
+$haskell\
+$python\
+$time\
+[ ](fg:surface0)\
+$line_break$character"""
 
-[conda]
-symbol = " "
+palette = 'catppuccin_mocha'
 
-[dart]
-symbol = " "
+[palettes.catppuccin_mocha]
+rosewater = "#f5e0dc"
+flamingo = "#f2cdcd"
+pink = "#f5c2e7"
+orange = "#cba6f7"
+red = "#f38ba8"
+maroon = "#eba0ac"
+peach = "#fab387"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+teal = "#94e2d5"
+sky = "#89dceb"
+sapphire = "#74c7ec"
+blue = "#89b4fa"
+lavender = "#b4befe"
+text = "#cdd6f4"
+subtext1 = "#bac2de"
+subtext0 = "#a6adc8"
+overlay2 = "#9399b2"
+overlay1 = "#7f849c"
+overlay0 = "#6c7086"
+surface2 = "#585b70"
+surface1 = "#45475a"
+# surface0 = "#313244"
+surface0 = "#313244"
+base = "#1e1e2e"
+mantle = "#181825"
+crust = "#11111b"
+
+[os]
+disabled = false
+style = "bg:surface0 fg:green"
+
+[os.symbols]
+Windows = "󰍲"
+Ubuntu = "󰕈"
+SUSE = ""
+Raspbian = "󰐿"
+Mint = "󰣭"
+Macos = ""
+Manjaro = ""
+Linux = "󰌽"
+Gentoo = "󰣨"
+Fedora = "󰣛"
+Alpine = ""
+Amazon = ""
+Android = ""
+Arch = "󰣇"
+Artix = "󰣇"
+CentOS = ""
+Debian = "󰣚"
+Redhat = "󱄛"
+RedHatEnterprise = "󱄛"
+
+[username]
+show_always = true
+style_user = "bold bg:surface0 fg:green"
+style_root = "bold bg:surface0 fg:green"
+format = '[ $user ]($style)'
 
 [directory]
-read_only = "󰌾 "
+style = "bold fg:teal bg:surface0"
+format = "[$path]($style)"
+# truncation_length = 3
+# truncation_symbol = "…/"
 
-[docker_context]
-symbol = "󰡨 "
-
-[elixir]
-symbol = " "
-
-[elm]
-symbol = " "
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = "󰝚 "
+"Pictures" = " "
+"Developer" = "󰲋 "
 
 [git_branch]
-symbol = " "
+symbol = ""
+style = "bg:surface0"
+format = '[[ $symbol $branch ](bold fg:sky bg:surface0)]($style)'
+
+[git_status]
+style = "bg:surface0"
+format = '[[($all_status$ahead_behind)](bold fg:sky bg:surface0)]($style)'
+
+[nodejs]
+symbol = ""
+style = "bg:teal"
+format = '[[ $symbol( $version)](bold fg:sapphire bg:surface0)]($style)'
+
+[c]
+symbol = " "
+style = "bg:teal"
+format = '[[ $symbol( $version)](bold fg:sapphire bg:surface0)]($style)'
+
+[rust]
+symbol = ""
+style = "bg:teal"
+format = '[[ $symbol( $version)](bold fg:sapphire bg:surface0)]($style)'
 
 [golang]
-symbol = " "
+symbol = ""
+style = "bg:teal"
+format = '[[ $symbol( $version)](bold fg:sapphire bg:surface0)]($style)'
 
-[hg_branch]
-symbol = " "
+[php]
+symbol = ""
+style = "bg:teal"
+format = '[[ $symbol( $version)](bold fg:sapphire bg:surface0)]($style)'
 
 [java]
 symbol = " "
+style = "bg:teal"
+format = '[[ $symbol( $version)](bold fg:sapphire bg:surface0)]($style)'
 
-[julia]
-symbol = " "
+[kotlin]
+symbol = ""
+style = "bg:teal"
+format = '[[ $symbol( $version)](bold fg:sapphire bg:surface0)]($style)'
 
-[memory_usage]
-symbol = "󰍛 "
-
-[nim]
-symbol = "󰆥 "
-
-[nix_shell]
-symbol = " "
-
-[package]
-symbol = "󰏗 "
-
-[perl]
-symbol = " "
-
-[php]
-symbol = " "
+[haskell]
+symbol = ""
+style = "bg:teal"
+format = '[[ $symbol( $version)](bold fg:sapphire bg:surface0)]($style)'
 
 [python]
-symbol = " "
+symbol = ""
+style = "bg:teal"
+format = '[[ $symbol( $version)](bold fg:sapphire bg:surface0)]($style)'
 
-[ruby]
-symbol = " "
+[docker_context]
+symbol = ""
+style = "bg:mantle"
+format = '[[ $symbol( $context)](bold fg:sapphire bg:surface0)]($style)'
 
-[rust]
-symbol = " "
-# format = 'via [ $version](green bold)'
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:peach"
+format = '[[  $time ](bold fg:blue bg:surface0)]($style)'
 
-[scala]
-symbol = " "
+[line_break]
+disabled = false
 
-[swift]
-symbol = "󰛥 "
-
-[lua]
-symbol = " "
-
-[zig]
-symbol = "↯ "
+[character]
+success_symbol = "[󰮯](bold green) "
+error_symbol = "[󰊠](bold red) "
