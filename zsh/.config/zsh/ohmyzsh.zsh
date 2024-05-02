@@ -16,11 +16,6 @@ if [ ! -d $ZSHPLUGIN/fzf-tab ] ; then
   git clone --depth=1 https://github.com/Aloxaf/fzf-tab.git $ZSHPLUGIN/fzf-tab;
 fi
 
-# Load syntax highlighting; should be last.
-# source $ZSHPLUGIN/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
-# source $ZSHPLUGIN/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
-# source $ZSHPLUGIN/fzf-tab/fzf-tab.plugin.zsh 2>/dev/null
-
-# yarn
 plugins=(git npm pip vi-mode fzf-tab fast-syntax-highlighting zsh-autosuggestions)
+
 source $ZSH/oh-my-zsh.sh
