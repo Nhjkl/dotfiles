@@ -126,11 +126,11 @@ format = "[$path]($style)"
 [git_branch]
 symbol = ""
 style = "bg:surface0"
-format = '[[ $symbol $branch ](bold fg:sky bg:surface0)]($style)'
+format = '[[ $symbol $branch](bold fg:sky bg:surface0)]($style)'
 
 [git_status]
 style = "bg:surface0"
-format = '[[($all_status$ahead_behind)](bold fg:sky bg:surface0)]($style)'
+format = '[[ ($all_status$ahead_behind)](bold fg:sky bg:surface0)]($style)'
 
 [nodejs]
 symbol = ""
