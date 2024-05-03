@@ -16,8 +16,8 @@ tmux_conf_theme_colour_14=#5D688E    # dark gray
 tmux_conf_theme_colour_15=#222436    # dark gray
 tmux_conf_theme_colour_16=#222436    # red
 tmux_conf_theme_colour_17=#222436    # white
-
-tmux_conf_theme_status_right='#{prefix}#{pairing} %Y-%m-%d %H:%M'
+# 
+tmux_conf_theme_status_right='#{prefix}#{pairing}  %Y-%m-%d %H:%M'
 
 set -g prefix2 C-]
 unbind C-a
