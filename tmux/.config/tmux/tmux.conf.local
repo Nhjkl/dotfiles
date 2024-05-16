@@ -27,3 +27,4 @@ bind-key -n M-n run-shell 'tmux neww'
 bind-key -n M-m run-shell 'tmux select-window -T'
 
 set-option -sa terminal-overrides ',XXX:Tc'
+set -gq allow-passthrough on
