@@ -8,6 +8,7 @@ eval "$(starship init zsh)"
 [ -f "$CARGO_HOME/env" ] && source "$CARGO_HOME/env"
 export RUSTUP_DIST_SERVER=https://mirrors.sjtug.sjtu.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.sjtug.sjtu.edu.cn/rust-static/rustup
+export PATH="$CARGO_HOME/bin:$PATH"
 
 # GEM
 if hash "ruby" &>/dev/null; then

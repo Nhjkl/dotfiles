@@ -14,9 +14,9 @@ backup_neovim() {
 
 # $1 为空则是安装
 if [ "$1" == "" ]; then
-	if type proxyOn &>/dev/null; then
-		proxyOn
-	fi
+	# if type proxyOn &>/dev/null; then
+	# 	proxyOn
+	# fi
 	# 获取Neovim的发布页面内容
 	response=$(curl -s https://github.com/neovim/neovim/releases)
 	# 使用正则表达式匹配Neovim的dev版本
@@ -48,9 +48,9 @@ if [ "$1" == "" ]; then
 		fi
 	fi
 
-	if type proxyOff &>/dev/null; then
-		proxyOff
-	fi
+	# if type proxyOff &>/dev/null; then
+	# 	proxyOff
+	# fi
 fi
 
 # 回滚功能
