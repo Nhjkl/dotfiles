@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 case $BLOCK_BUTTON in
-	1) notify-send "🖥 CPU hogs" "$(ps axch -o cmd:15,%cpu --sort=-%cpu | head)\\n(100% per core)" ;;
-  2) "$TERMINAL" -t "nvim" -e $SHELL -c "sleep 0.1;$EDITOR $0";;
-	3) setsid -f "$TERMINAL" -e gotop ;;
+1) notify-send "🖥 CPU hogs" "$(ps axch -o cmd:15,%cpu --sort=-%cpu | head)\\n(100% per core)" ;;
+2) "$TERMINAL" -t "nvim" -e $SHELL -c "sleep 0.1;$EDITOR $0" ;;
+3) setsid -f "$TERMINAL" -e btop ;;
 esac
 
 . $HOME/.local/bin/dwm/bar_themes/onedark
