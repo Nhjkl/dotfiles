@@ -4,14 +4,13 @@
 # printf "^c$blue^   $get_capacity"
 #
 
-for battery in /sys/class/power_supply/BAT?
-do
+for battery in /sys/class/power_supply/BAT?; do
 	# Get its remaining capacity and charge status.
 	capacity=$(cat "$battery"/capacity 2>/dev/null) || break
 
 	status=$(sed "s/[Dd]ischarging//;s/[Nn]ot charging/ﭦ/;s/[Cc]harging//;s/[Uu]nknown//;s/[Ff]ull//" "$battery"/status)
 
-  [ "$capacity" -le 25 ] && [ "$status" = "" ] && warn=""
+	[ "$capacity" -le 25 ] && [ "$status" = "" ] && warn=""
 
 	printf "^c$blue^%s%s%s%% " "$status " "$warn" "$capacity"
 	unset warn

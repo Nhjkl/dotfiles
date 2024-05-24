@@ -15,3 +15,7 @@ source "$ZDOTDIR/alias.zsh"     # zshalias
 source "$ZDOTDIR/bindkey.zsh"   # zshbindKey
 source "$ZDOTDIR/config.zsh"    # zshconf
 
+
+# fnm
+export PATH="/root/.local/share/fnm:$PATH"
+eval "`fnm env`"
