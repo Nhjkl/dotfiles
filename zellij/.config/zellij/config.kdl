@@ -1,0 +1,38 @@
+layout_dir "/home/lx/.config/zellij/layouts"
+theme_dir "/home/lx/.config/zellij/themes"
+theme "tokyo-night-dark"
+default_layout "simple"
+
+keybinds {
+    normal clear-defaults=true {
+        bind "Ctrl b" { SwitchToMode "Tmux"; }
+    }
+
+    tmux clear-defaults=true {
+        bind "Ctrl b" { Write 2; SwitchToMode "Normal"; }
+        bind "Esc" { SwitchToMode "Normal"; }
+        bind "g" { SwitchToMode "Locked"; }
+        bind "p" { SwitchToMode "Pane"; }
+        bind "t" { SwitchToMode "Tab"; }
+        bind "n" { SwitchToMode "Resize"; }
+        bind "h" { SwitchToMode "Move"; }
+        bind "s" { SwitchToMode "Scroll"; }
+        bind "o" { SwitchToMode "Session"; }
+        bind "q" { Quit; }
+    }
+}
+
+plugins {
+    tab-bar location="zellij:tab-bar"
+    status-bar location="zellij:status-bar"
+    strider location="zellij:strider"
+    compact-bar location="zellij:compact-bar"
+    session-manager location="zellij:session-manager"
+    welcome-screen location="zellij:session-manager" {
+        welcome_screen true
+    }
+    filepicker location="zellij:strider" {
+        cwd "/"
+    }
+}
+
