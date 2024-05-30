@@ -1,0 +1,18 @@
+#! /usr/bin/env bash
+session=$(find ~ ~/.local/learn ~/.local/work ~/.local/src -mindepth 1 -maxdepth 1 -type d | sed -e 1a\/home/lx | fzf)
+
+if [[ $session != "" ]]; then
+	dir_name=$(basename $(dirname "$session") | tr . _)
+	file_name=$(basename "$session") # zellij does not require file_name to be transformed
+
+	session_name=$dir_name$file_name
+
+	session_exists=$(zellij list-sessions | grep -oP '^\S+(?= \[)')
+
+	if ! echo "$session_exists" | grep "${session_name}"; then
+		# zellij --session $session_name
+		(cd "$session" && zellij --session $session_name)
+	else
+		zellij attach $session_name
+	fi
+fi
