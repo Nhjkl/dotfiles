@@ -1,5 +1,5 @@
 [user]
-  name = liuxian
+  name = sean
   email = liuxiangogo@gmail.com
 [alias]
   st = status -s
@@ -26,17 +26,9 @@
   editor = nvim
 [pull]
   rebase = false
-[includeIf "gitdir:~/.local/work/"]
-  path = ~/.local/work/.gitconfig
 [credential]
   helper = store
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
 [http]
   sslVerify = false
-	proxy = socks5://192.168.100.1:7891
 [https]
-	proxy = socks5://192.168.100.1:7891
+  sslVerify = false

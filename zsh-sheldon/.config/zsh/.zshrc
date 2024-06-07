@@ -1,0 +1,6 @@
+source "$ZDOTDIR/config.zsh"
+source "$ZDOTDIR/init.zsh"
+eval "$(sheldon source)"
+source "$ZDOTDIR/vimode.zsh"
+source "$ZDOTDIR/alias.zsh"
+source "$ZDOTDIR/bindkey.zsh"

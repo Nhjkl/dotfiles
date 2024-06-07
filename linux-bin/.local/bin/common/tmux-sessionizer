@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
-session=$(find ~ ~/.local/learn ~/.local/work ~/.local/src -mindepth 1 -maxdepth 1 -type d | sed -e 1a\/home/lx | fzf)
+obsidian=/mnt/d/Users/liuxian/Documents/obsidian
 
-tmux-opener $session
+session=$(find ~ ~/.config ~/.local/learn ~/.local/work ~/.local/src $obsidian -mindepth 1 -maxdepth 1 \( -type d -o -type l \) | sed -e 1a\/home/sean | fzf --preview 'eza -lh --icons {} 2>/dev/null || ls -lh {}' --preview-window=right:40%)
+
+tmux-opener "$session"

@@ -2,27 +2,29 @@ alias vi=nvim
 alias v=nvim
 alias lz=lazygit
 alias c=clear
-# alias r=ranger
-# alias r=lfrun
-alias r=yazi
-alias s=neofetch
+alias s=fastfetch
 alias q=exit
 alias tk="tmux kill-server"
 alias wttr="curl wttr.in"
+alias pp='/home/sean/.local/src/password-store/pass-fzf.sh'
 alias cz="git add .;git cz"
 alias yarn='yarn --use-yarnrc "$XDG_CONFIG_HOME/yarn/config"'
-
-alias pathList='echo -e ${PATH//:/\\n}'
-alias reloadShell="exec ${SHELL} -l"
-alias bravekill="ps ux | grep 'Brave Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
 
 if hash exa &>/dev/null; then
   alias l="exa -l -h -g -a --icons"
 fi
 
+r() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  command yazi "$@" --cwd-file="$tmp"
+  IFS= read -r -d '' cwd < "$tmp"
+  [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+  rm -f -- "$tmp"
+}
+
 proxyOn() {
-  export all_proxy=socks5://192.168.100.1:7891
-  export http_proxy=http://192.168.100.1:7890
+  export all_proxy=socks5://127.0.0.1:7890
+  export http_proxy=http://127.0.0.1:7890
   export https_proxy=${http_proxy}
   export ALL_PROXY=${all_proxy}
   export HTTP_PROXY=${http_proxy}

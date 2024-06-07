@@ -1,0 +1,75 @@
+┌─────────────────────────────────────────────────────────────┐
+│  Tmux Prefix 输入法自动切换 - 快速参考                  │
+└─────────────────────────────────────────────────────────────┘
+
+功能说明:
+  按下 Ctrl+] 时，自动将中文输入法切换到英文
+
+───────────────────────────────────────────────────────────────
+
+常用命令:
+
+  查看服务状态:
+    systemctl --user status tmux-prefix-monitor.service
+
+  重启服务:
+    systemctl --user restart tmux-prefix-monitor.service
+
+  查看日志:
+    tail -f ~/.local/share/tmux-prefix-monitor.log
+
+  查看系统日志:
+    journalctl --user -u tmux-prefix-monitor.service -f
+
+  停止服务:
+    systemctl --user stop tmux-prefix-monitor.service
+
+  启动服务:
+    systemctl --user start tmux-prefix-monitor.service
+
+───────────────────────────────────────────────────────────────
+
+系统资源:
+
+  内存占用: ~3MB
+  CPU 使用: < 0.1%
+  响应延迟: 100ms
+
+───────────────────────────────────────────────────────────────
+
+故障排除:
+
+  问题: 监控器不响应
+  解决: systemctl --user restart tmux-prefix-monitor.service
+
+  问题: 输入法不切换
+  解决: 检查 fcitx5 是否正常运行: ps aux | grep fcitx5
+
+  问题: CPU 占用高
+  解决: 修改脚本中的 POLL_INTERVAL 参数（改为 0.2）
+
+───────────────────────────────────────────────────────────────
+
+文件位置:
+
+  监控脚本: ~/.config/tmux/scripts/prefix-input-method-monitor.sh
+  服务文件: ~/.config/systemd/user/tmux-prefix-monitor.service
+  日志文件: ~/.local/share/tmux-prefix-monitor.log
+  说明文档: ~/.config/tmux/PREFIX_MONITOR_README.md
+
+───────────────────────────────────────────────────────────────
+
+测试功能:
+
+  运行测试助手:
+    /tmp/test_functionality.sh
+
+  手动测试:
+    1. 切换到中文输入法
+    2. 在 tmux 中按 Ctrl+]
+    3. 检查日志: tail -5 ~/.local/share/tmux-prefix-monitor.log
+
+───────────────────────────────────────────────────────────────
+
+创建日期: 2026-03-05
+版本: 1.0

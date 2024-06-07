@@ -16,6 +16,7 @@ if [ ! -d $ZSHPLUGIN/fzf-tab ] ; then
   git clone --depth=1 https://github.com/Aloxaf/fzf-tab.git $ZSHPLUGIN/fzf-tab;
 fi
 
-plugins=(git npm pip vi-mode fzf-tab fast-syntax-highlighting zsh-autosuggestions)
+# plugins=(git npm pip vi-mode fzf-tab fast-syntax-highlighting zsh-autosuggestions)
+plugins=(npm vi-mode fzf-tab zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh

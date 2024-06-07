@@ -1,76 +1,178 @@
 #!/bin/bash
 INSTALL_PATH=~/.local/src
 BACKUP_PATH=~/.local/backup
-dev_version_pattern="NVIM v.*dev.*"
+DOWNLOAD_URL="https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz"
 
 # 备份Neovim
 backup_neovim() {
-	local_version=$(nvim -v | grep -oE "$dev_version_pattern" | sort | uniq)
-	echo "正在备份当前版本$local_version"
-	version_without_prefix=$(echo $local_version | sed 's/^NVIM //')
-	mkdir -p $BACKUP_PATH
-	cp -r $INSTALL_PATH/nvim-linux64 $BACKUP_PATH/nvim-linux64-$version_without_prefix
+	local_version=$(nvim -v | head -1 | grep -oE "v[0-9]+\.[0-9]+\.[0-9]+-dev[^\"]*" | sort | uniq)
+	if [[ -z "$local_version" ]]; then
+		local_version=$(nvim -v | head -1 | grep -oE "NVIM v[^\"]*" | sed 's/NVIM //')
+	fi
+	echo "正在备份当前版本: $local_version"
+	version_without_prefix=$(echo "$local_version" | sed 's/^NVIM //')
+	mkdir -p "$BACKUP_PATH"
+	cp -r "$INSTALL_PATH/nvim-linux-x86_64" "$BACKUP_PATH/nvim-$version_without_prefix"
 }
 
-# $1 为空则是安装
-if [ "$1" == "" ]; then
-	# if type proxyOn &>/dev/null; then
-	# 	proxyOn
-	# fi
-	# 获取Neovim的发布页面内容
-	response=$(curl -s https://github.com/neovim/neovim/releases)
-	# 使用正则表达式匹配Neovim的dev版本
-	remote_version=$(echo "$response" | grep -oE "$dev_version_pattern" | sort | uniq)
-	# 获取本地Neovim版本
-	local_version=$(nvim -v | grep -oE "$dev_version_pattern" | sort | uniq)
+# 获取远程最新dev版本号
+get_remote_version() {
+	# 使用GitHub API获取最新release信息
+	api_url="https://api.github.com/repos/neovim/neovim/releases/tags/nightly"
+	# 从body中提取版本号，只匹配到行尾
+	remote_version=$(curl -s "$api_url" | grep -oP '"body":\s*"[^"]*NVIM v\K[0-9]+\.[0-9]+\.[0-9]+-dev[^\\n"]*' | head -1)
+
+	if [[ -z "$remote_version" ]]; then
+		# 备用方案：从body中提取，匹配到换行符
+		remote_version=$(curl -s "$api_url" | grep -oE 'NVIM v[0-9]+\.[0-9]+\.[0-9]+-dev[^\\]*' | head -1 | tr -d '\\n"')
+	fi
+
+	# 添加前缀 "NVIM v" 以保持一致性
+	if [[ -n "$remote_version" && ! "$remote_version" =~ ^NVIM ]]; then
+		remote_version="NVIM v$remote_version"
+	fi
+
+	echo "$remote_version"
+}
+
+# 检查是否需要更新
+check_update() {
+	# 先检查文件是否存在且可下载
+	http_code=$(curl -s -o /dev/null -w "%{http_code}" --head "$DOWNLOAD_URL")
+	if [[ "$http_code" != "302" && "$http_code" != "200" ]]; then
+		echo "错误: 无法访问下载链接 (HTTP $http_code)"
+		return 1
+	fi
+
+	# 获取本地版本
+	local_version=$(nvim -v 2>/dev/null | head -1)
+	if [[ -z "$local_version" ]]; then
+		echo "本地未安装Neovim，将进行安装"
+		return 0
+	fi
+
+	# 获取远程版本
+	remote_version=$(get_remote_version)
 
 	echo "remote version: $remote_version"
 	echo "local  version: $local_version"
 
-	# 比较本地Neovim版本与页面上的版本
-	if [[ $remote_version == $local_version ]]; then
-		echo "无需更新!"
-	else
-		# 询问用户是否要进行升级
-		read -p "检测到Neovim有新版本，是否进行升级？(y/n): " choice
-		if [[ $choice == 'y' || $choice == 'Y' ]]; then
-			backup_neovim
-			rm -rf $INSTALL_PATH/nvim-linux64
-			rm -rf $INSTALL_PATH/nvim-linux64.tar.gz
-			echo "正在下载最新版本的Neovim..."
-			wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz -P $INSTALL_PATH
-			echo "下载完成!"
-			echo "正在解压Neovim..."
-			tar -zxvf $INSTALL_PATH/nvim-linux64.tar.gz -C $INSTALL_PATH
-			nvim -v
+	# 检查本地是否是dev版本
+	if [[ "$local_version" =~ "dev" ]]; then
+		# 简单比较：如果有远程版本且不同，则提示更新
+		if [[ -n "$remote_version" && "$local_version" != "$remote_version" ]]; then
+			return 0  # 需要更新
 		else
-			echo "取消升级!"
+			# 通过检查下载文件的时间戳来判断
+			return 1  # 无需更新
 		fi
 	fi
 
-	# if type proxyOff &>/dev/null; then
-	# 	proxyOff
-	# fi
+	# 如果本地是stable版本，提示有dev版本可用
+	return 0
+}
+
+# $1 为空则是安装/更新
+if [[ "$1" == "" ]]; then
+	if check_update; then
+		# 询问用户是否要进行升级
+		read -p "检测到Neovim有新版本，是否进行升级？(y/n): " choice
+		if [[ "$choice" == 'y' || "$choice" == 'Y' ]]; then
+			# 备份现有版本
+			if [[ -d "$INSTALL_PATH/nvim-linux-x86_64" ]]; then
+				backup_neovim
+			fi
+			rm -rf "$INSTALL_PATH/nvim-linux-x86_64"
+			rm -f "$INSTALL_PATH/nvim-linux-x86_64.tar.gz"
+			echo "正在下载最新版本的Neovim..."
+			if wget "$DOWNLOAD_URL" -O "$INSTALL_PATH/nvim-linux-x86_64.tar.gz"; then
+				echo "下载完成!"
+				echo "正在解压Neovim..."
+				mkdir -p "$INSTALL_PATH"
+				tar -xzf "$INSTALL_PATH/nvim-linux-x86_64.tar.gz" -C "$INSTALL_PATH"
+				rm -f "$INSTALL_PATH/nvim-linux-x86_64.tar.gz"
+
+				# 创建软链接到 ~/.local/bin/nvim
+				mkdir -p ~/.local/bin
+				rm -f ~/.local/bin/nvim
+				ln -s "$INSTALL_PATH/nvim-linux-x86_64/bin/nvim" ~/.local/bin/nvim
+				echo "已创建软链接: ~/.local/bin/nvim -> $INSTALL_PATH/nvim-linux-x86_64/bin/nvim"
+
+				echo "安装完成！"
+				nvim -v | head -3
+			else
+				echo "下载失败！"
+				exit 1
+			fi
+		else
+			echo "取消升级!"
+		fi
+	else
+		echo "无需更新!"
+	fi
 fi
 
 # 回滚功能
-if [ "$1" == "rollback" ]; then
-	latest_backup_version=$(ls -t $BACKUP_PATH | grep -oE "nvim-linux64-.*" | fzf)
-	if [ "$latest_backup_version" ]; then
+if [[ "$1" == "rollback" ]]; then
+	if [[ ! -d "$BACKUP_PATH" ]]; then
+		echo "错误: 备份目录不存在"
+		exit 1
+	fi
+
+	# 选择备份版本
+	if type fzf &>/dev/null; then
+		latest_backup_version=$(ls -t "$BACKUP_PATH" 2>/dev/null | grep -oE "nvim-.*" | fzf)
+	elif type dmenu &>/dev/null; then
+		latest_backup_version=$(ls -t "$BACKUP_PATH" 2>/dev/null | grep -oE "nvim-.*" | dmenu -p "选择备份版本:")
+	else
+		echo "可用备份版本:"
+		ls -t "$BACKUP_PATH" 2>/dev/null | grep -oE "nvim-.*" | nl
+		read -p "输入版本编号: " num
+		latest_backup_version=$(ls -t "$BACKUP_PATH" 2>/dev/null | grep -oE "nvim-.*" | sed -n "${num}p")
+	fi
+
+	if [[ -n "$latest_backup_version" && -d "$BACKUP_PATH/$latest_backup_version" ]]; then
 		echo "正在回滚到备份版本: $latest_backup_version"
-		rm -rf $INSTALL_PATH/nvim-linux64
-		cp -r $BACKUP_PATH/$latest_backup_version $INSTALL_PATH/nvim-linux64
-		nvim -v
+		rm -rf "$INSTALL_PATH/nvim-linux-x86_64"
+		cp -r "$BACKUP_PATH/$latest_backup_version" "$INSTALL_PATH/nvim-linux-x86_64"
+		# 重新创建软链接
+		mkdir -p ~/.local/bin
+		rm -f ~/.local/bin/nvim
+		ln -s "$INSTALL_PATH/nvim-linux-x86_64/bin/nvim" ~/.local/bin/nvim
+		nvim -v | head -3
+	else
+		echo "无效的备份版本"
 	fi
 fi
 
 # 清除备份版本
-if [ "$1" == "clean" ]; then
-	echo "正在清除备份版本..."
-	rm -rf $BACKUP_PATH
+if [[ "$1" == "clean" ]]; then
+	read -p "确定要清除所有备份版本？(y/n): " confirm
+	if [[ "$confirm" == 'y' || "$confirm" == 'Y' ]]; then
+		echo "正在清除备份版本..."
+		rm -rf "$BACKUP_PATH"
+		echo "清除完成"
+	else
+		echo "取消清除"
+	fi
+fi
+
+# 列出备份版本
+if [[ "$1" == "list" ]]; then
+	if [[ -d "$BACKUP_PATH" ]]; then
+		echo "备份版本列表:"
+		ls -lh "$BACKUP_PATH" 2>/dev/null
+	else
+		echo "没有备份版本"
+	fi
 fi
 
 # 手动备份
-if [ "$1" == "backup" ]; then
-	backup_neovim
+if [[ "$1" == "backup" ]]; then
+	if [[ -d "$INSTALL_PATH/nvim-linux-x86_64" ]]; then
+		backup_neovim
+		echo "备份完成"
+	else
+		echo "错误: Neovim未安装"
+	fi
 fi

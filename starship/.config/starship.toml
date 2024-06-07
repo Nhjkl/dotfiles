@@ -1,6 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 add_newline = false
+scan_timeout = 60
 
 # format = """
 # [](surface0)\
@@ -131,17 +132,17 @@ format = '[[ $symbol $branch](bold fg:sky bg:surface0)]($style)'
 [git_status]
 style = "bg:surface0"
 format = '[[ ($all_status$ahead_behind)](bold fg:sky bg:surface0)]($style)'
-conflicted = '󰡌 '
-ahead = ' 󰛃'
-behind = ' 󰛀'
-diverged = ' 󰁄'
-up_to_date = ' ✓'
-untracked = ' ?'
-stashed = ' '
-modified = ' '
-staged = ' [++\($count\)](green)'
-renamed = ' '
-deleted = ' 󰗨'
+conflicted = ''
+ahead = '󰛃'
+behind = '󰛀'
+diverged = '󰕜'
+up_to_date = ''
+untracked = ''
+stashed = '󰬚'
+modified = ''
+renamed = ''
+deleted = '󰮈'
+staged = ''
 
 [nodejs]
 symbol = ""

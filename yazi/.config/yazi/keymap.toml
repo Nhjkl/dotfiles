@@ -1,19 +1,13 @@
 # keymap.toml
-[manager]
+[mgr]
 prepend_keymap = [
-  # ...
-  { on = [
-    "z",
-    "h",
-  ], run = "hidden toggle", desc = "Toggle the visibility of hidden files" },
-
-  # { on = [
-  #   "o",
-  # ], run = 'help', desc = "Toggle the visibility of hidden files" },
-
   # goto
   { on = [
     "g",
     "w",
   ], run = "cd ~/.local/work/", desc = "Go to the work directory" },
+  { on = [
+    "g",
+    "D",
+  ], run = "cd /mnt/d/Users/liuxian/Downloads/", desc = "Go to the windows Downloads directory" },
 ]
