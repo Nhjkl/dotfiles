@@ -75,8 +75,6 @@ export CGO_ENABLED=1
 # password-store
 export PASSWORD_STORE_DIR="$HOME/.local/src/password-store"
 
-# Vite+ bin (https://viteplus.dev)
-. "$HOME/.vite-plus/env"
 
 unset NPM_CONFIG_TMP
 

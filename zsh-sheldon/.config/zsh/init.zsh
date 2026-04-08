@@ -1,4 +1,5 @@
 autoload -Uz compinit
+
 if [[ -n "${ZDOTDIR}/.zcompdump(#qN.mh+24)" ]]; then
   compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
 else
@@ -11,7 +12,4 @@ eval "$(starship init zsh)"
 
 source "$ZDOTDIR/lang/opencode.zsh"
 source "$ZDOTDIR/lang/go.zsh"
-source "$ZDOTDIR/lang/rust.zsh"
-source "$ZDOTDIR/lang/node.zsh"
-source "$ZDOTDIR/lang/python.zsh"
 

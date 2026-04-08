@@ -40,4 +40,3 @@ export AWT_TOOLKIT="MToolkit wmname LG3D" # May have to install wmname
 export _JAVA_AWT_WM_NONREPARENTING=1      # Fix for Java applications in dwm
 
 #[ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
-. "/home/sean/.local/share/cargo/env"
