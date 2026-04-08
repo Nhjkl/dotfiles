@@ -6,7 +6,7 @@ alias s=fastfetch
 alias q=exit
 alias tk="tmux kill-server"
 alias wttr="curl wttr.in"
-alias pp='/home/sean/.local/src/password-store/pass-fzf.sh'
+alias pp='/home/sean/.local/share/password-store/pass-fzf.sh'
 alias cz="git add .;git cz"
 alias yarn='yarn --use-yarnrc "${XDG_CONFIG_HOME:-$HOME/.config}/yarn/config"'
 
