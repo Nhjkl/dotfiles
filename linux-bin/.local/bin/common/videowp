@@ -1,3 +1,0 @@
-#!/bin/bash
-
-xwinwrap -fs -nf -fdt -ov -- mplayer -shuffle -slave -nosound -input file=/tmp/wallpaper -loop 0 -wid WID ~/wallpaper/2.mp4 &
