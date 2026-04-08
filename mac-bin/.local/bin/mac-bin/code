@@ -1,3 +1,0 @@
-#!/bin/zsh
-
-open -a "/Applications/Visual Studio Code.app" $1
