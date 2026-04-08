@@ -1,21 +1,14 @@
 #!/bin/zsh
-# ~/ Clean-up:
-[ -f "$HOME/.config/xdg-dirs/xdgdirs" ] && source "$HOME/.config/xdg-dirs/xdgdirs"
-
-# Adds `~/.local/bin` to $PATH
-[ -s "$HOME/.local/bin/" ] && export PATH="$(echo $PATH:$(du -L $HOME/.local/bin | cut -f2) | sed -e "s/ /:/g")"
 
 unsetopt PROMPT_SP
 
-# Default programs:
+[ -s "$HOME/.local/bin/" ] && export PATH="$(echo $PATH:$(du -L $HOME/.local/bin | cut -f2) | sed -e 's/ /:/g')"
+
 export EDITOR="nvim"
-export TERMINAL="alacritty"
 export TERMINAL="kitty"
 export BROWSER="brave"
 export READER="zathura"
 export TERM=xterm-256color
-# export MANPAGER="nvim -c 'set ft=man' -"
-export LESSHISTFILE="-"
 export DESKTOP_SESSION="dwm"
 export LANG=C.UTF-8
 export LC_ALL=C.UTF-8

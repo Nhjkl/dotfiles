@@ -8,8 +8,6 @@ bindkey '^N' down-history
 bindkey '^E' end-of-line
 # Ctrl+A: 光标移到行首
 bindkey '^A' beginning-of-line
-# Ctrl+W: 删除光标前一个单词
-bindkey '^W' backward-kill-word
 # 上箭头: 搜索历史命令（向前）
 bindkey '^[[A' history-search-backward
 # 下箭头: 搜索历史命令（向后）
