@@ -13,5 +13,3 @@ setopt share_history
 setopt autocd
 setopt complete_in_word
 DISABLE_MAGIC_FUNCTIONS=true
-
-export PASSWORD_STORE_DIR="$HOME/.local/src/password-store"
