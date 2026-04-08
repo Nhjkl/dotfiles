@@ -3,3 +3,4 @@ shamefully-hoist=true
 strict-peer-dependencies=false
 manage-package-manager-versions=true
 package-manager-strict=false
+global-bin-dir=${XDG_DATA_HOME}/pnpm/bin
