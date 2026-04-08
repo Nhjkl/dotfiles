@@ -1,3 +1,4 @@
+HISTFILE="$XDG_DATA_HOME/zsh/history"
 HISTSIZE=10000
 SAVEHIST=10000
 [[ -d "$XDG_DATA_HOME/zsh" ]] || mkdir -p "$XDG_DATA_HOME/zsh"
@@ -5,7 +6,7 @@ SAVEHIST=10000
 stty stop undef
 setopt interactive_comments
 setopt no_nomatch
-setopt hist_ignore_all_dups hist_save_nodups
+setopt hist_ignore_all_dups hist_save_nodups hist_expire_dups_first
 setopt hist_ignore_space
 setopt hist_reduce_blanks
 setopt share_history
