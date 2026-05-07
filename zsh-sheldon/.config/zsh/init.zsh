@@ -12,5 +12,6 @@ eval "$(starship init zsh)"
 
 source "$ZDOTDIR/lang/opencode.zsh"
 source "$ZDOTDIR/lang/go.zsh"
+source "$ZDOTDIR/lang/maven.zsh"
 
 [[ -d "$XDG_DATA_HOME/pnpm/bin" ]] && path=("$XDG_DATA_HOME/pnpm/bin" $path)

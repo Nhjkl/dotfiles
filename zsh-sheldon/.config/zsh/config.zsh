@@ -9,7 +9,7 @@ setopt no_nomatch
 setopt hist_ignore_all_dups hist_save_nodups hist_expire_dups_first
 setopt hist_ignore_space
 setopt hist_reduce_blanks
-setopt share_history
+setopt inc_append_history
 setopt autocd
 setopt complete_in_word
 DISABLE_MAGIC_FUNCTIONS=true

@@ -1,13 +1,6 @@
-alias vi=nvim
 alias v=nvim
-alias lz=lazygit
 alias c=clear
-alias s=fastfetch
 alias q=exit
-alias tk="tmux kill-server"
-alias wttr="curl wttr.in"
-alias pp='/home/sean/.local/share/password-store/pass-fzf.sh'
-alias cz="git add .;git cz"
 alias yarn='yarn --use-yarnrc "${XDG_CONFIG_HOME:-$HOME/.config}/yarn/config"'
 
 if hash eza &>/dev/null; then
@@ -15,6 +8,10 @@ if hash eza &>/dev/null; then
 elif hash exa &>/dev/null; then
   alias l="exa -l -h -g -a --icons"
 fi
+
+s () {
+  fastfetch
+}
 
 r() {
   local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
@@ -24,7 +21,7 @@ r() {
   rm -f -- "$tmp"
 }
 
-proxy() {
+,proxy() {
   if (( ${+http_proxy} )); then
     unset all_proxy http_proxy https_proxy ALL_PROXY HTTP_PROXY HTTPS_PROXY
     echo "proxy off"
@@ -49,4 +46,32 @@ proxy() {
 
 ,take () {
 	mkdir -p "$1" && builtin cd "$1"
+}
+
+,cc () {
+  claude --dangerously-skip-permissions
+}
+
+,t () {
+  tmux-sessionizer
+}
+
+,tk () {
+  tmux kill-server
+}
+
+,p () {
+  ~/.local/share/password-store/pass-fzf.sh
+}
+
+,lz () {
+  lazygit
+}
+
+,ld () {
+  lazydocker
+}
+
+,wttr () {
+  curl wttr.in
 }

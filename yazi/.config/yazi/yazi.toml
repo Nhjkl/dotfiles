@@ -28,7 +28,7 @@ edit = [
   { run = 'code "%*"', orphan = true, for = "windows" },
 ]
 open = [
-  { run = 'xdg-open "$@"', desc = "Open", for = "linux" },
+  { run = 'cmd.exe /c start "" "$(wslpath -w "$1")"', orphan = true, desc = "Open with Windows", for = "unix" },
   { run = 'open "$@"', desc = "Open", for = "macos" },
   { run = 'start "" "%1"', orphan = true, desc = "Open", for = "windows" },
 ]

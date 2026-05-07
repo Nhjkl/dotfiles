@@ -1,5 +1,5 @@
 # Ctrl+F: 打开 tmux-sessionizer
-bindkey -s ^f "tmux-sessionizer\n"
+bindkey -s ^f ",t\n"
 # Ctrl+P: 上一条历史命令
 bindkey '^P' up-history
 # Ctrl+N: 下一条历史命令
