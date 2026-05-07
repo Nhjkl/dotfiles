@@ -82,11 +82,7 @@ install_deps() {
   pkg_install "fzf"
 
   # macOS 自带 zsh 但可能版本旧
-  if [[ "$OS" == "macos" ]]; then
-    pkg_install "zsh"
-  else
-    pkg_install "zsh"
-  fi
+  pkg_install "zsh"
 
   # wget 用于 checkNvim 下载
   pkg_install "wget"
@@ -95,53 +91,29 @@ install_deps() {
 # ============================================================
 # 安装第三方工具（官方 installer）
 # ============================================================
-install_sheldon() {
-  if cmd_exists sheldon; then
-    ok "sheldon 已安装"
+# 通用安装器: pacman → curl fallback
+# 用法: install_with_fallback <名称> <命令> <pacman包名> <installer_url> [sh参数...]
+install_with_fallback() {
+  local name="$1" cmd="$2" pkg="$3" url="$4"
+  shift 4
+  if cmd_exists "$cmd"; then
+    ok "$name 已安装"
     return
   fi
-  info "安装 sheldon..."
+  info "安装 $name..."
   if [[ "$OS" == "linux" ]]; then
-    pacman -Qi sheldon &>/dev/null || sudo pacman -S --noconfirm sheldon 2>/dev/null || {
+    pacman -Qi "$pkg" &>/dev/null || sudo pacman -S --noconfirm "$pkg" 2>/dev/null || {
       info "  使用官方 installer..."
-      curl --proto '=https' --tlsv1.2 -sSf https://sheldon.cli.rs/install | sh
+      curl -sSf "$url" | sh "$@"
     }
   else
-    curl --proto '=https' --tlsv1.2 -sSf https://sheldon.cli.rs/install | sh
+    curl -sSf "$url" | sh "$@"
   fi
 }
 
-install_starship() {
-  if cmd_exists starship; then
-    ok "starship 已安装"
-    return
-  fi
-  info "安装 starship..."
-  if [[ "$OS" == "linux" ]]; then
-    pacman -Qi starship &>/dev/null || sudo pacman -S --noconfirm starship 2>/dev/null || {
-      info "  使用官方 installer..."
-      curl -sS https://starship.rs/install.sh | sh -s -- -y
-    }
-  else
-    curl -sS https://starship.rs/install.sh | sh -s -- -y
-  fi
-}
-
-install_mise() {
-  if cmd_exists mise; then
-    ok "mise 已安装"
-    return
-  fi
-  info "安装 mise..."
-  if [[ "$OS" == "linux" ]]; then
-    pacman -Qi mise &>/dev/null || sudo pacman -S --noconfirm mise 2>/dev/null || {
-      info "  使用官方 installer..."
-      curl https://mise.run | sh
-    }
-  else
-    curl https://mise.run | sh
-  fi
-}
+install_sheldon() { install_with_fallback "sheldon" "sheldon" "sheldon" "https://sheldon.cli.rs/install"; }
+install_starship() { install_with_fallback "starship" "starship" "starship" "https://starship.rs/install.sh" -s -- -y; }
+install_mise() { install_with_fallback "mise" "mise" "mise" "https://mise.run"; }
 
 install_lazygit() {
   if cmd_exists lazygit; then
@@ -184,32 +156,16 @@ install_btop() {
 
 install_terminal() {
   local term="$1"
-  case "$term" in
-  kitty)
-    if cmd_exists kitty; then
-      ok "kitty 已安装"
-      return
-    fi
-    info "安装 kitty..."
-    [[ "$OS" == "linux" ]] && sudo pacman -S --noconfirm kitty || brew install --cask kitty
-    ;;
-  alacritty)
-    if cmd_exists alacritty; then
-      ok "alacritty 已安装"
-      return
-    fi
-    info "安装 alacritty..."
-    [[ "$OS" == "linux" ]] && sudo pacman -S --noconfirm alacritty || brew install --cask alacritty
-    ;;
-  wezterm)
-    if cmd_exists wezterm; then
-      ok "wezterm 已安装"
-      return
-    fi
-    info "安装 wezterm..."
-    [[ "$OS" == "linux" ]] && sudo pacman -S --noconfirm wezterm || brew install --cask wezterm
-    ;;
-  esac
+  if cmd_exists "$term"; then
+    ok "$term 已安装"
+    return
+  fi
+  info "安装 $term..."
+  if [[ "$OS" == "linux" ]]; then
+    sudo pacman -S --noconfirm "$term"
+  else
+    brew install --cask "$term"
+  fi
 }
 
 # ============================================================
@@ -241,9 +197,8 @@ stow_pkg() {
     warn "$pkg 有冲突文件，备份到 $BACKUP_DIR/"
     mkdir -p "$BACKUP_DIR"
 
-    # 从 stow 输出提取冲突目标路径
-    echo "$stow_output" | while IFS= read -r line; do
-      # 匹配冲突文件路径
+    # 从 stow 输出提取冲突目标路径（here-string 避免 subshell 问题）
+    while IFS= read -r line; do
       if [[ "$line" =~ existing\ target\ is.*:[[:space:]]*(.*) ]]; then
         local relpath="${BASH_REMATCH[1]}"
         local target="$HOME/$relpath"
@@ -253,7 +208,7 @@ stow_pkg() {
           info "  备份: $relpath"
         fi
       fi
-    done
+    done <<< "$stow_output"
 
     # 重试 stow
     stow -d "$DOTFILES_DIR" "$pkg" 2>&1
@@ -347,52 +302,37 @@ show_menu() {
 # 安装选中包
 # ============================================================
 install_selected() {
-  # 映射: 编号 → (stow包名, 需要安装的工具)
-  local want_profile=false
-  local want_bin=false
-  local want_zsh=false
-  local want_git=false
-  local want_tmux=false
-  local want_nvim=false
-  local want_vim=false
-  local want_lazygit=false
-  local want_yazi=false
-  local want_btop=false
-  local want_kitty=false
-  local want_alacritty=false
-  local want_wezterm=false
-  local want_npm=false
-  local want_wget=false
-  local want_fontconfig=false
-  local want_dwm=false
-  local want_yabai=false
+  declare -A WANT
 
   for num in "${SELECTED[@]}"; do
     case "$num" in
-    1) want_profile=true ;;
-    2) want_bin=true ;;
-    3) want_zsh=true ;;
-    4) want_git=true ;;
-    5) want_tmux=true ;;
-    6) want_nvim=true ;;
-    7) want_vim=true ;;
-    8) want_lazygit=true ;;
-    9) want_yazi=true ;;
-    10) want_btop=true ;;
-    11) want_kitty=true ;;
-    12) want_alacritty=true ;;
-    13) want_wezterm=true ;;
-    14) want_npm=true ;;
-    15) want_wget=true ;;
+    1) WANT[profile]=1 ;;
+    2) WANT[bin]=1 ;;
+    3) WANT[zsh]=1 ;;
+    4) WANT[git]=1 ;;
+    5) WANT[tmux]=1 ;;
+    6) WANT[nvim]=1 ;;
+    7) WANT[vim]=1 ;;
+    8) WANT[lazygit]=1 ;;
+    9) WANT[yazi]=1 ;;
+    10) WANT[btop]=1 ;;
+    11) WANT[kitty]=1 ;;
+    12) WANT[alacritty]=1 ;;
+    13) WANT[wezterm]=1 ;;
+    14) WANT[npm]=1 ;;
+    15) WANT[wget]=1 ;;
     16)
-      if [[ "$OS" == "linux" ]]; then want_fontconfig=true; else want_yabai=true; fi
+      if [[ "$OS" == "linux" ]]; then WANT[fontconfig]=1; else WANT[yabai]=1; fi
       ;;
     17)
-      if [[ "$OS" == "linux" ]]; then want_dwm=true; fi
+      if [[ "$OS" == "linux" ]]; then WANT[dwm]=1; fi
       ;;
     *) warn "无效编号: $num" ;;
     esac
   done
+
+  # 辅助函数: 检查是否选中
+  want() { [[ -n "${WANT[$1]:-}" ]]; }
 
   # --- 1. 系统依赖 ---
   info "=== 安装系统依赖 ==="
@@ -401,30 +341,30 @@ install_selected() {
   # --- 2. 第三方工具 ---
   info "=== 安装第三方工具 ==="
 
-  if $want_zsh || $want_nvim; then
+  if want zsh || want nvim; then
     install_sheldon
     install_starship
     install_mise
   fi
-  $want_lazygit && install_lazygit
-  $want_yazi && install_yazi
-  $want_btop && install_btop
-  $want_kitty && install_terminal kitty
-  $want_alacritty && install_terminal alacritty
-  $want_wezterm && install_terminal wezterm
+  want lazygit && install_lazygit
+  want yazi && install_yazi
+  want btop && install_btop
+  want kitty && install_terminal kitty
+  want alacritty && install_terminal alacritty
+  want wezterm && install_terminal wezterm
 
   # --- 3. Stow 按依赖顺序 ---
   info "=== Stow 链接配置 ==="
 
   # 顺序: linux-profile → linux-bin → git → starship → tmux → nvim → zsh → 其余
-  $want_profile && stow_pkg "linux-profile"
-  $want_bin && stow_pkg "linux-bin"
-  $want_git && stow_pkg "git"
-  $want_wget && stow_pkg "wget"
-  $want_vim && stow_pkg "vim"
+  want profile && stow_pkg "linux-profile"
+  want bin && stow_pkg "linux-bin"
+  want git && stow_pkg "git"
+  want wget && stow_pkg "wget"
+  want vim && stow_pkg "vim"
   stow_pkg "starship" # starship config 始终链接（zsh 依赖）
 
-  if $want_tmux; then
+  if want tmux; then
     stow_pkg "tmux"
     # 安装 TPM
     if [[ ! -d "$HOME/.config/tmux/plugins/tpm" ]]; then
@@ -441,7 +381,7 @@ install_selected() {
     fi
   fi
 
-  if $want_nvim; then
+  if want nvim; then
     stow_pkg "nvim"
     # 运行 checkNvim 安装 nvim
     if ! cmd_exists nvim; then
@@ -454,7 +394,6 @@ install_selected() {
       done
       if [[ -n "$check_nvim" ]]; then
         info "使用 checkNvim 安装 Neovim..."
-        # 非交互模式：自动确认
         echo "y" | "$check_nvim"
       else
         warn "checkNvim 未找到，跳过 nvim 安装"
@@ -464,7 +403,7 @@ install_selected() {
     fi
   fi
 
-  if $want_zsh; then
+  if want zsh; then
     stow_pkg "zsh-sheldon"
     # sheldon 初始化 — 下载插件并生成 lock 文件
     if cmd_exists sheldon; then
@@ -476,19 +415,19 @@ install_selected() {
   fi
 
   # 可选包
-  $want_lazygit && stow_pkg "lazygit"
-  $want_yazi && stow_pkg "yazi"
-  $want_btop && stow_pkg "btop"
-  $want_kitty && stow_pkg "kitty"
-  $want_alacritty && stow_pkg "alacritty"
-  $want_wezterm && stow_pkg "wezterm"
-  $want_npm && stow_pkg "npm"
-  $want_fontconfig && stow_pkg "fontconfig"
-  $want_dwm && stow_pkg "dwm"
-  $want_yabai && stow_pkg "yabai"
+  want lazygit && stow_pkg "lazygit"
+  want yazi && stow_pkg "yazi"
+  want btop && stow_pkg "btop"
+  want kitty && stow_pkg "kitty"
+  want alacritty && stow_pkg "alacritty"
+  want wezterm && stow_pkg "wezterm"
+  want npm && stow_pkg "npm"
+  want fontconfig && stow_pkg "fontconfig"
+  want dwm && stow_pkg "dwm"
+  want yabai && stow_pkg "yabai"
 
   # --- 4. 提示设置默认 shell ---
-  if $want_zsh; then
+  if want zsh; then
     local zsh_path
     zsh_path="$(command -v zsh)"
     if [[ "$SHELL" != "$zsh_path" ]]; then
@@ -570,7 +509,7 @@ main() {
       git clone https://github.com/Nhjkl/dotfiles.git "$target"
     fi
     cd "$target"
-    exec bash "$target/install.sh" "$@"
+    exec "$target/install.sh" "$@"
   fi
 
   show_menu
