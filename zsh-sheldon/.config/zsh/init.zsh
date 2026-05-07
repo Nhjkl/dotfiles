@@ -1,9 +1,11 @@
+DISABLE_MAGIC_FUNCTIONS=true
 autoload -Uz compinit
 
-if [[ -n "${ZDOTDIR}/.zcompdump(#qN.mh+24)" ]]; then
-  compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
+local _compdump="$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
+if [[ -n "${_compdump}(#qN.mh+24)" ]]; then
+  compinit -d "$_compdump"
 else
-  compinit -C -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
+  compinit -C -d "$_compdump"
 fi
 
 eval "$(mise activate zsh 2>/dev/null)"

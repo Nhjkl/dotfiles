@@ -1,0 +1,22 @@
+{
+  "name": "my-snippets",
+  "contributes": {
+    "snippets": [
+      {
+        "language": [
+          "javascript",
+          "typescript",
+          "vue",
+          "lua"
+        ],
+        "path": "./snippets/common.json"
+      },
+      {
+        "language": [
+          "rust"
+        ],
+        "path": "./snippets/rust.json"
+      }
+    ]
+  }
+}

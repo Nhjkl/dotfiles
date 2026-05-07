@@ -1,0 +1,83 @@
+{
+  "Test Function": {
+    "prefix": "tf",
+    "body": ["func Test${1:Name}(t *testing.T) {", "\t${0}", "}"],
+    "description": "Go test function"
+  },
+  "Table-Driven Test": {
+    "prefix": "ttd",
+    "body": [
+      "func Test${1:Name}(t *testing.T) {",
+      "\ttests := []struct {",
+      "\t\tname string",
+      "\t\t${2:input} ${3:string}",
+      "\t\twant  ${4:string}",
+      "\t}{",
+      "\t\t{",
+      "\t\t\tname:  \"${5:case}\",",
+      "\t\t\t${2:input}: ${6:\"\"},",
+      "\t\t\twant:  ${7:\"\"},",
+      "\t\t},",
+      "\t}",
+      "",
+      "\tfor _, tt := range tests {",
+      "\t\tt.Run(tt.name, func(t *testing.T) {",
+      "\t\t\t${0}",
+      "\t\t})",
+      "\t}",
+      "}"
+    ],
+    "description": "Go table-driven test"
+  },
+  "Benchmark Function": {
+    "prefix": "bf",
+    "body": [
+      "func Benchmark${1:Name}(b *testing.B) {",
+      "\tfor i := 0; i < b.N; i++ {",
+      "\t\t${0}",
+      "\t}",
+      "}"
+    ],
+    "description": "Go benchmark function"
+  },
+  "Example Function": {
+    "prefix": "ef",
+    "body": ["func Example${1:Name}() {", "\t${0}", "}"],
+    "description": "Go example function"
+  },
+  "t.Log": {
+    "prefix": "tl",
+    "body": ["t.Log(${1:value})"],
+    "description": "t.Log"
+  },
+  "t.Logf": {
+    "prefix": "tlf",
+    "body": ["t.Logf(\"${1:%s}\", ${2:value})"],
+    "description": "t.Logf"
+  },
+  "t.Run": {
+    "prefix": "tr",
+    "body": ["t.Run(\"${1:name}\", func(t *testing.T) {", "\t${0}", "})"],
+    "description": "t.Run subtest"
+  },
+  "t.Error": {
+    "prefix": "te",
+    "body": ["t.Error(${1:value})"],
+    "description": "t.Error"
+  },
+  "t.Errorf": {
+    "prefix": "tef",
+    "body": ["t.Errorf(\"${1:%s}\", ${2:value})"],
+    "description": "t.Errorf"
+  },
+  "t.Fatal": {
+    "prefix": "tfatal",
+    "body": ["t.Fatal(${1:value})"],
+    "description": "t.Fatal"
+  },
+  "t.Fatalf": {
+    "prefix": "tfatalf",
+    "body": ["t.Fatalf(\"${1:%s}\", ${2:value})"],
+    "description": "t.Fatalf"
+  }
+}

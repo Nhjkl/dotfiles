@@ -1,7 +1,15 @@
 #!/bin/bash
 INSTALL_PATH=~/.local/src
 BACKUP_PATH=~/.local/backup
-DOWNLOAD_URL="https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz"
+
+# 平台检测
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  DOWNLOAD_URL="https://github.com/neovim/neovim/releases/download/nightly/nvim-macos-arm64.tar.gz"
+  NVIM_DIR="nvim-macos-arm64"
+else
+  DOWNLOAD_URL="https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz"
+  NVIM_DIR="nvim-linux-x86_64"
+fi
 
 # 备份Neovim
 backup_neovim() {
@@ -12,7 +20,7 @@ backup_neovim() {
 	echo "正在备份当前版本: $local_version"
 	version_without_prefix=$(echo "$local_version" | sed 's/^NVIM //')
 	mkdir -p "$BACKUP_PATH"
-	cp -r "$INSTALL_PATH/nvim-linux-x86_64" "$BACKUP_PATH/nvim-$version_without_prefix"
+	cp -r "$INSTALL_PATH/$NVIM_DIR" "$BACKUP_PATH/nvim-$version_without_prefix"
 }
 
 # 获取远程最新dev版本号
@@ -79,24 +87,24 @@ if [[ "$1" == "" ]]; then
 		read -p "检测到Neovim有新版本，是否进行升级？(y/n): " choice
 		if [[ "$choice" == 'y' || "$choice" == 'Y' ]]; then
 			# 备份现有版本
-			if [[ -d "$INSTALL_PATH/nvim-linux-x86_64" ]]; then
+			if [[ -d "$INSTALL_PATH/$NVIM_DIR" ]]; then
 				backup_neovim
 			fi
-			rm -rf "$INSTALL_PATH/nvim-linux-x86_64"
-			rm -f "$INSTALL_PATH/nvim-linux-x86_64.tar.gz"
+			rm -rf "$INSTALL_PATH/$NVIM_DIR"
+			rm -f "$INSTALL_PATH/$NVIM_DIR.tar.gz"
 			echo "正在下载最新版本的Neovim..."
-			if wget "$DOWNLOAD_URL" -O "$INSTALL_PATH/nvim-linux-x86_64.tar.gz"; then
+			if wget "$DOWNLOAD_URL" -O "$INSTALL_PATH/$NVIM_DIR.tar.gz"; then
 				echo "下载完成!"
 				echo "正在解压Neovim..."
 				mkdir -p "$INSTALL_PATH"
-				tar -xzf "$INSTALL_PATH/nvim-linux-x86_64.tar.gz" -C "$INSTALL_PATH"
-				rm -f "$INSTALL_PATH/nvim-linux-x86_64.tar.gz"
+				tar -xzf "$INSTALL_PATH/$NVIM_DIR.tar.gz" -C "$INSTALL_PATH"
+				rm -f "$INSTALL_PATH/$NVIM_DIR.tar.gz"
 
 				# 创建软链接到 ~/.local/bin/nvim
 				mkdir -p ~/.local/bin
 				rm -f ~/.local/bin/nvim
-				ln -s "$INSTALL_PATH/nvim-linux-x86_64/bin/nvim" ~/.local/bin/nvim
-				echo "已创建软链接: ~/.local/bin/nvim -> $INSTALL_PATH/nvim-linux-x86_64/bin/nvim"
+				ln -s "$INSTALL_PATH/$NVIM_DIR/bin/nvim" ~/.local/bin/nvim
+				echo "已创建软链接: ~/.local/bin/nvim -> $INSTALL_PATH/$NVIM_DIR/bin/nvim"
 
 				echo "安装完成！"
 				nvim -v | head -3
@@ -133,12 +141,12 @@ if [[ "$1" == "rollback" ]]; then
 
 	if [[ -n "$latest_backup_version" && -d "$BACKUP_PATH/$latest_backup_version" ]]; then
 		echo "正在回滚到备份版本: $latest_backup_version"
-		rm -rf "$INSTALL_PATH/nvim-linux-x86_64"
-		cp -r "$BACKUP_PATH/$latest_backup_version" "$INSTALL_PATH/nvim-linux-x86_64"
+		rm -rf "$INSTALL_PATH/$NVIM_DIR"
+		cp -r "$BACKUP_PATH/$latest_backup_version" "$INSTALL_PATH/$NVIM_DIR"
 		# 重新创建软链接
 		mkdir -p ~/.local/bin
 		rm -f ~/.local/bin/nvim
-		ln -s "$INSTALL_PATH/nvim-linux-x86_64/bin/nvim" ~/.local/bin/nvim
+		ln -s "$INSTALL_PATH/$NVIM_DIR/bin/nvim" ~/.local/bin/nvim
 		nvim -v | head -3
 	else
 		echo "无效的备份版本"
@@ -169,7 +177,7 @@ fi
 
 # 手动备份
 if [[ "$1" == "backup" ]]; then
-	if [[ -d "$INSTALL_PATH/nvim-linux-x86_64" ]]; then
+	if [[ -d "$INSTALL_PATH/$NVIM_DIR" ]]; then
 		backup_neovim
 		echo "备份完成"
 	else

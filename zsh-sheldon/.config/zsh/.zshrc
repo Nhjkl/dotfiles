@@ -1,6 +1,7 @@
 source "$ZDOTDIR/config.zsh"
 source "$ZDOTDIR/init.zsh"
-eval "$(sheldon source)"
+# eval "$(sheldon source)"
+source "$ZDOTDIR/.sheldon_cache.zsh"
 source "$ZDOTDIR/vimode.zsh"
 source "$ZDOTDIR/alias.zsh"
 source "$ZDOTDIR/bindkey.zsh"

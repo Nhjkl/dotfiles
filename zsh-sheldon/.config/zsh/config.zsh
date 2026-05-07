@@ -12,4 +12,3 @@ setopt hist_reduce_blanks
 setopt inc_append_history
 setopt autocd
 setopt complete_in_word
-DISABLE_MAGIC_FUNCTIONS=true

@@ -1,0 +1,6 @@
+{
+  "fast pub run fn": {
+    "body": ["pub fn run() {", "    println!(\"=== {}: ===\", file!());", "}"],
+    "prefix": "s'run"
+  }
+}

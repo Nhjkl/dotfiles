@@ -27,7 +27,7 @@
 [pull]
   rebase = false
 [credential]
-  helper = store --file=/home/sean/.local/share/git/credentials
+  helper = store --file=~/.local/share/git/credentials
 [http]
   sslVerify = false
 [https]

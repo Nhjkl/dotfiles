@@ -10,7 +10,6 @@ export XDG_RUNTIME_DIR="/run/user/$UID"
 export XCURSOR_PATH=${XCURSOR_PATH}:~/.local/share/icons
 
 # ── Shell ─────────────────────────────────────────────────
-export HISTFILE="$XDG_DATA_HOME/zsh/history"
 export INPUTRC="${XDG_CONFIG_HOME:-$HOME/.config}/inputrc"
 export BASH_COMPLETION_USER_FILE="$XDG_CONFIG_HOME/bash-completion/bash_completion"
 

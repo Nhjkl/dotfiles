@@ -1,5 +1,5 @@
 bindkey -v
-export KEYTIMEOUT=1
+KEYTIMEOUT=1
 
 function zle-keymap-select {
   if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
