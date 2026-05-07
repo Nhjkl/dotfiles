@@ -559,6 +559,20 @@ verify() {
 # ============================================================
 main() {
   detect_os
+
+  # 如果不在 dotfiles 仓库内，先克隆
+  if [[ ! -d "$DOTFILES_DIR/.git" ]]; then
+    local target="$HOME/.dotfiles"
+    if [[ -d "$target" ]]; then
+      warn "$target 已存在，跳过克隆"
+    else
+      info "克隆 dotfiles 仓库..."
+      git clone https://github.com/Nhjkl/dotfiles.git "$target"
+    fi
+    cd "$target"
+    exec bash "$target/install.sh" "$@"
+  fi
+
   show_menu
 
   if [[ ${#SELECTED[@]} -eq 0 ]]; then
