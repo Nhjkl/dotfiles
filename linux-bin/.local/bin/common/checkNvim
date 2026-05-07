@@ -45,18 +45,18 @@ get_remote_version() {
 
 # 检查是否需要更新
 check_update() {
-	# 先检查文件是否存在且可下载
-	http_code=$(curl -s -o /dev/null -w "%{http_code}" --head "$DOWNLOAD_URL")
-	if [[ "$http_code" != "302" && "$http_code" != "200" ]]; then
-		echo "错误: 无法访问下载链接 (HTTP $http_code)"
-		return 1
-	fi
-
 	# 获取本地版本
 	local_version=$(nvim -v 2>/dev/null | head -1)
 	if [[ -z "$local_version" ]]; then
 		echo "本地未安装Neovim，将进行安装"
 		return 0
+	fi
+
+	# 先检查文件是否可下载
+	http_code=$(curl -s -o /dev/null -w "%{http_code}" --head "$DOWNLOAD_URL")
+	if [[ "$http_code" != "302" && "$http_code" != "200" ]]; then
+		echo "错误: 无法访问下载链接 (HTTP $http_code)"
+		return 1
 	fi
 
 	# 获取远程版本
@@ -92,11 +92,11 @@ if [[ "$1" == "" ]]; then
 			fi
 			rm -rf "$INSTALL_PATH/$NVIM_DIR"
 			rm -f "$INSTALL_PATH/$NVIM_DIR.tar.gz"
+			mkdir -p "$INSTALL_PATH"
 			echo "正在下载最新版本的Neovim..."
 			if wget "$DOWNLOAD_URL" -O "$INSTALL_PATH/$NVIM_DIR.tar.gz"; then
 				echo "下载完成!"
 				echo "正在解压Neovim..."
-				mkdir -p "$INSTALL_PATH"
 				tar -xzf "$INSTALL_PATH/$NVIM_DIR.tar.gz" -C "$INSTALL_PATH"
 				rm -f "$INSTALL_PATH/$NVIM_DIR.tar.gz"
 

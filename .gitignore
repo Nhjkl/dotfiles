@@ -1,5 +1,36 @@
+# OS
+.DS_Store
 .Ds_Store
+
+# Editor
+*.swp
+*.swo
+*~
+
+# Zsh runtime
 .zcompdump*
 .zsh_history
+.zsh_sessions
+
+# Sheldon
+.sheldon_cache.zsh
+.sheldon_lock.toml
+
+# Tmux runtime
+tmux/.config/tmux/plugins/
+
+# Nvim runtime
+nvim/.config/nvim/.lazy/
+nvim/.config/nvim/.backup/
+nvim/.config/nvim/.swap/
+nvim/.config/nvim/.undo/
+nvim/.config/nvim/view/
+nvim/.config/nvim/spell/
+nvim/.config/nvim/*.log
+
+# Secrets
 state.yml
 credentials
+.env
+*.pem
+*.key

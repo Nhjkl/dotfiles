@@ -1,0 +1,28 @@
+FROM archlinux:latest
+
+# 使用中国镜像加速
+RUN echo 'Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist && \
+    echo 'Server = https://mirrors.aliyun.com/archlinux/$repo/os/$arch' >> /etc/pacman.d/mirrorlist
+
+# 只装最小系统依赖（模拟一台新装的 Arch 机器）
+RUN pacman -Syu --noconfirm && \
+    pacman -S --noconfirm --needed sudo && \
+    useradd -m -s /bin/bash testuser && \
+    echo "testuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+USER testuser
+WORKDIR /home/testuser
+
+# 只复制 dotfiles 源码，不运行任何安装
+COPY --chown=testuser:testuser . /home/testuser/dotfiles
+
+# 代理设置 — 通过 --build-arg 或 docker run -e 传入
+# 容器内 127.0.0.1 指向容器自身，需要用 host.docker.internal 访问宿主机
+ARG PROXY_HOST=host.docker.internal
+ENV http_proxy="" \
+    https_proxy="" \
+    all_proxy=""
+
+ENV TERM=xterm-256color
+
+CMD ["bash"]

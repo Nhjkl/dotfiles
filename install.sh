@@ -100,8 +100,15 @@ install_sheldon() {
     ok "sheldon 已安装"
     return
   fi
-  info "安装 sheldon (官方 installer)..."
-  curl --proto '=https' --tlsv1.2 -sSf https://sheldon.rocks/install.sh | sh
+  info "安装 sheldon..."
+  if [[ "$OS" == "linux" ]]; then
+    pacman -Qi sheldon &>/dev/null || sudo pacman -S --noconfirm sheldon 2>/dev/null || {
+      info "  使用官方 installer..."
+      curl --proto '=https' --tlsv1.2 -sSf https://sheldon.cli.rs/install | sh
+    }
+  else
+    curl --proto '=https' --tlsv1.2 -sSf https://sheldon.cli.rs/install | sh
+  fi
 }
 
 install_starship() {
@@ -109,8 +116,15 @@ install_starship() {
     ok "starship 已安装"
     return
   fi
-  info "安装 starship (官方 installer)..."
-  curl -sS https://starship.rs/install.sh | sh -s -- -y
+  info "安装 starship..."
+  if [[ "$OS" == "linux" ]]; then
+    pacman -Qi starship &>/dev/null || sudo pacman -S --noconfirm starship 2>/dev/null || {
+      info "  使用官方 installer..."
+      curl -sS https://starship.rs/install.sh | sh -s -- -y
+    }
+  else
+    curl -sS https://starship.rs/install.sh | sh -s -- -y
+  fi
 }
 
 install_mise() {
@@ -118,8 +132,15 @@ install_mise() {
     ok "mise 已安装"
     return
   fi
-  info "安装 mise (官方 installer)..."
-  curl https://mise.run | sh
+  info "安装 mise..."
+  if [[ "$OS" == "linux" ]]; then
+    pacman -Qi mise &>/dev/null || sudo pacman -S --noconfirm mise 2>/dev/null || {
+      info "  使用官方 installer..."
+      curl https://mise.run | sh
+    }
+  else
+    curl https://mise.run | sh
+  fi
 }
 
 install_lazygit() {
@@ -201,31 +222,46 @@ stow_pkg() {
     return 1
   fi
 
-  # 检查是否已 stow
-  if stow -d "$DOTFILES_DIR" -c "$pkg" 2>/dev/null; then
+  # 尝试 stow，处理冲突
+  local stow_output
+  stow_output=$(stow -d "$DOTFILES_DIR" "$pkg" 2>&1)
+  if [[ $? -eq 0 ]]; then
+    ok "stow $pkg 完成"
+    return 0
+  fi
+
+  # 检查是否已链接（无错误 = 成功）
+  if echo "$stow_output" | grep -q "Already stowed"; then
     ok "$pkg 已链接"
     return 0
   fi
 
-  # 检查冲突并备份
-  local conflicts
-  conflicts=$(stow -d "$DOTFILES_DIR" -n "$pkg" 2>&1 | grep "CONFLICT" || true)
-  if [[ -n "$conflicts" ]]; then
-    warn "检测到 $pkg 冲突文件，备份到 $BACKUP_DIR/"
+  # 处理冲突：备份冲突文件
+  if echo "$stow_output" | grep -q "CONFLICT\|existing target"; then
+    warn "$pkg 有冲突文件，备份到 $BACKUP_DIR/"
     mkdir -p "$BACKUP_DIR"
-    # 解析冲突文件并备份
-    stow -d "$DOTFILES_DIR" -n "$pkg" 2>&1 | grep -oP '\* existing target is.*?:\s+\K.*' | while read -r file; do
-      local target="$HOME/$file"
-      if [[ -e "$target" && ! -L "$target" ]]; then
-        mkdir -p "$(dirname "$BACKUP_DIR/$file")"
-        mv "$target" "$BACKUP_DIR/$file"
-        info "  备份: $file"
+
+    # 从 stow 输出提取冲突目标路径
+    echo "$stow_output" | while IFS= read -r line; do
+      # 匹配冲突文件路径
+      if [[ "$line" =~ existing\ target\ is.*:[[:space:]]*(.*) ]]; then
+        local relpath="${BASH_REMATCH[1]}"
+        local target="$HOME/$relpath"
+        if [[ -e "$target" && ! -L "$target" ]]; then
+          mkdir -p "$(dirname "$BACKUP_DIR/$relpath")"
+          mv "$target" "$BACKUP_DIR/$relpath"
+          info "  备份: $relpath"
+        fi
       fi
     done
-  fi
 
-  stow -d "$DOTFILES_DIR" "$pkg" 2>&1
-  ok "stow $pkg 完成"
+    # 重试 stow
+    stow -d "$DOTFILES_DIR" "$pkg" 2>&1
+    ok "stow $pkg 完成"
+  else
+    warn "stow $pkg 遇到问题: $stow_output"
+    return 1
+  fi
 }
 
 unstow_pkg() {
@@ -390,15 +426,18 @@ install_selected() {
 
   if $want_tmux; then
     stow_pkg "tmux"
-    # 安装 TPM 插件
+    # 安装 TPM
     if [[ ! -d "$HOME/.config/tmux/plugins/tpm" ]]; then
       info "安装 TPM (tmux plugin manager)..."
       git clone https://github.com/tmux-plugins/tpm "$HOME/.config/tmux/plugins/tpm"
     fi
-    # 安装 tmux 插件
+    # 在 tmux session 中安装插件（TPM 需要 tmux 环境运行）
     if [[ -x "$HOME/.config/tmux/plugins/tpm/bin/install_plugins" ]]; then
       info "安装 tmux 插件..."
+      tmux new-session -d -s dotfiles-init 2>/dev/null || true
       "$HOME/.config/tmux/plugins/tpm/bin/install_plugins" 2>/dev/null || true
+      tmux kill-session -t dotfiles-init 2>/dev/null || true
+      ok "tmux 插件安装完成"
     fi
   fi
 
@@ -406,10 +445,17 @@ install_selected() {
     stow_pkg "nvim"
     # 运行 checkNvim 安装 nvim
     if ! cmd_exists nvim; then
-      if [[ -x "$HOME/.local/bin/checkNvim" ]]; then
+      local check_nvim=""
+      for p in "$HOME/.local/bin/common/checkNvim" "$HOME/.local/bin/checkNvim"; do
+        if [[ -x "$p" ]]; then
+          check_nvim="$p"
+          break
+        fi
+      done
+      if [[ -n "$check_nvim" ]]; then
         info "使用 checkNvim 安装 Neovim..."
         # 非交互模式：自动确认
-        echo "y" | "$HOME/.local/bin/checkNvim"
+        echo "y" | "$check_nvim"
       else
         warn "checkNvim 未找到，跳过 nvim 安装"
       fi
@@ -420,10 +466,12 @@ install_selected() {
 
   if $want_zsh; then
     stow_pkg "zsh-sheldon"
-    # sheldon 初始化
+    # sheldon 初始化 — 下载插件并生成 lock 文件
     if cmd_exists sheldon; then
-      info "初始化 sheldon 插件..."
-      sheldon lock --update 2>/dev/null || true
+      info "初始化 sheldon 插件（可能需要几分钟下载）..."
+      if ! timeout 120 sheldon lock --update 2>&1; then
+        warn "sheldon lock 超时或失败，首次启动 zsh 时会自动重试"
+      fi
     fi
   fi
 
@@ -439,13 +487,12 @@ install_selected() {
   $want_dwm && stow_pkg "dwm"
   $want_yabai && stow_pkg "yabai"
 
-  # --- 4. 设置默认 shell ---
+  # --- 4. 提示设置默认 shell ---
   if $want_zsh; then
     local zsh_path
-    zsh_path="$(which zsh)"
+    zsh_path="$(command -v zsh)"
     if [[ "$SHELL" != "$zsh_path" ]]; then
-      info "设置默认 shell 为 zsh..."
-      chsh -s "$zsh_path" 2>/dev/null || warn "chsh 失败，请手动执行: chsh -s $zsh_path"
+      warn "请手动设置默认 shell: chsh -s $zsh_path, sudo chsh -s $zsh_path testuser"
     fi
   fi
 }
@@ -478,7 +525,14 @@ verify() {
   check_cmd "zsh" "zsh $(zsh --version 2>/dev/null | head -1)"
   check_cmd "git" "git $(git --version 2>/dev/null)"
   check_cmd "tmux" "tmux $(tmux -V 2>/dev/null)"
-  check_cmd "nvim" "$(nvim -v 2>/dev/null | head -1)"
+  # nvim 可能安装在 ~/.local/bin，不在默认 PATH 中
+  local nvim_path
+  nvim_path="$(command -v nvim 2>/dev/null || echo "$HOME/.local/bin/nvim")"
+  if [[ -x "$nvim_path" ]]; then
+    ok "$("$nvim_path" --version 2>/dev/null | head -1)"
+  else
+    error "nvim 未安装"
+  fi
   check_cmd "sheldon" "sheldon"
   check_cmd "starship" "starship"
   check_cmd "mise" "mise"
@@ -487,17 +541,17 @@ verify() {
   echo ""
   printf "${BOLD}--- 符号链接检查 ---${NC}\n"
   check_link "$HOME/.zshenv"
-  check_link "$HOME/.config/zsh/.zshrc"
-  check_link "$HOME/.config/git/config"
-  check_link "$HOME/.config/nvim/init.lua"
-  check_link "$HOME/.config/tmux/tmux.conf"
+  check_link "$HOME/.config/zsh"
+  check_link "$HOME/.config/git"
+  check_link "$HOME/.config/nvim"
+  check_link "$HOME/.config/tmux"
   check_link "$HOME/.config/starship.toml"
 
   echo ""
   if [[ -d "$BACKUP_DIR" ]]; then
     printf "${YELLOW}备份文件位于: $BACKUP_DIR${NC}\n"
   fi
-  printf "${GREEN}安装完成! 请重新登录或运行: exec zsh${NC}\n"
+  printf "${GREEN}安装完成! 请运行: exec zsh -l${NC}\n"
 }
 
 # ============================================================
