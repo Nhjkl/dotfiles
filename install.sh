@@ -17,9 +17,9 @@ BLUE='\033[0;34m'
 BOLD='\033[1m'
 NC='\033[0m'
 
-info()  { printf "${BLUE}[INFO]${NC}  %s\n" "$1"; }
-ok()    { printf "${GREEN}[OK]${NC}    %s\n" "$1"; }
-warn()  { printf "${YELLOW}[WARN]${NC}  %s\n" "$1"; }
+info() { printf "${BLUE}[INFO]${NC}  %s\n" "$1"; }
+ok() { printf "${GREEN}[OK]${NC}    %s\n" "$1"; }
+warn() { printf "${YELLOW}[WARN]${NC}  %s\n" "$1"; }
 error() { printf "${RED}[ERROR]${NC} %s\n" "$1"; }
 
 # ============================================================
@@ -27,9 +27,12 @@ error() { printf "${RED}[ERROR]${NC} %s\n" "$1"; }
 # ============================================================
 detect_os() {
   case "$(uname -s)" in
-    Darwin) OS="macos" ;;
-    Linux)  OS="linux" ;;
-    *)      error "不支持的系统: $(uname -s)"; exit 1 ;;
+  Darwin) OS="macos" ;;
+  Linux) OS="linux" ;;
+  *)
+    error "不支持的系统: $(uname -s)"
+    exit 1
+    ;;
   esac
   info "检测到系统: $OS"
 }
@@ -161,21 +164,30 @@ install_btop() {
 install_terminal() {
   local term="$1"
   case "$term" in
-    kitty)
-      if cmd_exists kitty; then ok "kitty 已安装"; return; fi
-      info "安装 kitty..."
-      [[ "$OS" == "linux" ]] && sudo pacman -S --noconfirm kitty || brew install --cask kitty
-      ;;
-    alacritty)
-      if cmd_exists alacritty; then ok "alacritty 已安装"; return; fi
-      info "安装 alacritty..."
-      [[ "$OS" == "linux" ]] && sudo pacman -S --noconfirm alacritty || brew install --cask alacritty
-      ;;
-    wezterm)
-      if cmd_exists wezterm; then ok "wezterm 已安装"; return; fi
-      info "安装 wezterm..."
-      [[ "$OS" == "linux" ]] && sudo pacman -S --noconfirm wezterm || brew install --cask wezterm
-      ;;
+  kitty)
+    if cmd_exists kitty; then
+      ok "kitty 已安装"
+      return
+    fi
+    info "安装 kitty..."
+    [[ "$OS" == "linux" ]] && sudo pacman -S --noconfirm kitty || brew install --cask kitty
+    ;;
+  alacritty)
+    if cmd_exists alacritty; then
+      ok "alacritty 已安装"
+      return
+    fi
+    info "安装 alacritty..."
+    [[ "$OS" == "linux" ]] && sudo pacman -S --noconfirm alacritty || brew install --cask alacritty
+    ;;
+  wezterm)
+    if cmd_exists wezterm; then
+      ok "wezterm 已安装"
+      return
+    fi
+    info "安装 wezterm..."
+    [[ "$OS" == "linux" ]] && sudo pacman -S --noconfirm wezterm || brew install --cask wezterm
+    ;;
   esac
 }
 
@@ -275,23 +287,23 @@ show_menu() {
 
   SELECTED=()
   case "$selection" in
-    a|A|all)
-      SELECTED=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16)
-      [[ "$OS" == "linux" ]] && SELECTED+=(17)
-      ;;
-    *)
-      # 支持 "1-6" 范围和 "1 3 5" 列表
-      IFS=' ,' read -ra parts <<< "$selection"
-      for part in "${parts[@]}"; do
-        if [[ "$part" =~ ^([0-9]+)-([0-9]+)$ ]]; then
-          for i in $(seq "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}"); do
-            SELECTED+=("$i")
-          done
-        else
-          SELECTED+=("$part")
-        fi
-      done
-      ;;
+  a | A | all)
+    SELECTED=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16)
+    [[ "$OS" == "linux" ]] && SELECTED+=(17)
+    ;;
+  *)
+    # 支持 "1-6" 范围和 "1 3 5" 列表
+    IFS=' ,' read -ra parts <<<"$selection"
+    for part in "${parts[@]}"; do
+      if [[ "$part" =~ ^([0-9]+)-([0-9]+)$ ]]; then
+        for i in $(seq "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}"); do
+          SELECTED+=("$i")
+        done
+      else
+        SELECTED+=("$part")
+      fi
+    done
+    ;;
   esac
 }
 
@@ -321,28 +333,28 @@ install_selected() {
 
   for num in "${SELECTED[@]}"; do
     case "$num" in
-      1)  want_profile=true ;;
-      2)  want_bin=true ;;
-      3)  want_zsh=true ;;
-      4)  want_git=true ;;
-      5)  want_tmux=true ;;
-      6)  want_nvim=true ;;
-      7)  want_vim=true ;;
-      8)  want_lazygit=true ;;
-      9)  want_yazi=true ;;
-      10) want_btop=true ;;
-      11) want_kitty=true ;;
-      12) want_alacritty=true ;;
-      13) want_wezterm=true ;;
-      14) want_npm=true ;;
-      15) want_wget=true ;;
-      16)
-        if [[ "$OS" == "linux" ]]; then want_fontconfig=true; else want_yabai=true; fi
-        ;;
-      17)
-        if [[ "$OS" == "linux" ]]; then want_dwm=true; fi
-        ;;
-      *)  warn "无效编号: $num" ;;
+    1) want_profile=true ;;
+    2) want_bin=true ;;
+    3) want_zsh=true ;;
+    4) want_git=true ;;
+    5) want_tmux=true ;;
+    6) want_nvim=true ;;
+    7) want_vim=true ;;
+    8) want_lazygit=true ;;
+    9) want_yazi=true ;;
+    10) want_btop=true ;;
+    11) want_kitty=true ;;
+    12) want_alacritty=true ;;
+    13) want_wezterm=true ;;
+    14) want_npm=true ;;
+    15) want_wget=true ;;
+    16)
+      if [[ "$OS" == "linux" ]]; then want_fontconfig=true; else want_yabai=true; fi
+      ;;
+    17)
+      if [[ "$OS" == "linux" ]]; then want_dwm=true; fi
+      ;;
+    *) warn "无效编号: $num" ;;
     esac
   done
 
@@ -370,11 +382,11 @@ install_selected() {
 
   # 顺序: linux-profile → linux-bin → git → starship → tmux → nvim → zsh → 其余
   $want_profile && stow_pkg "linux-profile"
-  $want_bin     && stow_pkg "linux-bin"
-  $want_git     && stow_pkg "git"
-  $want_wget    && stow_pkg "wget"
-  $want_vim     && stow_pkg "vim"
-  stow_pkg "starship"  # starship config 始终链接（zsh 依赖）
+  $want_bin && stow_pkg "linux-bin"
+  $want_git && stow_pkg "git"
+  $want_wget && stow_pkg "wget"
+  $want_vim && stow_pkg "vim"
+  stow_pkg "starship" # starship config 始终链接（zsh 依赖）
 
   if $want_tmux; then
     stow_pkg "tmux"
@@ -416,16 +428,16 @@ install_selected() {
   fi
 
   # 可选包
-  $want_lazygit   && stow_pkg "lazygit"
-  $want_yazi      && stow_pkg "yazi"
-  $want_btop      && stow_pkg "btop"
-  $want_kitty     && stow_pkg "kitty"
+  $want_lazygit && stow_pkg "lazygit"
+  $want_yazi && stow_pkg "yazi"
+  $want_btop && stow_pkg "btop"
+  $want_kitty && stow_pkg "kitty"
   $want_alacritty && stow_pkg "alacritty"
-  $want_wezterm   && stow_pkg "wezterm"
-  $want_npm       && stow_pkg "npm"
+  $want_wezterm && stow_pkg "wezterm"
+  $want_npm && stow_pkg "npm"
   $want_fontconfig && stow_pkg "fontconfig"
-  $want_dwm       && stow_pkg "dwm"
-  $want_yabai     && stow_pkg "yabai"
+  $want_dwm && stow_pkg "dwm"
+  $want_yabai && stow_pkg "yabai"
 
   # --- 4. 设置默认 shell ---
   if $want_zsh; then
@@ -463,14 +475,14 @@ verify() {
     fi
   }
 
-  check_cmd "zsh"       "zsh $(zsh --version 2>/dev/null | head -1)"
-  check_cmd "git"       "git $(git --version 2>/dev/null)"
-  check_cmd "tmux"      "tmux $(tmux -V 2>/dev/null)"
-  check_cmd "nvim"      "$(nvim -v 2>/dev/null | head -1)"
-  check_cmd "sheldon"   "sheldon"
-  check_cmd "starship"  "starship"
-  check_cmd "mise"      "mise"
-  check_cmd "fzf"       "fzf"
+  check_cmd "zsh" "zsh $(zsh --version 2>/dev/null | head -1)"
+  check_cmd "git" "git $(git --version 2>/dev/null)"
+  check_cmd "tmux" "tmux $(tmux -V 2>/dev/null)"
+  check_cmd "nvim" "$(nvim -v 2>/dev/null | head -1)"
+  check_cmd "sheldon" "sheldon"
+  check_cmd "starship" "starship"
+  check_cmd "mise" "mise"
+  check_cmd "fzf" "fzf"
 
   echo ""
   printf "${BOLD}--- 符号链接检查 ---${NC}\n"
