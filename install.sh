@@ -208,7 +208,7 @@ stow_pkg() {
           info "  备份: $relpath"
         fi
       fi
-    done <<< "$stow_output"
+    done <<<"$stow_output"
 
     # 重试 stow
     stow -d "$DOTFILES_DIR" "$pkg" 2>&1
@@ -240,7 +240,7 @@ show_menu() {
   echo ""
 
   printf "${BOLD}--- Core (推荐全选) ---${NC}\n"
-  echo "  [1]  linux-profile - XDG 环境变量 + .zshenv"
+  echo "  [1]  linux-profile - X11 键盘映射 + systemd 环境变量"
   echo "  [2]  linux-bin     - 自定义脚本 (checkNvim, tmux-sessionizer...)"
   echo "  [3]  zsh           - Zsh + Sheldon + Starship prompt"
   echo "  [4]  git           - Git 配置"
@@ -358,6 +358,7 @@ install_selected() {
 
   # 顺序: linux-profile → linux-bin → git → starship → tmux → nvim → zsh → 其余
   want profile && stow_pkg "linux-profile"
+  want zsh && stow_pkg "zsh"
   want bin && stow_pkg "linux-bin"
   want git && stow_pkg "git"
   want wget && stow_pkg "wget"
@@ -404,7 +405,6 @@ install_selected() {
   fi
 
   if want zsh; then
-    stow_pkg "zsh-sheldon"
     # sheldon 初始化 — 下载插件并生成 lock 文件
     if cmd_exists sheldon; then
       info "初始化 sheldon 插件（可能需要几分钟下载）..."
