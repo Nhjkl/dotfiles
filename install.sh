@@ -225,6 +225,62 @@ unstow_pkg() {
 }
 
 # ============================================================
+# linux-bin 专用安装（避免 stow 把 ~/.local 做成符号链接）
+# ============================================================
+LOCAL_DIRS=(bin src share lib state backup)
+
+init_local() {
+  info "初始化 ~/.local 目录结构..."
+  for dir in "${LOCAL_DIRS[@]}"; do
+    mkdir -p "$HOME/.local/$dir"
+  done
+  ok "~/.local 目录就绪"
+}
+
+bin_install() {
+  init_local
+
+  local src_dir="$DOTFILES_DIR/linux-bin/.local/bin"
+  if [[ ! -d "$src_dir" ]]; then
+    warn "linux-bin/.local/bin 不存在，跳过"
+    return 1
+  fi
+
+  info "链接自定义脚本..."
+  for item in "$src_dir"/*; do
+    [[ -e "$item" ]] || continue
+    local name
+    name="$(basename "$item")"
+    local target="$HOME/.local/bin/$name"
+
+    if [[ -e "$target" ]] && [[ ! -L "$target" ]]; then
+      warn "  跳过 $name (已存在非链接文件)"
+      continue
+    fi
+
+    ln -sfn "$item" "$target"
+    ok "  链接 $name"
+  done
+}
+
+bin_unstow() {
+  local src_dir="$DOTFILES_DIR/linux-bin/.local/bin"
+  [[ -d "$src_dir" ]] || return 0
+
+  for item in "$src_dir"/*; do
+    [[ -e "$item" ]] || continue
+    local name
+    name="$(basename "$item")"
+    local target="$HOME/.local/bin/$name"
+
+    if [[ -L "$target" ]]; then
+      rm "$target"
+      info "  移除链接 $name"
+    fi
+  done
+}
+
+# ============================================================
 # 交互式菜单
 # ============================================================
 show_menu() {
@@ -359,7 +415,7 @@ install_selected() {
   # 顺序: linux-profile → linux-bin → git → starship → tmux → nvim → zsh → 其余
   want profile && stow_pkg "linux-profile"
   want zsh && stow_pkg "zsh"
-  want bin && stow_pkg "linux-bin"
+  want bin && bin_install
   want git && stow_pkg "git"
   want wget && stow_pkg "wget"
   want vim && stow_pkg "vim"

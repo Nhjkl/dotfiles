@@ -26,8 +26,3 @@ fi
 
 eval "$(starship init zsh)"
 eval "$(mise activate zsh 2>/dev/null)"
-
-source "$ZDOTDIR/lang/opencode.zsh"
-source "$ZDOTDIR/lang/go.zsh"
-source "$ZDOTDIR/lang/maven.zsh"
-source "$ZDOTDIR/lang/pnpm.zsh"

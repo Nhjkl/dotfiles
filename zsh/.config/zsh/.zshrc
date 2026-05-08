@@ -1,5 +1,5 @@
-source "$ZDOTDIR/config.zsh"
 source "$ZDOTDIR/init.zsh"
+source "$ZDOTDIR/config.zsh"
 
 # sheldon 插件加载
 if command -v sheldon &>/dev/null; then
