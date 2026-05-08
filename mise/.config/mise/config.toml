@@ -11,4 +11,4 @@ maven = "latest"
 node.mirror_url = "https://npmmirror.com/mirrors/node/"
 node.gpg_verify = false
 not_found_auto_install = false
-http_timeout = 30
+http_timeout = "30"
