@@ -1,0 +1,12 @@
+[tools]
+go = "1.26.1"
+java = "21"
+node = "lts"
+pnpm = "latest"
+python = "latest"
+rust = "stable"
+maven = "latest"
+
+[settings]
+node.mirror_url = "https://npmmirror.com/mirrors/node/"
+node.gpg_verify = false

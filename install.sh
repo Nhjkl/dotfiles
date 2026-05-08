@@ -218,6 +218,7 @@ verify() {
   check_link "$HOME/.config/zsh"
   check_link "$HOME/.config/git"
   check_link "$HOME/.config/starship.toml"
+  check_link "$HOME/.config/mise/config.toml"
 
   echo ""
   printf "${BOLD}--- lazy.zsh 已接管按需安装 ---${NC}\n"
@@ -269,6 +270,7 @@ main() {
   bin_install
   stow_pkg "git"
   stow_pkg "starship"
+  stow_pkg "mise"
 
   # --- 5. sheldon 初始化 ---
   if cmd_exists sheldon; then
