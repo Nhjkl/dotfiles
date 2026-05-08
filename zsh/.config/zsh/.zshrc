@@ -7,5 +7,6 @@ if command -v sheldon &>/dev/null; then
 fi
 
 source "$ZDOTDIR/vimode.zsh"
+source "$ZDOTDIR/lazy.zsh"
 source "$ZDOTDIR/alias.zsh"
 source "$ZDOTDIR/bindkey.zsh"

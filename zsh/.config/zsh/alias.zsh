@@ -2,16 +2,8 @@ alias v=nvim
 alias c=clear
 alias q=exit
 alias yarn='yarn --use-yarnrc "${XDG_CONFIG_HOME:-$HOME/.config}/yarn/config"'
-
-if hash eza &>/dev/null; then
-  alias l="eza -l -h -g -a --icons"
-elif hash exa &>/dev/null; then
-  alias l="exa -l -h -g -a --icons"
-fi
-
-s () {
-  fastfetch
-}
+alias l="eza -l -h -g -a --icons"
+alias s=fastfetch
 
 r() {
   local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
