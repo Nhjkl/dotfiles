@@ -252,13 +252,17 @@ main() {
   info "=== 安装系统依赖 ==="
   install_deps
 
-  # --- 2. zsh 启动必需工具 ---
+  # --- 2. Stow wget 配置（后续下载依赖 wgetrc） ---
+  info "=== Stow wget 配置 ==="
+  stow_pkg "wget"
+
+  # --- 3. zsh 启动必需工具 ---
   info "=== 安装 zsh 核心工具 ==="
   install_sheldon
   install_starship
   install_mise
 
-  # --- 3. Stow 核心配置 ---
+  # --- 4. Stow 核心配置 ---
   info "=== Stow 链接配置 ==="
   stow_pkg "linux-profile"
   stow_pkg "zsh"
@@ -266,7 +270,7 @@ main() {
   stow_pkg "git"
   stow_pkg "starship"
 
-  # --- 4. sheldon 初始化 ---
+  # --- 5. sheldon 初始化 ---
   if cmd_exists sheldon; then
     info "初始化 sheldon 插件..."
     if ! timeout 120 sheldon lock --update 2>&1; then
@@ -274,7 +278,7 @@ main() {
     fi
   fi
 
-  # --- 5. 提示设置默认 shell ---
+  # --- 6. 提示设置默认 shell ---
   local zsh_path
   zsh_path="$(command -v zsh)"
   if [[ "$SHELL" != "$zsh_path" ]]; then
