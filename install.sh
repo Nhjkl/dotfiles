@@ -93,7 +93,6 @@ install_with_fallback() {
 
 install_sheldon() { install_with_fallback "sheldon" "sheldon" "sheldon" "https://sheldon.cli.rs/install"; }
 install_starship() { install_with_fallback "starship" "starship" "starship" "https://starship.rs/install.sh" -s -- -y; }
-install_mise() { install_with_fallback "mise" "mise" "mise" "https://mise.run"; }
 
 # ============================================================
 # Stow 管理
@@ -209,7 +208,6 @@ verify() {
   check_cmd "git" "git $(git --version 2>/dev/null)"
   check_cmd "sheldon" "sheldon"
   check_cmd "starship" "starship"
-  check_cmd "mise" "mise"
   check_cmd "fzf" "fzf"
 
   echo ""
@@ -218,7 +216,6 @@ verify() {
   check_link "$HOME/.config/zsh"
   check_link "$HOME/.config/git"
   check_link "$HOME/.config/starship.toml"
-  check_link "$HOME/.config/mise/config.toml"
 
   echo ""
   printf "${BOLD}--- lazy.zsh 已接管按需安装 ---${NC}\n"
@@ -261,7 +258,6 @@ main() {
   info "=== 安装 zsh 核心工具 ==="
   install_sheldon
   install_starship
-  install_mise
 
   # --- 4. Stow 核心配置 ---
   info "=== Stow 链接配置 ==="
@@ -270,7 +266,6 @@ main() {
   bin_install
   stow_pkg "git"
   stow_pkg "starship"
-  stow_pkg "mise"
 
   # --- 5. sheldon 初始化 ---
   if cmd_exists sheldon; then

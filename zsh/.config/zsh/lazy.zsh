@@ -37,6 +37,17 @@ setup_tmux() {
   [[ -x "$tpm/bin/install_plugins" ]] && "$tpm/bin/install_plugins" 2>/dev/null
 }
 
+setup_mise() {
+  _lazy_stow mise
+  if ! command -v mise &>/dev/null; then
+    curl -sSf https://mise.run | sh
+  fi
+  local gnupg_dir="$HOME/.local/share/gnupg"
+  if [[ ! -d "$gnupg_dir" ]]; then
+    mkdir -p "$gnupg_dir"
+    chmod 700 "$gnupg_dir"
+  fi
+}
 setup_nvim() { _lazy_stow nvim; echo "y" | checkNvim }
 setup_eza() { _lazy_install eza }
 setup_bat() { _lazy_install bat }
@@ -50,6 +61,7 @@ typeset -gA _lazy_map=(
   yazi      setup_yazi
   tmux      setup_tmux
   nvim      setup_nvim
+  mise      setup_mise
   eza       setup_eza
   bat       setup_bat
   fd        setup_fd
