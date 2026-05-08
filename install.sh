@@ -93,6 +93,19 @@ install_with_fallback() {
 
 install_sheldon() { install_with_fallback "sheldon" "sheldon" "sheldon" "https://sheldon.cli.rs/install"; }
 install_starship() { install_with_fallback "starship" "starship" "starship" "https://starship.rs/install.sh" -s -- -y; }
+install_mise() {
+  stow_pkg "mise"
+  if ! cmd_exists mise; then
+    info "安装 mise..."
+    curl -sSf https://mise.run | sh
+  fi
+  # 初始化 gnupg（避免 gpg keyblock 报错）
+  local gnupg_dir="$HOME/.local/share/gnupg"
+  if [[ ! -d "$gnupg_dir" ]]; then
+    mkdir -p "$gnupg_dir"
+    chmod 700 "$gnupg_dir"
+  fi
+}
 
 # ============================================================
 # Stow 管理
@@ -208,6 +221,7 @@ verify() {
   check_cmd "git" "git $(git --version 2>/dev/null)"
   check_cmd "sheldon" "sheldon"
   check_cmd "starship" "starship"
+  check_cmd "mise" "mise"
   check_cmd "fzf" "fzf"
 
   echo ""
@@ -258,6 +272,7 @@ main() {
   info "=== 安装 zsh 核心工具 ==="
   install_sheldon
   install_starship
+  install_mise
 
   # --- 4. Stow 核心配置 ---
   info "=== Stow 链接配置 ==="
