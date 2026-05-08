@@ -32,7 +32,7 @@ setup_yazi()      { _lazy_stow yazi;    _lazy_install yazi }
 setup_tmux() {
   _lazy_stow tmux
   _lazy_install tmux
-  local tpm="$HOME/.config/tmux/plugins/tpm"
+  local tpm="$HOME/.local/share/tmux/plugins"
   [[ -d "$tpm" ]] || git clone https://github.com/tmux-plugins/tpm "$tpm" 2>/dev/null
   [[ -x "$tpm/bin/install_plugins" ]] && "$tpm/bin/install_plugins" 2>/dev/null
 }
