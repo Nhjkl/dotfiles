@@ -37,6 +37,7 @@ setup_tmux() {
   [[ -x "$tpm/bin/install_plugins" ]] && "$tpm/bin/install_plugins" 2>/dev/null
 }
 
+setup_nvim() { _lazy_stow nvim; echo "y" | checkNvim }
 setup_eza() { _lazy_install eza }
 setup_bat() { _lazy_install bat }
 setup_fd()  { _lazy_install fd }
@@ -48,6 +49,7 @@ typeset -gA _lazy_map=(
   lazygit   setup_lazygit
   yazi      setup_yazi
   tmux      setup_tmux
+  nvim      setup_nvim
   eza       setup_eza
   bat       setup_bat
   fd        setup_fd
