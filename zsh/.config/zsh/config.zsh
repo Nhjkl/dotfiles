@@ -23,19 +23,50 @@ export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/ansible.cfg"
 export LESSHISTFILE="-"
 
 # ── Languages & Runtimes ──────────────────────────────────
+
+# Rust
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
+
+# Go
 export GOPATH="$XDG_DATA_HOME/go"
+export CGO_ENABLED=1
+export GOPROXY=https://goproxy.cn,direct
+[[ -d "$GOPATH/bin" ]] && path=("$GOPATH/bin" $path)
+
+# Python
 export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
-export BUN_INSTALL="$XDG_DATA_HOME/bun"
+
+# Node.js
 export NVM_DIR="$XDG_DATA_HOME/nvm"
-export GEM_HOME="$XDG_DATA_HOME/gem"
-export GEM_SPEC_CACHE="$XDG_CACHE_HOME/gem"
+export BUN_INSTALL="$XDG_DATA_HOME/bun"
 export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
 export NPM_CONFIG_TMP="$XDG_RUNTIME_DIR/npm"
+[[ -d "$XDG_DATA_HOME/pnpm/bin" ]] && path=("$XDG_DATA_HOME/pnpm/bin" $path)
+
+# Ruby
+export GEM_HOME="$XDG_DATA_HOME/gem"
+export GEM_SPEC_CACHE="$XDG_CACHE_HOME/gem"
+
+# Java
 export MAVEN_ARGS="--settings $XDG_CONFIG_HOME/maven/settings.xml"
+mvn() {
+  command mvn -s "$XDG_CONFIG_HOME/maven/settings.xml" "$@"
+}
+
+# ── CLI Tools ─────────────────────────────────────────────
+[[ -d "$HOME/.opencode/bin" ]] && path=("$HOME/.opencode/bin" $path)
+export CLAUDE_PACKAGE_MANAGER=pnpm
+export FZF_DEFAULT_OPTS="
+  --layout=reverse --height 50%
+	--color=fg:#908caa,bg:#232136,hl:#ea9a97
+	--color=fg+:#e0def4,bg+:#393552,hl+:#ea9a97
+	--color=border:#44415a,header:#3e8fb0,gutter:#232136
+	--color=spinner:#f6c177,info:#9ccfd8,separator:#44415a
+	--color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 
 # ── Applications ──────────────────────────────────────────
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
@@ -49,16 +80,16 @@ export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
 export MPLAYER_HOME="$XDG_CONFIG_HOME/mplayer"
 export KUBECONFIG="$XDG_CONFIG_HOME/kube/config"
 export MINIKUBE_HOME="$XDG_DATA_HOME"
-export CLAUDE_PACKAGE_MANAGER=pnpm
 
 # ── GUI / Desktop (Linux) ────────────────────────────────
 export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
 export XSERVERRC="$XDG_CONFIG_HOME/X11/xserverrc"
 
 # ── PATH ──────────────────────────────────────────────────
-unsetopt PROMPT_SP
-
 [[ -d "$HOME/.local/bin" ]] && path=($HOME/.local/bin/*(N-/) $HOME/.local/bin $path)
+
+# ── Shell Environment ────────────────────────────────────
+unsetopt PROMPT_SP
 [[ -z "$TERM" ]] && export TERM=xterm-256color
 
 # ── Defaults ──────────────────────────────────────────────
@@ -69,13 +100,3 @@ export READER="zathura"
 export DESKTOP_SESSION="dwm"
 export LANG=C.UTF-8
 export LC_ALL=C.UTF-8
-
-export FZF_DEFAULT_OPTS="
-  --layout=reverse --height 50%
-	--color=fg:#908caa,bg:#232136,hl:#ea9a97
-	--color=fg+:#e0def4,bg+:#393552,hl+:#ea9a97
-	--color=border:#44415a,header:#3e8fb0,gutter:#232136
-	--color=spinner:#f6c177,info:#9ccfd8,separator:#44415a
-	--color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
-
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
