@@ -1,6 +1,7 @@
 HISTFILE="$XDG_DATA_HOME/zsh/history"
 HISTSIZE=10000
 SAVEHIST=10000
+
 [[ -d "$XDG_DATA_HOME/zsh" ]] || mkdir -p "$XDG_DATA_HOME/zsh"
 
 stty stop undef
@@ -23,12 +24,10 @@ else
   compinit -C -d "$_compdump"
 fi
 
-eval "$(mise activate zsh 2>/dev/null)"
-
 eval "$(starship init zsh)"
+eval "$(mise activate zsh 2>/dev/null)"
 
 source "$ZDOTDIR/lang/opencode.zsh"
 source "$ZDOTDIR/lang/go.zsh"
 source "$ZDOTDIR/lang/maven.zsh"
-
-[[ -d "$XDG_DATA_HOME/pnpm/bin" ]] && path=("$XDG_DATA_HOME/pnpm/bin" $path)
+source "$ZDOTDIR/lang/pnpm.zsh"
