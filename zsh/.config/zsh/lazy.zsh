@@ -41,10 +41,15 @@ setup_mise() {
   _lazy_stow mise
   if ! command -v mise &>/dev/null; then
     curl -sSf https://mise.run | sh
-    # 安装后 source zshrc 使 init.zsh 中的 mise activate 生效
-    source "${ZDOTDIR:-$HOME/.config/zsh}/.zshrc"
-    return 0
   fi
+  # 用完整路径激活，避免 command_not_found_handler 内 source 无效
+  local mise_bin
+  mise_bin="$(command -v mise 2>/dev/null || echo "$HOME/.local/bin/mise")"
+  [[ -x "$mise_bin" ]] || return 1
+  local mise_dir="$(dirname "$mise_bin")"
+  [[ ":$PATH:" == *":$mise_dir:"* ]] || export PATH="$mise_dir:$PATH"
+  eval "$("$mise_bin" activate zsh)"
+
   local gnupg_dir="$HOME/.local/share/gnupg"
   if [[ ! -d "$gnupg_dir" ]]; then
     mkdir -p "$gnupg_dir"
