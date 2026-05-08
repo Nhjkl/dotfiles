@@ -41,7 +41,9 @@ setup_mise() {
   _lazy_stow mise
   if ! command -v mise &>/dev/null; then
     curl -sSf https://mise.run | sh
-    eval "$(mise activate zsh 2>/dev/null)"
+    # 安装后 source zshrc 使 init.zsh 中的 mise activate 生效
+    source "${ZDOTDIR:-$HOME/.config/zsh}/.zshrc"
+    return 0
   fi
   local gnupg_dir="$HOME/.local/share/gnupg"
   if [[ ! -d "$gnupg_dir" ]]; then

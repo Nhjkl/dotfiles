@@ -8,6 +8,10 @@
 git clone git@github.com:Nhjkl/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 ./install.sh
+
+# or
+
+curl -fsSL https://raw.githubusercontent.com/Nhjkl/dotfiles/refs/heads/main/install.sh | bash
 ```
 
 交互式菜单选择要安装的组件，推荐选择 `1-6` 安装核心环境。
