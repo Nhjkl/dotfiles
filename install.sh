@@ -265,6 +265,7 @@ main() {
   stow_pkg "zsh"
   bin_install
   stow_pkg "git"
+  stow_pkg "npm"
   stow_pkg "starship"
 
   # --- 5. sheldon 初始化 ---

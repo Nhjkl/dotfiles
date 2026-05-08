@@ -41,6 +41,7 @@ setup_mise() {
   _lazy_stow mise
   if ! command -v mise &>/dev/null; then
     curl -sSf https://mise.run | sh
+    eval "$(mise activate zsh 2>/dev/null)"
   fi
   local gnupg_dir="$HOME/.local/share/gnupg"
   if [[ ! -d "$gnupg_dir" ]]; then
