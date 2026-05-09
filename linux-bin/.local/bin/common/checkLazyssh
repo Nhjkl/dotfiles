@@ -1,0 +1,180 @@
+#!/bin/bash
+INSTALL_PATH=~/.local/src
+BACKUP_PATH=~/.local/backup
+
+# 获取最新版本号
+get_latest_tag() {
+  curl -fsSL https://api.github.com/repos/Adembc/lazyssh/releases/latest | jq -r .tag_name
+}
+
+# 获取本地版本
+get_local_version() {
+  lazyssh --version 2>/dev/null | head -1
+}
+
+# 备份
+backup_lazyssh() {
+  local_version=$(get_local_version)
+  if [[ -z "$local_version" ]]; then
+    echo "无法获取本地版本号"
+    return 1
+  fi
+  echo "正在备份当前版本: $local_version"
+  mkdir -p "$BACKUP_PATH"
+  cp ~/.local/bin/lazyssh "$BACKUP_PATH/lazyssh-$local_version"
+}
+
+# 检查是否需要更新
+check_update() {
+  if ! command -v lazyssh &>/dev/null; then
+    echo "本地未安装lazyssh，将进行安装"
+    return 0
+  fi
+
+  latest_tag=$(get_latest_tag)
+  if [[ -z "$latest_tag" ]]; then
+    echo "错误: 无法获取远程版本"
+    return 1
+  fi
+
+  local_version=$(get_local_version)
+
+  echo "remote version: $latest_tag"
+  echo "local  version: $local_version"
+
+  if [[ "$local_version" == *"$latest_tag"* ]]; then
+    return 1
+  fi
+  return 0
+}
+
+# 获取下载文件名
+get_download_filename() {
+  local os=$(uname -s | tr '[:upper:]' '[:lower:]')
+  local arch=$(uname -m)
+  echo "lazyssh_${os}_${arch}.tar.gz"
+}
+
+# 安装/更新
+install_lazyssh() {
+  latest_tag=$(get_latest_tag)
+  if [[ -z "$latest_tag" ]]; then
+    echo "错误: 无法获取最新版本"
+    exit 1
+  fi
+
+  filename=$(get_download_filename)
+  download_url="https://github.com/Adembc/lazyssh/releases/download/${latest_tag}/${filename}"
+
+  # 检查下载链接
+  http_code=$(curl -s -o /dev/null -w "%{http_code}" --head "$download_url")
+  if [[ "$http_code" != "302" && "$http_code" != "200" ]]; then
+    echo "错误: 无法访问下载链接 (HTTP $http_code)"
+    echo "URL: $download_url"
+    exit 1
+  fi
+
+  tmpdir=$(mktemp -d)
+  echo "正在下载 lazyssh ${latest_tag}..."
+
+  if curl -fSL "$download_url" -o "$tmpdir/$filename"; then
+    echo "下载完成!"
+    echo "正在解压..."
+    tar -xzf "$tmpdir/$filename" -C "$tmpdir"
+
+    # 创建软链接
+    mkdir -p ~/.local/bin
+    rm -f ~/.local/bin/lazyssh
+    mv "$tmpdir/lazyssh" ~/.local/bin/lazyssh
+    chmod +x ~/.local/bin/lazyssh
+
+    # 清理
+    rm -rf "$tmpdir"
+
+    echo "安装完成！"
+    lazyssh --version 2>/dev/null | head -1
+  else
+    echo "下载失败！"
+    rm -rf "$tmpdir"
+    exit 1
+  fi
+}
+
+# $1 为空则是安装/更新
+if [[ "$1" == "" ]]; then
+  if check_update; then
+    read -p "检测到lazyssh有新版本，是否进行升级？(y/n): " choice
+    if [[ "$choice" == 'y' || "$choice" == 'Y' ]]; then
+      if command -v lazyssh &>/dev/null; then
+        backup_lazyssh
+      fi
+      install_lazyssh
+    else
+      echo "取消升级!"
+    fi
+  else
+    echo "无需更新!"
+  fi
+fi
+
+# 强制安装
+if [[ "$1" == "install" ]]; then
+  install_lazyssh
+fi
+
+# 回滚
+if [[ "$1" == "rollback" ]]; then
+  if [[ ! -d "$BACKUP_PATH" ]]; then
+    echo "错误: 备份目录不存在"
+    exit 1
+  fi
+
+  if type fzf &>/dev/null; then
+    selected=$(ls -t "$BACKUP_PATH" 2>/dev/null | grep -oE "lazyssh-.*" | fzf)
+  else
+    echo "可用备份版本:"
+    ls -t "$BACKUP_PATH" 2>/dev/null | grep -oE "lazyssh-.*" | nl
+    read -p "输入版本编号: " num
+    selected=$(ls -t "$BACKUP_PATH" 2>/dev/null | grep -oE "lazyssh-.*" | sed -n "${num}p")
+  fi
+
+  if [[ -n "$selected" && -f "$BACKUP_PATH/$selected" ]]; then
+    echo "正在回滚到: $selected"
+    cp "$BACKUP_PATH/$selected" ~/.local/bin/lazyssh
+    chmod +x ~/.local/bin/lazyssh
+    lazyssh --version 2>/dev/null | head -1
+  else
+    echo "无效的备份版本"
+  fi
+fi
+
+# 清除备份
+if [[ "$1" == "clean" ]]; then
+  read -p "确定要清除所有备份版本？(y/n): " confirm
+  if [[ "$confirm" == 'y' || "$confirm" == 'Y' ]]; then
+    rm -rf "$BACKUP_PATH"/lazyssh-*
+    echo "清除完成"
+  else
+    echo "取消清除"
+  fi
+fi
+
+# 列出备份
+if [[ "$1" == "list" ]]; then
+  if ls "$BACKUP_PATH"/lazyssh-* &>/dev/null; then
+    echo "备份版本列表:"
+    ls -lh "$BACKUP_PATH"/lazyssh-* 2>/dev/null
+  else
+    echo "没有备份版本"
+  fi
+fi
+
+# 手动备份
+if [[ "$1" == "backup" ]]; then
+  if command -v lazyssh &>/dev/null; then
+    backup_lazyssh
+    echo "备份完成"
+  else
+    echo "错误: lazyssh未安装"
+  fi
+fi

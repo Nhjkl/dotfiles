@@ -36,12 +36,11 @@ setup_tmux() {
   [[ -d "$tpm" ]] || git clone https://github.com/tmux-plugins/tpm "$tpm" 2>/dev/null
   [[ -x "$tpm/bin/install_plugins" ]] && "$tpm/bin/install_plugins" 2>/dev/null
 }
-
 setup_mise() {
   _lazy_stow mise
   if ! command -v mise &>/dev/null; then
     curl -sSf https://mise.run | sh
-    echo "lazy: mise 已安装，请运行 exec zsh -l 激活"
+    echo "lazy: mise 已安装，需要重新进入zsh"
     return 0
   fi
 }
@@ -49,6 +48,19 @@ setup_nvim() { _lazy_stow nvim; echo "y" | checkNvim }
 setup_eza() { _lazy_install eza }
 setup_bat() { _lazy_install bat }
 setup_fd()  { _lazy_install fd }
+
+setup_lazyssh() {
+  _lazy_stow lazyssh
+  if ! command -v lazyssh &>/dev/null; then
+    checkLazyssh install
+  fi
+  # 确保 ~/.ssh/config 包含 Include 指令
+  local ssh_config="$HOME/.ssh/config"
+  if [[ -f "$ssh_config" ]] && ! grep -q 'Include config.d/\*.conf' "$ssh_config"; then
+    sed -i '1i Include config.d/*.conf' "$ssh_config"
+  fi
+  mkdir -p "$HOME/.ssh/sockets"
+}
 
 # ── 命令 → setup 函数映射 ────────────────────────────────
 typeset -gA _lazy_map=(
@@ -62,6 +74,7 @@ typeset -gA _lazy_map=(
   eza       setup_eza
   bat       setup_bat
   fd        setup_fd
+  lazyssh   setup_lazyssh
 )
 
 # ── Handler ───────────────────────────────────────────────
