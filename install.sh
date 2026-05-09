@@ -254,7 +254,7 @@ main() {
       warn "$target 已存在，跳过克隆"
     else
       info "克隆 dotfiles 仓库..."
-      git clone https://github.com/Nhjkl/dotfiles.git "$target"
+      git clone --depth 1 https://github.com/Nhjkl/dotfiles.git "$target"
     fi
     cd "$target"
     exec "$target/install.sh" "$@"

@@ -62,6 +62,8 @@ setup_lazyssh() {
   mkdir -p "$HOME/.ssh/sockets"
 }
 
+setup_ncdu()  { _lazy_install ncdu }
+
 # ── 命令 → setup 函数映射 ────────────────────────────────
 typeset -gA _lazy_map=(
   fastfetch setup_fastfetch
@@ -75,6 +77,7 @@ typeset -gA _lazy_map=(
   bat       setup_bat
   fd        setup_fd
   lazyssh   setup_lazyssh
+  ncdu      setup_ncdu
 )
 
 # ── Handler ───────────────────────────────────────────────

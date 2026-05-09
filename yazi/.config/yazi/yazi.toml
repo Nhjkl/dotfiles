@@ -37,6 +37,7 @@ krita = [{ run = 'krita "$@"', desc = "Krita", for = "linux" }]
 reveal = [
   { run = 'open -R "$1"', desc = "Reveal", for = "macos" },
   { run = 'explorer /select, "%1"', orphan = true, desc = "Reveal", for = "windows" },
+  { run = 'explorer.exe "$(wslpath -w "$1")"', orphan = true, desc = "Windows Explorer", for = "unix" },
   { run = '''exiftool "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show EXIF", for = "unix" },
 ]
 extract = [

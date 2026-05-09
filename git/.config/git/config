@@ -27,7 +27,7 @@
 [pull]
   rebase = false
 [credential]
-  helper = store --file=~/.local/share/git/credentials
+	helper = store
 [http]
   sslVerify = false
 [https]
