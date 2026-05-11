@@ -27,6 +27,7 @@ export LESSHISTFILE="-"
 # Rust
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
+[[ -d "$HOME/.config/.foundry/bin" ]] && path=("$HOME/.config/.foundry/bin" $path)
 
 # Go
 export GOPATH="$XDG_DATA_HOME/go"
