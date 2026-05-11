@@ -5,15 +5,15 @@ return {
     opts = {
       style = "moon",
       light_style = "day",
-      transparent = false,
+      transparent = true,
       terminal_colors = true,
       styles = {
         comments = { italic = true },
         keywords = { italic = true },
         functions = {},
         variables = {},
-        sidebars = "dark",
-        floats = "dark",
+        sidebars = "transparent",
+        floats = "transparent",
       },
       sidebars = {
         "qf",
@@ -28,68 +28,35 @@ return {
       dim_inactive = true,
       lualine_bold = true,
       on_highlights = function(hl, c)
-        local prompt = "#2d3149"
-        -- Softer cursor line
-        hl.CursorLine = { bg = "#1e2030" }
+        -- Cursor line (subtle, no opaque bg)
+        hl.CursorLine = { bg = "#161822" }
         hl.CursorLineNr = { fg = c.orange, bold = true }
 
-        -- Telescope
-        hl.TelescopeNormal = {
-          bg = c.bg_dark,
-          fg = c.fg_dark,
-        }
-        hl.TelescopeBorder = {
-          bg = c.bg_dark,
-          fg = c.bg_dark,
-        }
-        hl.TelescopePromptNormal = {
-          bg = prompt,
-        }
-        hl.TelescopePromptBorder = {
-          bg = prompt,
-          fg = prompt,
-        }
-        hl.TelescopePromptTitle = {
-          bg = prompt,
-          fg = prompt,
-        }
-        hl.TelescopePreviewTitle = {
-          bg = c.bg_dark,
-          fg = c.bg_dark,
-        }
-        hl.TelescopeResultsTitle = {
-          bg = c.bg_dark,
-          fg = c.bg_dark,
-        }
-        hl.TelescopeSelection = {
-          bg = "#2a2f4a",
-          fg = c.fg,
-        }
-        hl.TelescopeMatching = {
-          fg = c.orange,
-          bold = true,
-        }
+        -- Telescope (transparent)
+        hl.TelescopeNormal = { fg = c.fg_dark }
+        hl.TelescopeBorder = { fg = c.blue0 }
+        hl.TelescopePromptNormal = {}
+        hl.TelescopePromptBorder = { fg = c.blue0 }
+        hl.TelescopePromptTitle = { fg = c.orange, bold = true }
+        hl.TelescopePreviewTitle = { fg = c.blue0 }
+        hl.TelescopeResultsTitle = { fg = c.blue0 }
+        hl.TelescopeSelection = { fg = c.fg, bold = true }
+        hl.TelescopeMatching = { fg = c.orange, bold = true }
 
-        -- Float windows
-        hl.NormalFloat = {
-          bg = c.bg_dark,
-          fg = c.fg,
-        }
-        hl.FloatBorder = {
-          bg = c.bg_dark,
-          fg = c.blue0,
-        }
+        -- Float windows (transparent)
+        hl.NormalFloat = { fg = c.fg }
+        hl.FloatBorder = { fg = c.blue0 }
 
-        -- Softer diagnostic
-        hl.DiagnosticVirtualTextError = { fg = c.error, bg = "#1e1e2e" }
-        hl.DiagnosticVirtualTextWarn = { fg = c.warning, bg = "#1e1e2e" }
-        hl.DiagnosticVirtualTextInfo = { fg = c.info, bg = "#1e1e2e" }
-        hl.DiagnosticVirtualTextHint = { fg = c.hint, bg = "#1e1e2e" }
+        -- Diagnostic (no bg)
+        hl.DiagnosticVirtualTextError = { fg = c.error }
+        hl.DiagnosticVirtualTextWarn = { fg = c.warning }
+        hl.DiagnosticVirtualTextInfo = { fg = c.info }
+        hl.DiagnosticVirtualTextHint = { fg = c.hint }
 
-        -- Nicer line numbers
+        -- Line numbers
         hl.LineNr = { fg = c.dark5 }
 
-        -- Softer indent guides
+        -- Indent guides
         hl.IndentScope = { fg = c.blue0 }
       end,
     },
