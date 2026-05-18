@@ -87,7 +87,7 @@ export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
 export XSERVERRC="$XDG_CONFIG_HOME/X11/xserverrc"
 
 # ── PATH ──────────────────────────────────────────────────
-[[ -d "$HOME/.local/bin" ]] && path=($HOME/.local/bin/*(N-/) $HOME/.local/bin $path)
+[[ -d "$HOME/.local/bin" ]] && path=($HOME/.local/bin $path)
 
 # ── Shell Environment ────────────────────────────────────
 unsetopt PROMPT_SP

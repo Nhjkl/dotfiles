@@ -24,5 +24,16 @@ else
   compinit -C -d "$_compdump"
 fi
 
-eval "$(starship init zsh)"
-eval "$(mise activate zsh 2>/dev/null)"
+# starship prompt（使用缓存）
+if [[ -f "$XDG_CACHE_HOME/zsh/starship-init.zsh" ]]; then
+  source "$XDG_CACHE_HOME/zsh/starship-init.zsh"
+else
+  eval "$(starship init zsh)"
+fi
+
+# mise（使用缓存）
+if [[ -f "$XDG_CACHE_HOME/zsh/mise-activate.zsh" ]]; then
+  source "$XDG_CACHE_HOME/zsh/mise-activate.zsh"
+else
+  eval "$(mise activate zsh 2>/dev/null)"
+fi

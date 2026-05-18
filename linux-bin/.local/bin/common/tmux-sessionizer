@@ -1,7 +1,8 @@
 #! /usr/bin/env bash
 
 obsidian=${OBSIDIAN_VAULT:-/mnt/d/Users/liuxian/Documents/obsidian}
+winwork=${WINSORK:-/mnt/d/work}
 
-session=$(find ~ ~/.config ~/.local/learn ~/.local/work ~/.local/src $obsidian -mindepth 1 -maxdepth 1 \( -type d -o -type l \) 2>/dev/null | sed -e "1a\\$HOME" | fzf --preview 'eza -lh --icons {} 2>/dev/null || ls -lh {}' --preview-window=right:40%)
+session=$(find ~ ~/.config ~/.local/learn ~/.local/work ~/.local/src $obsidian $winwork -mindepth 1 -maxdepth 1 \( -type d -o -type l \) 2>/dev/null | sed -e "1a\\$HOME" | fzf --preview 'eza -lh --icons {} 2>/dev/null || ls -lh {}' --preview-window=right:40%)
 
 tmux-opener "$session"
