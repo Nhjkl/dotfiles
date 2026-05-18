@@ -30,7 +30,7 @@
 
 预估收益: 15-40ms
 
-### 2. `init.zsh` — starship/mise 加载改为缓存
+### 2. starship/mise 加载改为缓存
 
 ```diff
 - eval "$(starship init zsh)"
@@ -50,7 +50,7 @@
 
 预估收益: 25-80ms
 
-### 3. `.zprofile` — 清除与 config.zsh 的重复
+### 3. `.zprofile` — 清除与 config.zsh 的重复（已删除 init.zsh）
 
 原文件包含与 `config.zsh` 完全重复的环境变量和 PATH 设置，已清空：
 
@@ -96,7 +96,9 @@
 
 预估收益: 5-20ms
 
-### 7. `init.zsh` — mise 延迟加载（交互 shell defer，非交互同步）
+### 7. `.zshrc` — mise 延迟加载（交互 shell defer，非交互同步）
+
+原 `init.zsh` 已合并入 `.zshrc`。
 
 ```diff
 - # mise（使用缓存）
@@ -126,22 +128,23 @@
 
 预估收益: ~110ms
 
-### 8. `.zshrc` — 调整加载顺序
+### 8. `init.zsh` 合并入 `.zshrc`
 
-```diff
-  source "$ZDOTDIR/config.zsh"
-- source "$ZDOTDIR/init.zsh"
--
-- # sheldon 插件加载
-- ...
-+ # sheldon 插件加载（必须在 init.zsh 之前，因为 zsh-defer 在这里定义）
-+ ...
-+
-+ source "$ZDOTDIR/init.zsh"
+删除 `init.zsh`，内容合入 `.zshrc` 并用分区注释组织：
+
+```
+.zshrc 结构：
+├─ 环境变量（source config.zsh）
+├─ 插件（sheldon，定义 zsh-defer）
+├─ Shell 选项（history、setopt）
+├─ 补全（compinit）
+├─ Prompt（starship）
+├─ 工具（mise defer）
+├─ 快捷键 & 别名
+└─ 工具函数（zsh-reload-cache）
 ```
 
-sheldon（包含 zsh-defer）必须在 init.zsh 之前加载，
-否则 init.zsh 中 `zsh-defer source mise` 会找不到 zsh-defer。
+消除了 .zshrc 和 init.zsh 之间的隐式依赖，加载顺序一目了然。
 
 所有缓存文件位于 `$XDG_CACHE_HOME/zsh/`（即 `~/.cache/zsh/`）：
 
