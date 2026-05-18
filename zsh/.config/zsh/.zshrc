@@ -1,12 +1,13 @@
 source "$ZDOTDIR/config.zsh"
-source "$ZDOTDIR/init.zsh"
 
-# sheldon 插件加载（使用缓存，zsh-reload-cache 可重新生成）
+# sheldon 插件加载（必须在 init.zsh 之前，因为 zsh-defer 在这里定义）
 if [[ -f "$XDG_CACHE_HOME/zsh/sheldon-source.zsh" ]]; then
   source "$XDG_CACHE_HOME/zsh/sheldon-source.zsh"
 elif command -v sheldon &>/dev/null; then
   eval "$(sheldon source 2>/dev/null)"
 fi
+
+source "$ZDOTDIR/init.zsh"
 
 source "$ZDOTDIR/vimode.zsh"
 source "$ZDOTDIR/lazy.zsh"

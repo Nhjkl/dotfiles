@@ -4,12 +4,12 @@
 
 ## 基准数据
 
-| 指标   | 优化前 | 优化后 | 提升 |
-| ------ | ------ | ------ | ---- |
-| 平均   | 398ms  | ~130ms | -67% |
-| 最快   | 338ms  | 127ms  | -62% |
-| 最慢   | 562ms  | 161ms  | -71% |
-| 中位数 | ~378ms | ~135ms | -64% |
+| 指标   | 初始    | 第一轮（缓存） | 第二轮（defer mise） |
+| ------ | ------- | -------------- | -------------------- |
+| 平均   | 398ms   | ~130ms         | **~17ms**            |
+| 最快   | 338ms   | 127ms          | **17ms**             |
+| 最慢   | 562ms   | 161ms          | **19ms**             |
+| 中位数 | ~378ms  | ~135ms         | **17ms**             |
 
 ---
 
@@ -96,9 +96,52 @@
 
 预估收益: 5-20ms
 
----
+### 7. `init.zsh` — mise 延迟加载（交互 shell defer，非交互同步）
 
-## 缓存文件位置
+```diff
+- # mise（使用缓存）
+- if [[ -f "$XDG_CACHE_HOME/zsh/mise-activate.zsh" ]]; then
+-   source "$XDG_CACHE_HOME/zsh/mise-activate.zsh"
+- else
+-   eval "$(mise activate zsh 2>/dev/null)"
+- fi
++ # mise（交互 shell defer，非交互同步加载）
++ if [[ -o interactive ]]; then
++   if [[ -f "$XDG_CACHE_HOME/zsh/mise-activate.zsh" ]]; then
++     zsh-defer source "$XDG_CACHE_HOME/zsh/mise-activate.zsh"
++   else
++     zsh-defer eval "$(mise activate zsh 2>/dev/null)"
++   fi
++ else
++   if [[ -f "$XDG_CACHE_HOME/zsh/mise-activate.zsh" ]]; then
++     source "$XDG_CACHE_HOME/zsh/mise-activate.zsh"
++   else
++     eval "$(mise activate zsh 2>/dev/null)"
++   fi
++ fi
+```
+
+交互 shell 将 mise 延迟到提示符显示后加载（~130ms → ~17ms），
+非交互 shell（`zsh -c 'node --version'`）同步加载保证工具可用。
+
+预估收益: ~110ms
+
+### 8. `.zshrc` — 调整加载顺序
+
+```diff
+  source "$ZDOTDIR/config.zsh"
+- source "$ZDOTDIR/init.zsh"
+-
+- # sheldon 插件加载
+- ...
++ # sheldon 插件加载（必须在 init.zsh 之前，因为 zsh-defer 在这里定义）
++ ...
++
++ source "$ZDOTDIR/init.zsh"
+```
+
+sheldon（包含 zsh-defer）必须在 init.zsh 之前加载，
+否则 init.zsh 中 `zsh-defer source mise` 会找不到 zsh-defer。
 
 所有缓存文件位于 `$XDG_CACHE_HOME/zsh/`（即 `~/.cache/zsh/`）：
 

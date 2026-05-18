@@ -31,9 +31,17 @@ else
   eval "$(starship init zsh)"
 fi
 
-# mise（使用缓存）
-if [[ -f "$XDG_CACHE_HOME/zsh/mise-activate.zsh" ]]; then
-  source "$XDG_CACHE_HOME/zsh/mise-activate.zsh"
+# mise（交互 shell defer，非交互同步加载）
+if [[ -o interactive ]]; then
+  if [[ -f "$XDG_CACHE_HOME/zsh/mise-activate.zsh" ]]; then
+    zsh-defer source "$XDG_CACHE_HOME/zsh/mise-activate.zsh"
+  else
+    zsh-defer eval "$(mise activate zsh 2>/dev/null)"
+  fi
 else
-  eval "$(mise activate zsh 2>/dev/null)"
+  if [[ -f "$XDG_CACHE_HOME/zsh/mise-activate.zsh" ]]; then
+    source "$XDG_CACHE_HOME/zsh/mise-activate.zsh"
+  else
+    eval "$(mise activate zsh 2>/dev/null)"
+  fi
 fi
