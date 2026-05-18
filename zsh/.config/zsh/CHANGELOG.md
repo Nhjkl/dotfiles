@@ -66,16 +66,9 @@
 
 预估收益: 1-3ms（主要是消除重复执行）
 
-### 4. `config.zsh:90` — 简化 PATH glob
+### 4. ~~`config.zsh:90` — 简化 PATH glob~~（已回退）
 
-```diff
-- [[ -d "$HOME/.local/bin" ]] && path=($HOME/.local/bin/*(N-/) $HOME/.local/bin $path)
-+ [[ -d "$HOME/.local/bin" ]] && path=($HOME/.local/bin $path)
-```
-
-去掉不必要的 glob 展开 `*(N-/)`，它会把 `~/.local/bin/` 下所有子目录加入 PATH。
-
-预估收益: 1-5ms
+> **已回退**: glob `*(N-/)` 是有意为之，它将 `~/.local/bin/common/`、`~/.local/bin/colors/` 等子目录加入 PATH，脚本组织依赖此行为。
 
 ### 5. `plugins.toml` — zsh-completions 启用 defer
 
